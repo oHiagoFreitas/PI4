@@ -1,0 +1,43 @@
+/* src/View/Home.css */
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ocupa toda a altura da tela */
+    background-color: white; /* Fundo branco */
+    text-align: center;
+  }
+  
+  .home-container .logo {
+    width: 200px; /* Tamanho da logo */
+    
+  }
+  
+  .home-container .welcome-message {
+    font-size: 3rem; /* Tamanho grande para "Bem Vindo!" */
+    margin: 10px 0;
+  }
+  
+  .home-container .sub-message {
+    font-size: 1.5rem; /* Tamanho menor para a segunda frase */
+    color: gray; /* Cor da segunda frase */
+    
+  }
+  
+  .home-container .login-button {
+    padding: 10px 20px;
+    width: 20%;
+    font-size: 1.2rem;
+    background-color: #DEAF5E; /* Cor do botão */
+    color: white;
+    border: none;
+    border-radius: 5px; /* Bordas arredondadas */
+    cursor: pointer;
+  }
+  
+  .home-container .login-button:hover {
+    background-color: #db9e33; /* Cor mais escura ao passar o mouse */
+  }
+  

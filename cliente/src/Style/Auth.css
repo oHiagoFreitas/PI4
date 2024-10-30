@@ -1,0 +1,139 @@
+/* Define o layout principal e o alinhamento */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh; /* Preenche a tela inteira */
+  background-image: url('../img/CamisaSad.jpg'); /* Coloque o caminho da sua imagem aqui */
+  background-size: cover; /* Faz a imagem cobrir todo o fundo */
+  background-position: center; /* Centraliza a imagem */
+  background-repeat: no-repeat; /* Não repete a imagem */
+}
+
+.yellow-line {
+  background-color: #DEAF5E;
+  height: 10px; /* Linha amarela fina */
+  width: 100%;
+}
+
+.bottom {
+  margin-top: 20px; /* Distância da linha inferior para o conteúdo */
+}
+
+/* Estiliza o conteúdo do login */
+.auth-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* Estiliza o fundo do formulário */
+.form-background {
+  background-color: rgba(255, 255, 255, 0.5); /* Cor de fundo branco com opacidade */
+  backdrop-filter: blur(10px); /* Efeito de desfoque */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Sombra leve para destacar */
+  text-align: center;
+}
+/* Estiliza o título e o logo */
+.logo {
+  width: 100px; /* Ajuste o tamanho do logo */
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+/* Estiliza o formulário */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 300px; /* Limita a largura do formulário */
+}
+
+.login-form label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-align: left;
+  font-weight: bold; /* Deixa o texto em negrito */
+}
+
+.login-form input {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.login-form button {
+  padding: 10px;
+  font-size: 16px;
+  background-color: #DEAF5E;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #db9e33;
+}
+
+/* Estiliza o link "Esqueceu a senha?" */
+.forgot-password {
+  margin-bottom: 15px; /* Espaçamento acima do link */
+  text-align: left;
+  font-size: 14px;
+}
+
+.forgot-password a {
+  color: #DEAF5E; /* Cor do link */
+  text-decoration: none; /* Remove o sublinhado */
+}
+
+.forgot-password a:hover {
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+/* Estiliza a linha "Não tem conta?" */
+.no-account {
+  margin-top: 10px; /* Espaçamento acima do texto */
+  font-size: 14px; /* Tamanho da fonte */
+}
+
+.no-account a {
+  color: #DEAF5E; /* Cor do link */
+  text-decoration: none; /* Remove o sublinhado */
+}
+
+.no-account a:hover {
+  text-decoration: underline; /* Adiciona sublinhado ao passar o mouse */
+}
+
+/* Estiliza o campo select */
+.role-select {
+  margin-bottom: 15px; /* Espaçamento abaixo do select */
+  padding: 10px; /* Preenchimento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  border-radius: 4px; /* Bordas arredondadas */
+  border: 1px solid #ccc; /* Borda padrão */
+  background-color: #fff; /* Cor de fundo */
+  appearance: none; /* Remove o estilo padrão do select */
+  background-image: url('../img/Arrow.png'); /* Imagem da seta para baixo (opcional) */
+  background-repeat: no-repeat; /* Não repetir a imagem */
+  background-position: right 10px center; /* Posiciona a imagem à direita */
+  background-size: 12px; /* Tamanho da imagem */
+}
+
+/* Para adicionar estilo quando o select está em foco */
+.role-select:focus {
+  border-color: #DEAF5E; /* Cor da borda ao focar */
+  outline: none; /* Remove o contorno padrão */
+}
