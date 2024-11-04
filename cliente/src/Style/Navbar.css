@@ -1,18 +1,23 @@
 /* src/Style/Navbar.css */
 
+
 .navbar {
-    display: flex; /* Usar flexbox para o layout */
-    justify-content: flex-end; /* Alinha os itens à direita */
-    align-items: center; /* Alinha verticalmente */
+    position: fixed; /* Fixa a navbar no topo */
+    top: 0; /* Fica no topo da tela */
+    left: 250px; /* Deixa espaço para a sidebar */
+    right: 0; /* Ocupa até o lado direito */
+    height: 30px; /* Altura fixa da navbar */
     background-color: #000000; /* Cor de fundo da navbar */
-    padding: 10px 20px; /* Espaçamento interno */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para um efeito elevado */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+    z-index: 999; /* Z-index para sobreposição */
+    display: flex; /* Flexbox para conteúdo da navbar */
+    align-items: center; /* Alinha verticalmente */
+    padding: 0 20px; /* Preenchimento lateral */
 }
 
+
 .user-info {
-    display: flex; /* Usar flexbox para o layout do usuário */
-    align-items: center; /* Centraliza verticalmente */
-    color: white; /* Cor do texto */
+    margin-left: auto; /* Coloca o conteúdo do usuário à direita */
 }
 
 .notification-icon {

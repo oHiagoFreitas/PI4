@@ -1,0 +1,51 @@
+.modal-title {
+    text-align: center;
+    color: #DAA520; /* Cor dourada */
+    margin-bottom: 15px; /* Menor espaço abaixo do título */
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 5px; /* Menos espaço entre os grupos */
+}
+
+.form-input {
+    width: calc(100% - 20px); /* Diminuindo a largura dos campos */
+    padding: 6px; /* Padding reduzido */
+    border: 1px solid #DAA520; /* Borda dourada */
+    border-radius: 4px; /* Bordas arredondadas menores */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para os campos */
+    font-size: 12px; /* Tamanho da fonte reduzido */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transição suave */
+}
+
+.form-input:focus {
+    border-color: #FFD700; /* Cor da borda ao focar */
+    box-shadow: 0 0 5px rgba(218, 165, 32, 0.5); /* Sombra ao focar */
+    outline: none; /* Remove a borda padrão do foco */
+}
+
+.submit-button {
+    background-color: #DAA520; /* Botão dourado */
+    color: white; /* Texto branco */
+    padding: 8px 12px; /* Padding reduzido para o botão */
+    border: none; /* Remove a borda padrão */
+    border-radius: 4px; /* Bordas arredondadas menores */
+    cursor: pointer; /* Cursor pointer para o botão */
+    font-weight: bold; /* Texto em negrito */
+    font-size: 12px; /* Tamanho da fonte do botão reduzido */
+    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+}
+
+.submit-button:hover {
+    background-color: #FFD700; /* Cor do botão ao passar o mouse */
+}
+
+.submit-button:disabled {
+    background-color: #BDAA20; /* Cor do botão quando desativado */
+    cursor: not-allowed; /* Cursor desabilitado */
+}

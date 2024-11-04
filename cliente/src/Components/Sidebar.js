@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import '../Style/Sidebar.css';
+import AcadLogo from '../img/AcadLogo.png';
 
 function Sidebar() {
     const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -13,40 +14,41 @@ function Sidebar() {
     return (
         <aside className="sidebar">
             <div className="sidebar-header">
-                <h2>Backoffice</h2>
+                <img src={AcadLogo} alt="Acad Logo" className="sidebar-logo" />
             </div>
             <div className="dashboard">
-                <i className="bi bi-house-fill dashboard-icon"></i> {/* Ícone de dashboard */}
-                <span className="dashboard-label">Dashboard</span>
-                <span className="badge">!</span>
+                <span className="dashboard-label badge">
+                    <i className="bi bi-house-fill dashboard-icon"></i> {/* Ícone de dashboard */}
+                    Dashboard
+                </span>
             </div>
             <hr className="divider" />
             <ul>
                 <li>
-                    <i className="bi bi-person"></i> {/* Ícone de Atletas */}
+                    <i className="bi bi-person"></i>
                     <a href="#">Atletas</a>
                 </li>
                 <li>
-                    <i className="bi bi-file-earmark-text"></i> {/* Ícone de Relatórios */}
+                    <i className="bi bi-file-earmark-text"></i>
                     <a href="#">Relatórios</a>
                 </li>
                 <li>
-                    <i className="bi bi-people"></i> {/* Ícone de Equipas */}
+                    <i className="bi bi-people"></i>
                     <a href="#">Equipas</a>
                 </li>
                 <li>
-                    <i className="bi bi-person-circle"></i> {/* Ícone de Utilizadores */}
+                    <i className="bi bi-person-circle"></i>
                     <a href="#">Utilizadores</a>
                 </li>
                 <li onClick={toggleAdminDropdown} className="dropdown-toggle">
-                    <i className="bi bi-tools"></i> {/* Ícone de Administração */}
+                    <i className="bi bi-tools"></i>
                     Administração
                     <span className="arrow">{isAdminOpen ? '▲' : '▼'}</span>
                 </li>
                 {isAdminOpen && (
                     <ul className="dropdown-menu">
                         <li>
-                            <i className="bi bi-check-circle"></i> {/* Ícone de Validações */}
+                            <i className="bi bi-check-circle"></i>
                             <a href="#">Validações</a>
                         </li>
                     </ul>
@@ -54,11 +56,11 @@ function Sidebar() {
             </ul>
             <div className="footer">
                 <a href="#">
-                    <i className="bi bi-shield-lock"></i> {/* Ícone de Políticas de Privacidade */}
+                    <i className="bi bi-shield-lock"></i>
                     Políticas de Privacidade
                 </a>
                 <a href="#">
-                    <i className="bi bi-box-arrow-right"></i> {/* Ícone de Logout */}
+                    <i className="bi bi-box-arrow-right"></i>
                     Logout
                 </a>
             </div>

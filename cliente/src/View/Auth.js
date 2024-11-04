@@ -1,26 +1,29 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import '../Style/Auth.css';
-
 import AcadLogo from '../img/AcadLogo.png';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Inicializa useNavigate
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/auth/login', { email, senha });
-      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('token', response.data.token); // Armazena o token no localStorage
 
       Swal.fire({
         title: 'Sucesso!',
         text: 'Login realizado com sucesso!',
         icon: 'success',
         confirmButtonText: 'Ok'
+      }).then(() => {
+        navigate('/backoffice'); // Redireciona para o Backoffice
       });
     } catch (error) {
       const errorMessage = error.response ? error.response.data.error : 'Erro desconhecido';
@@ -41,11 +44,7 @@ const Auth = () => {
       <div className="auth-content">
         <div className="form-background">
           <h2>Login</h2>
-          <img
-            src={AcadLogo}
-            alt="Logo do time"
-            className="logo"
-          />
+          <img src={AcadLogo} alt="Logo do time" className="logo" />
           <form onSubmit={handleLogin} className="login-form">
             <label htmlFor="email">Email:</label>
             <input
@@ -73,8 +72,6 @@ const Auth = () => {
 
             <button type="submit">Login</button>
           </form>
-
-          {/* Linhas adicionais para "Esqueceu a senha?" e "Não tem conta?" */}
 
           <div className="no-account">
             <p>Não tem conta? <a href="/signup">Cadastre-se</a></p>

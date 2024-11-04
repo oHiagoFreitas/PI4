@@ -1,6 +1,6 @@
 // src/middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const config = require('../config'); // Caminho ajustado para acessar o config
+const config = require('../config'); // Certifique-se de que o caminho para o config está correto
 
 let checkToken = (req, res, next) => {
     let token = req.headers['x-access-token'] || req.headers['authorization'];
@@ -17,7 +17,7 @@ let checkToken = (req, res, next) => {
                     message: 'O token não é válido.'
                 });
             } else {
-                req.decoded = decoded;
+                req.user = decoded; // Altera aqui para req.user
                 next();
             }
         });

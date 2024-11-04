@@ -1,16 +1,20 @@
 /* src/Style/Sidebar.css */
 
 .sidebar {
-    width: 250px;
-    background-color: #ffffff; /* Fundo cinza */
-    color: #34495e;
-    padding: 20px;
-    position: relative;
-    height: 100vh; /* Ocupa toda a altura da tela */
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para a direita */
+    width: 250px; /* Largura da sidebar */
+    background-color: #ffffff; /* Cor de fundo */
+    color: #34495e; /* Cor do texto */
+    position: fixed; /* Mantém a sidebar fixa */
+    height: 100vh; /* Altura total da tela */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
+    display: flex; /* Flexbox para layout */
+    flex-direction: column; /* Direção vertical */
+    justify-content: space-between; /* Espaço entre os elementos */
+    box-sizing: border-box; /* Inclui padding e bordas no tamanho total */
+    overflow-y: auto; /* Rolagem vertical se necessário */
 }
 
-/* Adiciona uma linha à direita da sidebar */
+/* Linha à direita da sidebar */
 .sidebar::after {
     content: '';
     position: absolute;
@@ -20,23 +24,35 @@
     height: 100%; /* Altura total */
     background-color: rgb(0, 0, 0); /* Cor da linha */
 }
-
 .sidebar-header {
     background-color: #e0e0e0; /* Cor de fundo da header */
-    padding: 10px;
-    border-radius: 5px;
+    padding: 10px; /* Preenchimento */
+    border-radius: 5px; /* Bordas arredondadas */
+    display: flex; /* Flexbox para centralização */
+    justify-content: center; /* Centraliza o conteúdo */
+    align-items: center; /* Centraliza verticalmente */
 }
 
 .dashboard {
     display: flex;
-    align-items: center;
+    justify-content: center; /* Centraliza o badge */
     margin: 20px 0;
 }
 
+.dashboard .badge {
+    background-color: #d4af37; /* Fundo dourado */
+    color: #ffffff; /* Texto branco */
+    padding: 5px 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center; /* Centraliza o conteúdo verticalmente */
+}
+
 .dashboard-icon {
-    font-size: 24px; /* Tamanho do ícone */
-    color: #d4af37; /* Cor dourada para o ícone */
-    margin-right: 10px; /* Espaçamento entre o ícone e o texto */
+    margin-right: 8px; /* Espaçamento entre o ícone e o texto */
 }
 
 .dashboard-label {
@@ -44,13 +60,6 @@
     font-weight: bold;
 }
 
-.badge {
-    background-color: gold;
-    color: black;
-    border-radius: 50%;
-    padding: 5px 8px;
-    margin-left: 10px;
-}
 
 .divider {
     border: 1px solid gold; /* Linha dourada */
@@ -63,42 +72,108 @@ ul {
 }
 
 ul li {
-    margin: 15px 0;
-    cursor: pointer; /* Indica que é clicável */
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #34495e;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+ul li:hover {
+    background-color: #f0f0f0;
 }
 
 ul li a {
     color: #34495e;
     text-decoration: none;
+    margin-left: 10px;
+    font-weight: 500;
 }
 
-ul li a:hover {
-    text-decoration: underline;
+ul li i {
+    font-size: 20px;
+    color: #d4af37;
 }
 
 .dropdown-toggle {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #34495e;
+    position: relative;
+}
+
+.dropdown-toggle:hover {
+    background-color: #f0f0f0;
+}
+
+.arrow {
+    margin-left: auto;
+    font-size: 12px;
+    color: #34495e;
+    padding-left: 5px;
 }
 
 .dropdown-menu {
     list-style-type: none;
-    padding-left: 20px; /* Indentação para as opções da dropdown */
+    padding: 5px 20px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    margin-top: 5px;
+    margin-left: 10px;
+}
+
+.dropdown-menu li {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #34495e;
+    padding: 8px 0;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li i {
+    font-size: 18px;
+    color: #d4af37;
+    margin-right: 8px;
+}
+
+.dropdown-menu li:hover {
+    background-color: #eaeaea;
 }
 
 .footer {
-    margin-top: auto; /* Empurra o conteúdo para baixo */
-    margin-top: 20px;
+    padding-top: 10px;
+    margin-top: auto;
+    text-align: center;
 }
 
 .footer a {
-    display: block; /* Para ocupar toda a largura */
-    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
     text-decoration: none;
     color: #34495e;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.footer a i {
+    font-size: 18px;
+    margin-right: 8px;
+    color: #d4af37;
 }
 
 .footer a:hover {
-    text-decoration: underline;
+    color: #d4af37;
+}
+
+.sidebar-logo {
+    width: 50px; /* Ajuste o tamanho conforme necessário */
+    height: auto;
 }

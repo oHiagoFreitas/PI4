@@ -2,12 +2,15 @@
 const express = require('express');
 const router = express.Router();
 const relatorioController = require('../controllers/RelatorioController');
+const authMiddleware = require('../middlewares/authMiddleware'); // Importa o middleware
 
 // Criar um novo relatório
-router.post('/', relatorioController.createRelatorio);
+router.post('/', authMiddleware.checkToken, relatorioController.createRelatorio);
 
 // Listar todos os relatórios
 router.get('/', relatorioController.getAllRelatorios);
+
+router.get('/pendentes', relatorioController.getRelatoriosPendentes);
 
 // Obter um relatório por ID
 router.get('/:id', relatorioController.getRelatorioById);

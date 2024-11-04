@@ -1,0 +1,95 @@
+.modal-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333; /* Cor do título */
+}
+
+.create-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espaçamento entre os grupos de campos */
+}
+
+.form-group-report {
+    display: flex;
+    flex-direction: column;
+}
+
+.checkbox-group {
+    display: flex;
+    justify-content: space-around; /* Distribui os checkboxes igualmente */
+    margin-top: 5px;
+}
+
+.checkbox-group div {
+    display: flex;
+    align-items: center; /* Centraliza o texto com a checkbox */
+}
+
+.checkbox-group input[type="checkbox"] {
+    appearance: none; /* Remove o estilo padrão */
+    width: 20px; /* Largura da checkbox */
+    height: 20px; /* Altura da checkbox */
+    border: 2px solid #FFD700; /* Cor da borda dourada */
+    border-radius: 4px; /* Cantos arredondados */
+    outline: none; /* Remove o contorno padrão */
+    cursor: pointer; /* Muda o cursor para pointer */
+    position: relative; /* Para facilitar o uso de :checked */
+    margin-right: 5px; /* Espaçamento entre a checkbox e o label */
+    transition: background-color 0.2s; /* Efeito de transição */
+}
+
+/* Cores de fundo quando o checkbox está checked */
+.checkbox-group input[type="checkbox"]:checked {
+    background-color: transparent; /* Mantém transparente até que seja substituído */
+}
+
+.checkbox-group input[type="checkbox"]:checked:nth-of-type(1) {
+    background-color: #FFD700; /* Dourado para o checkbox 1 */
+}
+
+.checkbox-group input[type="checkbox"]:checked:nth-of-type(2) {
+    background-color: #FFEA00; /* Amarelo claro para o checkbox 2 */
+}
+
+.checkbox-group input[type="checkbox"]:checked:nth-of-type(3) {
+    background-color: #FFFF00; /* Amarelo para o checkbox 3 */
+}
+
+.checkbox-group input[type="checkbox"]:checked:nth-of-type(4) {
+    background-color: #C0C000; /* Dourado escuro para o checkbox 4 */
+}
+
+.checkbox-group label {
+    font-size: 1rem; /* Tamanho da fonte */
+    color: #333; /* Cor do texto */
+}
+
+.form-input-report {
+    padding: 10px; /* Padding interno */
+    border: 1px solid #FFD700; /* Borda dourada */
+    border-radius: 4px; /* Cantos arredondados */
+    transition: border-color 0.2s; /* Efeito de transição */
+}
+
+.form-input-report:focus {
+    border-color: #FFD700; /* Borda dourada em foco */
+    outline: none; /* Remove o contorno padrão */
+}
+
+.submit-button-report {
+    padding: 10px; /* Padding interno */
+    background-color: #FFD700; /* Cor de fundo dourada */
+    color: #fff; /* Cor do texto */
+    border: none; /* Remove a borda padrão */
+    border-radius: 4px; /* Cantos arredondados */
+    cursor: pointer; /* Muda o cursor para pointer */
+    font-size: 1rem; /* Tamanho da fonte */
+    transition: background-color 0.3s; /* Efeito de transição */
+    margin-top: 10px; /* Espaçamento acima do botão */
+}
+
+.submit-button-report:hover {
+    background-color: #FFC700; /* Cor do botão ao passar o mouse */
+}

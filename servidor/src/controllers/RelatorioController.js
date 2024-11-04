@@ -112,3 +112,19 @@ exports.deleteRelatorio = async (req, res) => {
         res.status(500).json({ error: 'Erro ao deletar relatório.' });
     }
 };
+
+exports.getRelatoriosPendentes = async (req, res) => {
+    try {
+        const relatoriosPendentes = await Relatorio.findAll({
+            where: { status: 'Pendente' }, // Filtra relatórios com status 'Pendente'
+            include: [
+                { model: Atleta, as: 'atleta' },
+                { model: Utilizadores, as: 'scout' },
+            ],
+        });
+        res.json(relatoriosPendentes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar relatórios pendentes.' });
+    }
+};

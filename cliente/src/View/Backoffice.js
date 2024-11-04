@@ -3,7 +3,12 @@
 import React from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
-import '../Style/Backoffice.css'; // Adicione um arquivo CSS para estilos específicos do Backoffice
+import WelcomeMessage from '../Components/WelcomeMessage';
+import QuickActions from '../Components/QuickActions';
+import Badges from '../Components/Badges';
+import AthletesReportsChart from '../Components/AthletesReportsChart';
+import RecentReportsTable from '../Components/RecentReportsTable'; // Importando a tabela de relatórios recentes
+import '../Style/Backoffice.css';
 
 function Backoffice() {
     return (
@@ -11,6 +16,13 @@ function Backoffice() {
             <Sidebar />
             <div className="main-content">
                 <Navbar />
+                <div className='sub-main-content'>
+                    <WelcomeMessage /> {/* Usando o componente de mensagem de boas-vindas */}
+                    <QuickActions /> {/* Usando o componente de ações rápidas */}
+                    <Badges /> {/* Usando o componente de badges */}
+                    <AthletesReportsChart /> {/* Usando o componente de gráfico */}
+                    <RecentReportsTable /> {/* Usando o componente de tabela de relatórios recentes */}
+                </div>
             </div>
         </div>
     );
