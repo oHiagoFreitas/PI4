@@ -1,0 +1,28 @@
+/* src/Style/Navbar.css */
+
+.navbar {
+    display: flex; /* Usar flexbox para o layout */
+    justify-content: flex-end; /* Alinha os itens à direita */
+    align-items: center; /* Alinha verticalmente */
+    background-color: #000000; /* Cor de fundo da navbar */
+    padding: 10px 20px; /* Espaçamento interno */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para um efeito elevado */
+}
+
+.user-info {
+    display: flex; /* Usar flexbox para o layout do usuário */
+    align-items: center; /* Centraliza verticalmente */
+    color: white; /* Cor do texto */
+}
+
+.notification-icon {
+    font-size: 24px; /* Tamanho do ícone de notificação */
+    color: white; /* Cor do ícone de notificação */
+    margin-right: 15px; /* Espaçamento entre o ícone de notificação e o ícone do usuário */
+}
+
+.user-icon {
+    font-size: 24px; /* Tamanho do ícone de usuário */
+    color: white; /* Cor do ícone de usuário */
+}
+ 
