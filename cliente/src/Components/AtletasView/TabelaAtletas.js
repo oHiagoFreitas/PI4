@@ -6,7 +6,6 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
     <table className="atletas-tableAT">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nome</th>
           <th>País</th>
           <th>Posição</th>
@@ -18,7 +17,6 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
       <tbody>
         {atletas.map((atleta) => (
           <tr key={atleta.id}>
-            <td>{atleta.id}</td>
             <td>{atleta.nome}</td>
             <td>{atleta.nacionalidade}</td>
             <td>{atleta.posicao}</td>

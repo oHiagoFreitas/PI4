@@ -59,8 +59,10 @@ function DetalhesAtleta() {
                                 <AtletasName atleta={atleta} />
                             </div>
 
-                            <p>Criado em: {new Date(atleta.createdAt).toLocaleDateString()}</p>
-                            <p>Última atualização: {new Date(atleta.updatedAt).toLocaleDateString()}</p>
+                            <div style={{display: 'flex', marginBottom: '0px'}}>
+                                <p style={{ color: 'Black', marginRight: '4px',  marginBottom: '0px'}}>Criado em: {new Date(atleta.createdAt).toLocaleDateString()} <strong>|</strong></p>
+                                <p style={{ color: 'Black',  marginBottom: '0px' }}>Última atualização: {new Date(atleta.updatedAt).toLocaleDateString()}</p>
+                            </div>
 
                             <div className="informacoesAD">
                                 <AtletasInfo atleta={atleta} />

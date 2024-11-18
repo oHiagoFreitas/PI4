@@ -3,7 +3,7 @@ import React from "react";
 function AtletasInfo({ atleta }) {
   return (
     <section className="sectionAD informacoes-basicasAD">
-      <h2>Informações Básicas</h2>
+      <h2 style={{ color: '#DEAF5E' }}>Informações Básicas</h2>
       <p><strong>Data de Criação:</strong> {atleta.dataCriacao}</p>
       <p><strong>Nome completo:</strong> {atleta.nome}</p>
       <p><strong>Data de Nascimento:</strong> {new Date(atleta.dataNascimento).toLocaleDateString()}</p>
