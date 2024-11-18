@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Modal from 'react-modal';
 import Swal from 'sweetalert2';
 import '../../Style/AtletasView/AtletasTable.css';
 import CreateAthleteModal from '../CreateAthleteModal';  // Importando o modal de criação de atleta
+import TabelaAtletas from './TabelaAtletas';  // Importando o componente TabelaAtletas
+import ExportToPDF from './ExportToPDF';  // Importando o componente ExportToPDF
 
-// Função para a tabela de atletas
 function AtletasTable() {
   const [atletas, setAtletas] = useState([]); // Estado para armazenar atletas
   const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controle da modal
-  const [selectedAtleta, setSelectedAtleta] = useState(null); // Estado para o atleta selecionado
 
   useEffect(() => {
     // Chama a API para obter os dados de atletas
@@ -87,47 +86,16 @@ function AtletasTable() {
       {/* Botões para Criar e Exportar */}
       <div className="actions-buttonsAT">
         <button className="button-createAT" onClick={openCreateAtletaModal}>Criar Atleta</button>
-        <button className="button-exportAT">Exportar Atletas</button>
+        <ExportToPDF atletas={atletas} /> {/* Botão Exportar */}
       </div>
 
       {/* Tabela com dados dos atletas */}
-      <table className="atletas-tableAT">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>País</th>
-            <th>Posição</th>
-            <th>Time</th>
-            <th>Status</th>
-            <th>Ações</th> {/* Coluna de Ações */}
-          </tr>
-        </thead>
-        <tbody>
-          {atletas.map((atleta) => (
-            <tr key={atleta.id}>
-              <td>{atleta.id}</td>
-              <td>{atleta.nome}</td>
-              <td>{atleta.nacionalidade}</td>
-              <td>{atleta.posicao}</td>
-              <td>{atleta.clube}</td>
-              <td>{atleta.status}</td>
-              <td>
-                {/* Ícones de Ações com Bootstrap Icons */}
-                <button className="action-buttonAT" onClick={() => handleView(atleta.id)}>
-                  <i className="bi bi-eye" title="Ver"></i> {/* Ícone de Ver */}
-                </button>
-                <button className="action-buttonAT" onClick={() => handleEdit(atleta.id)}>
-                  <i className="bi bi-pencil" title="Editar"></i> {/* Ícone de Editar */}
-                </button>
-                <button className="action-buttonAT" onClick={() => handleDelete(atleta.id)}>
-                  <i className="bi bi-trash" title="Apagar"></i> {/* Ícone de Apagar */}
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <TabelaAtletas 
+        atletas={atletas} 
+        handleView={handleView} 
+        handleEdit={handleEdit} 
+        handleDelete={handleDelete} 
+      />
 
       {/* Modal de Criação de Atleta */}
       <CreateAthleteModal
