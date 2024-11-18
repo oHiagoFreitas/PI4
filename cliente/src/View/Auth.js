@@ -16,6 +16,10 @@ const Auth = () => {
     try {
       const response = await axios.post('http://localhost:3000/auth/login', { email, senha });
       localStorage.setItem('token', response.data.token); // Armazena o token no localStorage
+      const userRole = response.data.role; // Supondo que a role do usuário venha na resposta da API
+
+      // Log para depuração
+      console.log('Role do usuário:', userRole);
 
       Swal.fire({
         title: 'Sucesso!',
@@ -23,11 +27,21 @@ const Auth = () => {
         icon: 'success',
         confirmButtonText: 'Ok'
       }).then(() => {
-        navigate('/backoffice'); // Redireciona para o Backoffice
+        // Redireciona com base na role do usuário
+        if (userRole === 'Admin' || userRole === 'Scout') {
+          navigate('/backoffice'); // Redireciona para a página de backoffice
+        } else if (userRole === 'Consultor') {
+          navigate('/backofficeConsultor'); // Redireciona para a página de backofficeConsultor
+        } else {
+          // Caso a role não seja reconhecida, redireciona para uma página padrão
+          console.warn('Role não reconhecida, redirecionando para a página inicial.');
+          navigate('/');
+        }
       });
     } catch (error) {
       const errorMessage = error.response ? error.response.data.error : 'Erro desconhecido';
       setError(errorMessage);
+      console.error('Erro de login:', errorMessage); // Log para depuração de erro
       Swal.fire({
         title: 'Erro!',
         text: errorMessage,
