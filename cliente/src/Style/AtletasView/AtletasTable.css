@@ -31,23 +31,23 @@
 
 /* Botão Criar Atleta */
 .button-createAT {
-    background-color: #4CAF50;
+    background-color: #DEAF5E;
     color: white;
 }
 
 .button-createAT:hover {
-    background-color: #45a049;
+    background-color: #c79d55;
     transform: scale(1.05);
 }
 
 /* Botão Exportar Atletas */
 .button-exportAT {
-    background-color: #2196F3;
+    background-color: #222222;
     color: white;
 }
 
 .button-exportAT:hover {
-    background-color: #1e88e5;
+    background-color: #000000;
     transform: scale(1.05);
 }
 
