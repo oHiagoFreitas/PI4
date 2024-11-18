@@ -11,7 +11,7 @@
     flex-direction: column; /* Direção vertical */
     justify-content: space-between; /* Espaço entre os elementos */
     box-sizing: border-box; /* Inclui padding e bordas no tamanho total */
-    overflow-y: auto; /* Rolagem vertical se necessário */
+    
 }
 
 /* Linha à direita da sidebar */

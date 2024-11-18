@@ -1,6 +1,6 @@
 import React from "react";
 
-function HistoricoRelatorios({ relatorios }) {
+function HistoricoRelatorios({ relatorios = [] }) {  // Define valor padrão como array vazio
   return (
     <div className="historico-relatoriosAD">
       <h2 className="headerAD">Histórico de Relatórios</h2>
@@ -16,15 +16,19 @@ function HistoricoRelatorios({ relatorios }) {
         </thead>
         <tbody>
           {relatorios.length > 0 ? (
-            relatorios.map((relatorio, index) => (
-              <tr key={index}>
-                <td>{new Date(relatorio.createdAt).toLocaleDateString()}</td>
-                <td>{relatorio.utilizador || "Não disponível"}</td>
-                <td>{relatorio.ratingFinal}</td>
-                <td>{relatorio.comentario}</td>
-                <td><button>Ver</button></td>
-              </tr>
-            ))
+            relatorios.map((relatorio, index) => {
+              console.log(relatorio);  // Verifique a estrutura real dos dados
+              return (
+                <tr key={index}>
+                  <td>{new Date(relatorio.createdAt).toLocaleDateString()}</td>
+                  {/* Verificar se scoutId ou o nome do utilizador está disponível */}
+                  <td>{relatorio.utilizador ? relatorio.utilizador.nome : relatorio.scoutId || "Não disponível"}</td>
+                  <td>{relatorio.ratingFinal}</td>
+                  <td>{relatorio.comentario}</td>
+                  <td><button>Ver</button></td>
+                </tr>
+              );
+            })
           ) : (
             <tr>
               <td colSpan="5">Nenhum relatório encontrado</td>
