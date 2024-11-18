@@ -1,0 +1,104 @@
+/* Container geral do componente */
+.recent-reports {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    width: 90%;
+    align-items: center;
+    justify-items: center;
+}
+
+/* Título */
+.recent-reports h2 {
+    color: #DEAF5E;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Cabeçalhos e tabela com largura ajustada */
+.reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    table-layout: fixed; /* Garante que as colunas tenham larguras consistentes */
+}
+
+/* Cabeçalhos da tabela */
+.reports-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #DEAF5E;
+    padding: 12px;
+    text-align: left;
+    font-size: 1rem;
+    word-wrap: break-word;  /* Permite quebra de palavras longas */
+}
+
+/* Células da tabela */
+.reports-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 1rem;
+    color: #333;
+    word-wrap: break-word;  /* Permite quebra de palavras longas */
+}
+
+/* Linhas alternadas */
+.reports-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover na linha da tabela */
+.reports-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Botões de ação */
+.actions-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center; /* Centraliza os botões */
+}
+
+/* Botões de ação */
+.actions-buttons button {
+    padding: 8px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    min-width: 100px; /* Definindo uma largura mínima para os botões */
+}
+
+/* Botão Aprovar (cor da paleta de verde) */
+.button-approve {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button-approve:hover {
+    background-color: #45a049;
+}
+
+/* Botão Rejeitar (cor da paleta de vermelho) */
+.button-reject {
+    background-color: #f44336;
+    color: white;
+}
+
+.button-reject:hover {
+    background-color: #e53935;
+}
+
+/* Estilo para a mensagem de carregamento */
+.loading-message {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    margin-top: 50px;
+}
+

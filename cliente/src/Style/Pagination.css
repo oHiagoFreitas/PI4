@@ -1,0 +1,40 @@
+/* Paginação */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    border: 1px solid #DEAF5E;  /* Usando a cor da paleta */
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s;
+}
+
+/* Botões de Paginação */
+.pagination button:disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #f1f1f1;
+}
+
+/* Texto da página no meio da paginação */
+.pagination span {
+    font-size: 1rem;
+    margin: 0 10px;
+    color: #333;
+}
+
+.pagination button:focus {
+    outline: none;
+    box-shadow: 0 0 5px 2px rgba(222, 175, 94, 0.6); /* Destaque para foco */
+}

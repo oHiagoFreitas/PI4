@@ -2,16 +2,19 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Importando axios para fazer requisições HTTP
-
+import Pagination from './Pagination'; // Importando o componente de paginação
+import '../Style/RecentReportsTable.css'; // Importando o arquivo CSS
 
 const RecentReportsTable = () => {
     const [reports, setReports] = useState([]); // Estado para armazenar os relatórios
     const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
+    const [currentPage, setCurrentPage] = useState(1); // Página atual
+    const reportsPerPage = 5; // Número de relatórios por página
 
     // Função para buscar os relatórios da API
     const fetchReports = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/relatorios/pendentes'); // Ajuste o URL conforme necessário
+            const response = await axios.get('http://localhost:3000/relatorios'); // Ajuste o URL conforme necessário
             setReports(response.data); // Armazenando os dados recebidos no estado
         } catch (error) {
             console.error('Erro ao buscar relatórios:', error);
@@ -25,32 +28,58 @@ const RecentReportsTable = () => {
     }, []);
 
     if (loading) {
-        return <div>Carregando...</div>; // Mensagem de carregamento
+        return <div className="loading-message">Carregando...</div>; // Mensagem de carregamento
     }
+
+    // Ordenando os relatórios pela data de criação em ordem decrescente
+    const sortedReports = [...reports].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    // Calcular os relatórios a serem exibidos na página atual
+    const indexOfLastReport = currentPage * reportsPerPage;
+    const indexOfFirstReport = indexOfLastReport - reportsPerPage;
+    const currentReports = sortedReports.slice(indexOfFirstReport, indexOfLastReport);
+
+    // Função para mudar de página
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+    // Calcular o número total de páginas
+    const totalPages = Math.ceil(sortedReports.length / reportsPerPage);
 
     return (
         <div className="recent-reports">
             <h2>Relatórios Recentes</h2>
-            <table>
+            <table className="reports-table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        <th>Data</th>
-                        <th>Status</th>
+                        <th>Data de Criação</th>
+                        <th>Nome do Atleta</th>
+                        <th>Nome do Scout</th>
+                        <th>Rating Final</th>
+                        <th>Ação</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {reports.map((report) => (
+                    {currentReports.map((report) => (
                         <tr key={report.id}>
-                            <td>{report.id}</td>
-                            <td>{report.title}</td>
-                            <td>{report.date}</td>
-                            <td>{report.status}</td>
+                            <td>{new Date(report.createdAt).toLocaleString()}</td>  {/* Exibe a data formatada */}
+                            <td>{report.atleta ? report.atleta.nome : 'Atleta não encontrado'}</td>  {/* Nome do Atleta */}
+                            <td>{report.utilizador ? report.utilizador.nome : 'Scout não encontrado'}</td>  {/* Nome do Scout */}
+                            <td>{report.ratingFinal}</td>  {/* Exibe o Rating Final */}
+                            <td className="actions-buttons">
+                                <button className="button-approve">Aprovar</button>  {/* Botão Aprovar */}
+                                <button className="button-reject">Rejeitar</button>  {/* Botão Rejeitar */}
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            {/* Navegação de Paginação */}
+            <Pagination 
+                currentPage={currentPage} 
+                totalPages={totalPages} 
+                paginate={paginate} 
+            />
         </div>
     );
 };

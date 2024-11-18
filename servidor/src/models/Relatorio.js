@@ -59,6 +59,6 @@ const Relatorio = sequelize.define('relatorio', {
 
 // Associações
 Relatorio.belongsTo(Atleta, { foreignKey: 'atletaId', as: 'atleta' });
-Relatorio.belongsTo(Utilizadores, { foreignKey: 'scoutId', as: 'scout' });
+Relatorio.belongsTo(Utilizadores, { foreignKey: 'scoutId', as: 'utilizador' });
 
 module.exports = Relatorio;
