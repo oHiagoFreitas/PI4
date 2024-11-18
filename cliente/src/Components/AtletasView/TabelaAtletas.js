@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-function TabelaAtletas({ atletas, handleView, handleEdit, handleDelete }) {
+function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   return (
     <table className="atletas-tableAT">
       <thead>
@@ -24,10 +25,10 @@ function TabelaAtletas({ atletas, handleView, handleEdit, handleDelete }) {
             <td>{atleta.clube}</td>
             <td>{atleta.status}</td>
             <td>
-              {/* Ícones de Ações com Bootstrap Icons */}
-              <button className="action-buttonAT" onClick={() => handleView(atleta.id)}>
+              {/* Botão para redirecionar */}
+              <Link to={`/atletas/detalhes/${atleta.id}`} className="action-buttonAT dashboard-link">
                 <i className="bi bi-eye" title="Ver"></i> {/* Ícone de Ver */}
-              </button>
+              </Link>
               <button className="action-buttonAT" onClick={() => handleEdit(atleta.id)}>
                 <i className="bi bi-pencil" title="Editar"></i> {/* Ícone de Editar */}
               </button>
