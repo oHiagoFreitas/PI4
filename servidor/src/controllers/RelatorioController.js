@@ -1,12 +1,9 @@
-// src/controllers/relatorioController.js
 const Relatorio = require('../models/Relatorio');
 const Atleta = require('../models/Atleta');
-const Utilizadores = require('../models/Utilizadores');
 
 // Criar um novo relatório
 exports.createRelatorio = async (req, res) => {
-    const { tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario, atletaNome } = req.body;
-    const scoutId = req.user.id; // ID do utilizador logado (Scout)
+    const { tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario, atletaNome, status } = req.body;
 
     try {
         // Busca o atleta pelo nome
@@ -26,7 +23,7 @@ exports.createRelatorio = async (req, res) => {
             ratingFinal, 
             comentario, 
             atletaId: atleta.id, // Usando o ID do atleta
-            scoutId 
+            status: status || 'Pendente' // Define o status ou usa 'Pendente' como padrão
         });
 
         res.status(201).json(novoRelatorio);
@@ -42,7 +39,6 @@ exports.getAllRelatorios = async (req, res) => {
         const relatorios = await Relatorio.findAll({
             include: [
                 { model: Atleta, as: 'atleta' },
-                { model: Utilizadores, as: 'scout' },
             ],
         });
         res.json(relatorios);
@@ -60,7 +56,6 @@ exports.getRelatorioById = async (req, res) => {
         const relatorio = await Relatorio.findByPk(id, {
             include: [
                 { model: Atleta, as: 'atleta' },
-                { model: Utilizadores, as: 'scout' },
             ],
         });
 
@@ -78,7 +73,7 @@ exports.getRelatorioById = async (req, res) => {
 // Atualizar um relatório
 exports.updateRelatorio = async (req, res) => {
     const { id } = req.params;
-    const { tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario } = req.body;
+    const { tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario, status } = req.body;
 
     try {
         const relatorio = await Relatorio.findByPk(id);
@@ -87,7 +82,17 @@ exports.updateRelatorio = async (req, res) => {
         }
 
         // Atualiza o relatório com os novos dados
-        await relatorio.update({ tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario });
+        await relatorio.update({ 
+            tecnica, 
+            velocidade, 
+            atitudeCompetitiva, 
+            inteligencia, 
+            altura, 
+            morfologia, 
+            ratingFinal, 
+            comentario, 
+            status // Permite atualizar o status também
+        });
         res.json(relatorio);
     } catch (error) {
         console.error(error);
@@ -113,13 +118,13 @@ exports.deleteRelatorio = async (req, res) => {
     }
 };
 
+// Listar relatórios pendentes
 exports.getRelatoriosPendentes = async (req, res) => {
     try {
         const relatoriosPendentes = await Relatorio.findAll({
             where: { status: 'Pendente' }, // Filtra relatórios com status 'Pendente'
             include: [
                 { model: Atleta, as: 'atleta' },
-                { model: Utilizadores, as: 'scout' },
             ],
         });
         res.json(relatoriosPendentes);

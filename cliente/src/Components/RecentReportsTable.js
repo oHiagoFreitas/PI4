@@ -11,7 +11,7 @@ const RecentReportsTable = () => {
     // Função para buscar os relatórios da API
     const fetchReports = async () => {
         try {
-            const response = await axios.get('/api/pendentes'); // Ajuste o URL conforme necessário
+            const response = await axios.get('http://localhost:3000/relatorios/pendentes'); // Ajuste o URL conforme necessário
             setReports(response.data); // Armazenando os dados recebidos no estado
         } catch (error) {
             console.error('Erro ao buscar relatórios:', error);

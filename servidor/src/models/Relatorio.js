@@ -42,6 +42,11 @@ const Relatorio = sequelize.define('relatorio', {
         type: Sequelize.TEXT,
         allowNull: true,
     },
+    status: {
+        type: Sequelize.ENUM('Pendente', 'Aprovado', 'Rejeitado'), // Define os possíveis status
+        allowNull: false,
+        defaultValue: 'Pendente', // Valor padrão ao criar um relatório
+    },
     createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
