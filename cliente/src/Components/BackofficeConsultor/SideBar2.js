@@ -40,11 +40,6 @@ function Sidebar() {
                     <i className="bi bi-person-circle"></i>
                     <a href="#">Utilizadores</a>
                 </li>
-                <li onClick={toggleAdminDropdown} className="dropdown-toggle">
-                    <i className="bi bi-tools"></i>
-                    Administração
-                    <span className="arrow">{isAdminOpen ? '▲' : '▼'}</span>
-                </li>
             </ul>
             <div className="footer">
                 <a href="#">
