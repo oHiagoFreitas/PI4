@@ -12,6 +12,8 @@ router.get('/', relatorioController.getAllRelatorios);
 
 router.get('/pendentes', relatorioController.getRelatoriosPendentes);
 
+router.get('/atleta/:atletaId', relatorioController.getRelatoriosByAtletaId);
+
 // Obter um relatório por ID
 router.get('/:id', relatorioController.getRelatorioById);
 

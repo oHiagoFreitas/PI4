@@ -144,3 +144,29 @@ exports.getRelatoriosPendentes = async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar relatórios pendentes.' });
     }
 };
+
+exports.getRelatoriosByAtletaId = async (req, res) => {
+    const { atletaId } = req.params;  // Obtém o id do atleta a partir da URL
+
+    try {
+        // Busca todos os relatórios associados ao atleta com o atletaId
+        const relatorios = await Relatorio.findAll({
+            where: {
+                atletaId: atletaId,  // Filtra os relatórios pelo atletaId
+            },
+            include: [
+                { model: Atleta, as: 'atleta' },  // Inclui os dados do Atleta
+                { model: Utilizador, as: 'utilizador' },  // Inclui os dados do Utilizador (scoutId)
+            ],
+        });
+
+        if (relatorios.length === 0) {
+            return res.status(404).json({ error: 'Nenhum relatório encontrado para este atleta.' });
+        }
+
+        res.json(relatorios);  // Retorna os relatórios encontrados
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao buscar relatórios do atleta.' });
+    }
+};

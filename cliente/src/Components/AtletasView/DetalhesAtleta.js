@@ -12,6 +12,7 @@ import ExportarPDFButton from "../AtletasView/ExportarPDFButton";
 import HistoricoRelatorios from "../AtletasView/HistoricoRelatorios";
 import "../../Style/AtletasView/DetalhesAtleta.css"; // Estilos
 
+import Swal from 'sweetalert2'; // Importando SweetAlert
 
 function DetalhesAtleta() {
     const { id } = useParams(); // Obtém o ID do atleta da URL
@@ -21,6 +22,7 @@ function DetalhesAtleta() {
     const [error, setError] = useState(null); // Estado para armazenar erros
     const navigate = useNavigate(); // Inicializa o hook de navegação
 
+    // Carregar os detalhes do atleta
     useEffect(() => {
         axios
             .get(`http://localhost:3000/atletas/${id}`)
@@ -31,17 +33,25 @@ function DetalhesAtleta() {
             .catch(() => {
                 setError("Erro ao carregar os detalhes do atleta.");
                 setLoading(false);
+                // Exibir SweetAlert de erro
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Não foi possível carregar os detalhes do atleta.',
+                });
             });
     }, [id]);
 
+    // Carregar todos os relatórios associados ao atleta
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/relatorios/${id}`)
+            .get(`http://localhost:3000/relatorios/atleta/${id}`) // A URL correta para obter todos os relatórios do atleta
             .then((response) => {
-                setRelatorios([response.data]);
+                setRelatorios(response.data); // Armazenar todos os relatórios
             })
-            .catch(() => {
-                setError("Erro ao carregar os relatórios do atleta.");
+            .catch((error) => {
+                setError();
+                console.error(error); // Para depuração
             });
     }, [id]);
 
@@ -59,9 +69,13 @@ function DetalhesAtleta() {
                                 <AtletasName atleta={atleta} />
                             </div>
 
-                            <div style={{display: 'flex', marginBottom: '0px'}}>
-                                <p style={{ color: 'Black', marginRight: '4px',  marginBottom: '0px'}}>Criado em: {new Date(atleta.createdAt).toLocaleDateString()} <strong>|</strong></p>
-                                <p style={{ color: 'Black',  marginBottom: '0px' }}>Última atualização: {new Date(atleta.updatedAt).toLocaleDateString()}</p>
+                            <div style={{ display: 'flex', marginBottom: '0px' }}>
+                                <p style={{ color: 'Black', marginRight: '4px', marginBottom: '0px' }}>
+                                    Criado em: {new Date(atleta.createdAt).toLocaleDateString()} <strong>|</strong>
+                                </p>
+                                <p style={{ color: 'Black', marginBottom: '0px' }}>
+                                    Última atualização: {new Date(atleta.updatedAt).toLocaleDateString()}
+                                </p>
                             </div>
 
                             <div className="informacoesAD">
@@ -78,6 +92,7 @@ function DetalhesAtleta() {
                                 </button>
                             </div>
 
+                            {/* Passando os relatórios para o componente HistoricoRelatorios */}
                             <HistoricoRelatorios relatorios={relatorios} />
                         </div>
                     )}
