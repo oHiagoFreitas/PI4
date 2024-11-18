@@ -10,6 +10,7 @@ import AthletesReportsChart from '../Components/AthletesReportsChart';
 import '../Style/Backoffice.css';
 
 function Backoffice() {
+    
     return (
         <div className="backoffice-container">
             <Sidebar2 />

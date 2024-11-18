@@ -1,9 +1,10 @@
 const Relatorio = require('../models/Relatorio');
 const Atleta = require('../models/Atleta');
 
+
 // Criar um novo relatório
 exports.createRelatorio = async (req, res) => {
-    const { tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario, atletaNome, status } = req.body;
+    const { tecnica, velocidade, atitudeCompetitiva, inteligencia, altura, morfologia, ratingFinal, comentario, atletaNome, scoutId, status } = req.body;
 
     try {
         // Busca o atleta pelo nome
@@ -12,7 +13,7 @@ exports.createRelatorio = async (req, res) => {
             return res.status(404).json({ error: 'Atleta não encontrado.' });
         }
 
-        // Cria o relatório usando o ID do atleta encontrado
+        // Cria o relatório usando o ID do atleta encontrado e o scoutid
         const novoRelatorio = await Relatorio.create({ 
             tecnica, 
             velocidade, 
@@ -23,6 +24,7 @@ exports.createRelatorio = async (req, res) => {
             ratingFinal, 
             comentario, 
             atletaId: atleta.id, // Usando o ID do atleta
+            scoutId, // Salvando o scoutid (userId) no campo scoutid
             status: status || 'Pendente' // Define o status ou usa 'Pendente' como padrão
         });
 

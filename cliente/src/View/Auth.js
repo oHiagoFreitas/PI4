@@ -15,11 +15,15 @@ const Auth = () => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3000/auth/login', { email, senha });
-      localStorage.setItem('token', response.data.token); // Armazena o token no localStorage
+      
+      // Armazenando o token e id no localStorage
+      localStorage.setItem('token', response.data.token); 
+      localStorage.setItem('userId', response.data.id); // Armazena o id do usuário
       const userRole = response.data.role; // Supondo que a role do usuário venha na resposta da API
 
       // Log para depuração
       console.log('Role do usuário:', userRole);
+      console.log('ID do usuário:', response.data.id); // Log para o ID do usuário
 
       Swal.fire({
         title: 'Sucesso!',

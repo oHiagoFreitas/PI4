@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Importando axios para fazer requisições HTTP
-import '../Style/Backoffice.css'; // Certifique-se de que os estilos estão aplicados corretamente
+
 
 const RecentReportsTable = () => {
     const [reports, setReports] = useState([]); // Estado para armazenar os relatórios

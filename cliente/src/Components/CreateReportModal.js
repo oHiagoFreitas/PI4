@@ -60,6 +60,21 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
             atletaNome
         } = formData;
 
+        // Obter o userId do localStorage
+        const userId = localStorage.getItem('userId'); // Aqui você acessa o ID do usuário logado
+
+        // Verifique se o userId existe
+        if (!userId) {
+            Swal.fire({
+                title: 'Erro!',
+                text: 'Usuário não encontrado. Por favor, faça login novamente.',
+                icon: 'error',
+                confirmButtonText: 'OK',
+            });
+            return;
+        }
+
+        // Função para calcular o rating baseado nos checkboxes
         const getRating = (checkboxArray) => {
             const rating = checkboxArray.map((checked, index) => checked ? index + 1 : 0);
             return Math.max(...rating);
@@ -74,19 +89,26 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
             morfologia,
             ratingFinal: getRating(ratingFinal),
             comentario,
-            atletaNome
+            atletaNome,
+            scoutId: userId  // Enviando o userId como scoutid
         };
 
         try {
+            // Enviando a requisição para o backend
             const response = await axios.post('http://localhost:3000/relatorios', newReportData);
             console.log('Relatório criado:', response.data);
+
             Swal.fire({
                 title: 'Sucesso!',
                 text: 'Relatório criado com sucesso.',
                 icon: 'success',
                 confirmButtonText: 'OK',
             });
+
+            // Fechar o modal após o sucesso
             onRequestClose();
+
+            // Resetar os campos do formulário
             setFormData({
                 tecnica: [false, false, false, false],
                 velocidade: [false, false, false, false],
@@ -242,7 +264,10 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                         className="form-input-report"
                     />
                 </div>
-                <button type="submit" className="submit-button-report">Criar Relatório</button>
+                <div className="form-buttons">
+                    <button type="submit" className="submit-button">Criar Relatório</button>
+                    <button type="button" onClick={onRequestClose} className="cancel-button">Cancelar</button>
+                </div>
             </form>
         </Modal>
     );
