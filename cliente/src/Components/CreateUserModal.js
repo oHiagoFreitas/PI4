@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Importa o SweetAlert2
@@ -17,7 +17,7 @@ const customStyles = {
     },
 };
 
-const CreateUserModal = ({ isOpen, onRequestClose }) => {
+const CreateUserModal = ({ isOpen, onRequestClose, onUserCreated, selectedUsuario, isEditModal, onEditRequestClose }) => {
     const [formData, setFormData] = useState({
         nome: '',
         email: '',
@@ -25,7 +25,17 @@ const CreateUserModal = ({ isOpen, onRequestClose }) => {
         role: '',
     });
 
-    // Função para lidar com a mudança nos inputs
+    useEffect(() => {
+        if (isEditModal && selectedUsuario) {
+            setFormData({
+                nome: selectedUsuario.nome,
+                email: selectedUsuario.email,
+                senha: '', // Não queremos mostrar a senha no formulário de edição
+                role: selectedUsuario.role,
+            });
+        }
+    }, [isEditModal, selectedUsuario]);
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -33,22 +43,38 @@ const CreateUserModal = ({ isOpen, onRequestClose }) => {
         });
     };
 
-    // Função para lidar com o envio do formulário
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/utilizadores', formData);
-            console.log('Usuário criado:', response.data);
+            let response;
+            if (isEditModal) {
+                response = await axios.put(
+                    `http://localhost:3000/utilizadores/${selectedUsuario.id}`,
+                    formData
+                );
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Usuário Atualizado!',
+                    text: 'O usuário foi atualizado com sucesso.',
+                    confirmButtonText: 'Ok',
+                });
+            } else {
+                response = await axios.post('http://localhost:3000/utilizadores', formData);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Usuário Criado!',
+                    text: 'O usuário foi criado com sucesso.',
+                    confirmButtonText: 'Ok',
+                });
+            }
 
-            // Alerta de sucesso
-            Swal.fire({
-                icon: 'success',
-                title: 'Usuário Criado!',
-                text: 'O usuário foi criado com sucesso.',
-                confirmButtonText: 'Ok'
-            });
+            // Chama a função para atualizar a lista de usuários no componente principal
+            if (onUserCreated) {
+                onUserCreated(response.data);
+            }
 
-            onRequestClose(); // Fecha o modal
+            onEditRequestClose(); // Fecha o modal de edição
+            onRequestClose(); // Fecha o modal de criação
             setFormData({
                 nome: '',
                 email: '',
@@ -56,14 +82,12 @@ const CreateUserModal = ({ isOpen, onRequestClose }) => {
                 role: '',
             });
         } catch (error) {
-            console.error('Erro ao criar usuário:', error);
-            
-            // Alerta de erro
+            console.error('Erro ao salvar usuário:', error);
             Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
-                text: 'Ocorreu um erro ao criar o usuário. Por favor, tente novamente.',
-                confirmButtonText: 'Ok'
+                text: 'Ocorreu um erro ao salvar o usuário. Por favor, tente novamente.',
+                confirmButtonText: 'Ok',
             });
         }
     };
@@ -73,9 +97,9 @@ const CreateUserModal = ({ isOpen, onRequestClose }) => {
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             style={customStyles}
-            contentLabel="Criar Usuário"
+            contentLabel={isEditModal ? "Editar Usuário" : "Criar Usuário"}
         >
-            <h2 className="modal-title">Criar Usuário</h2>
+            <h2 className="modal-title">{isEditModal ? "Editar Usuário" : "Criar Usuário"}</h2>
             <form onSubmit={handleSubmit} className="create-user-form">
                 <div className="form-group-user">
                     <label htmlFor="nome">Nome:</label>
@@ -101,18 +125,20 @@ const CreateUserModal = ({ isOpen, onRequestClose }) => {
                         className="form-input-user"
                     />
                 </div>
-                <div className="form-group-user">
-                    <label htmlFor="senha">Senha:</label>
-                    <input
-                        type="password"
-                        id="senha"
-                        name="senha"
-                        value={formData.senha}
-                        onChange={handleChange}
-                        required
-                        className="form-input-user"
-                    />
-                </div>
+                {!isEditModal && (
+                    <div className="form-group-user">
+                        <label htmlFor="senha">Senha:</label>
+                        <input
+                            type="password"
+                            id="senha"
+                            name="senha"
+                            value={formData.senha}
+                            onChange={handleChange}
+                            required
+                            className="form-input-user"
+                        />
+                    </div>
+                )}
                 <div className="form-group-user">
                     <label htmlFor="role">Role:</label>
                     <select
@@ -129,7 +155,9 @@ const CreateUserModal = ({ isOpen, onRequestClose }) => {
                         <option value="Consultor">Consultor</option>
                     </select>
                 </div>
-                <button type="submit" className="submit-button-user">Criar Usuário</button>
+                <button type="submit" className="submit-button-user">
+                    {isEditModal ? "Salvar Alterações" : "Criar Usuário"}
+                </button>
             </form>
         </Modal>
     );

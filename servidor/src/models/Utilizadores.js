@@ -31,7 +31,7 @@ const Utilizadores = sequelize.define('utilizadores', {
         defaultValue: 'pendente',
     },
 }, {
-    timestamps: false,
+    timestamps: true,
 });
 
 
