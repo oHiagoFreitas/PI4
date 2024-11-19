@@ -1,6 +1,6 @@
 /* src/Style/UsuariosTable.css */
 
-.usuarios-table-containerAT {
+.usuarios-table-containerAAT {
     margin-top: 20px;
     padding: 20px;
     background-color: #fff;
@@ -11,13 +11,13 @@
   }
   
   /* Contêiner de botões (criar e exportar) */
-  .actions-buttonsAT {
+  .actions-buttonsAAT {
     display: flex;
     justify-content: flex-end;
     gap: 20px;
   }
   
-  .actions-buttonsAT button {
+  .actions-buttonsAAT button {
     padding: 12px 25px;
     font-size: 1rem;
     cursor: pointer;
@@ -30,57 +30,57 @@
   }
   
   /* Botão Criar Usuário */
-  .button-createAT {
+  .button-createAAT {
     background-color: #DEAF5E;
     color: white;
   }
   
-  .button-createAT:hover {
+  .button-createAAT:hover {
     background-color: #c79d55;
     transform: scale(1.05);
   }
   
   /* Botão Exportar Usuários */
-  .button-exportAT {
+  .button-exportAAT {
     background-color: #222222;
     color: white;
   }
   
-  .button-exportAT:hover {
+  .button-exportAAT:hover {
     background-color: #000000;
     transform: scale(1.05);
   }
   
   /* Tabela de Usuários */
-  .usuarios-tableAT {
+  .usuarios-tableAAT {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
   }
   
-  .usuarios-tableAT th,
-  .usuarios-tableAT td {
+  .usuarios-tableAAT th,
+  .usuarios-tableAAT td {
     padding: 12px;
     text-align: center;  /* Centraliza o texto horizontalmente */
     vertical-align: middle;  /* Centraliza o texto verticalmente */
     border-bottom: 1px solid #ddd;
   }
   
-  .usuarios-tableAT th {
+  .usuarios-tableAAT th {
     background-color: #f4f4f4;
     color: #DEAF5E;
     font-weight: bold;
   }
   
-  .usuarios-tableAT tr:nth-child(even) {
+  .usuarios-tableAAT tr:nth-child(even) {
     background-color: #f9f9f9;
   }
   
-  .usuarios-tableAT tr:hover {
+  .usuarios-tableAAT tr:hover {
     background-color: #f1f1f1;
   }
   
-  .loading-messageAT {
+  .loading-messageAAT {
     font-size: 1.2rem;
     color: #555;
     text-align: center;
@@ -88,7 +88,7 @@
   }
   
   /* Estilo para os botões de ação */
-  .action-buttonAT {
+  .action-buttonAAT {
     background: none;
     border: none;
     cursor: pointer;
@@ -97,32 +97,32 @@
     margin: 0 5px;
   }
   
-  .action-buttonAT:hover {
+  .action-buttonAAT:hover {
     color: #0b7dda;
   }
   
   /* Opções de cor para diferentes ações */
-  .action-buttonAT .bi-eye {
+  .action-buttonAAT .bi-eye {
     color: #28a745; /* Verde para visualização */
   }
   
-  .action-buttonAT .bi-pencil {
+  .action-buttonAAT .bi-pencil {
     color: #ffc107; /* Amarelo para edição */
   }
   
-  .action-buttonAT .bi-trash {
+  .action-buttonAAT .bi-trash {
     color: #dc3545; /* Vermelho para exclusão */
   }
   
-  .action-buttonAT:hover .bi-eye {
+  .action-buttonAAT:hover .bi-eye {
     color: #218838; /* Verde mais forte no hover */
   }
   
-  .action-buttonAT:hover .bi-pencil {
+  .action-buttonAAT:hover .bi-pencil {
     color: #e0a800; /* Amarelo mais forte no hover */
   }
   
-  .action-buttonAT:hover .bi-trash {
+  .action-buttonAAT:hover .bi-trash {
     color: #c82333; /* Vermelho mais forte no hover */
   }
   

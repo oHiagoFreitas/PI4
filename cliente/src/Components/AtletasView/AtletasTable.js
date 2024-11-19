@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../Style/AtletasView/AtletasTable.css';
+import AtletasFilters from './AtletasFilters'; // Importando o componente de filtros
 import CreateAthleteModal from '../CreateAthleteModal'; 
-import EditAthleteModal from './EditAtletaModal'; // Importando o modal de edição
+import EditAthleteModal from './EditAtletaModal'; 
 import TabelaAtletas from './TabelaAtletas'; 
 import ExportToPDF from './ExportToPDF'; 
 
 function AtletasTable() {
-  const [atletas, setAtletas] = useState([]); 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false); 
+  const [atletas, setAtletas] = useState([]);
+  const [filterText, setFilterText] = useState('');
+  const [filterPosition, setFilterPosition] = useState('');
+  const [filterYear, setFilterYear] = useState('');
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedAtleta, setSelectedAtleta] = useState(null); // Atleta selecionado para edição
+  const [selectedAtleta, setSelectedAtleta] = useState(null);
 
   useEffect(() => {
     axios
@@ -24,12 +28,12 @@ function AtletasTable() {
   const closeCreateAtletaModal = () => setIsCreateModalOpen(false);
 
   const openEditAtletaModal = (atleta) => {
-    setSelectedAtleta(atleta); // Define o atleta selecionado
+    setSelectedAtleta(atleta);
     setIsEditModalOpen(true);
   };
 
   const closeEditAtletaModal = () => {
-    setSelectedAtleta(null); // Reseta o atleta selecionado
+    setSelectedAtleta(null);
     setIsEditModalOpen(false);
   };
 
@@ -57,17 +61,43 @@ function AtletasTable() {
     });
   };
 
+  // Filtragem dos atletas
+  const filteredAtletas = atletas.filter((atleta) => {
+    const matchesName = atleta.nome.toLowerCase().includes(filterText.toLowerCase());
+    const matchesPosition = filterPosition ? atleta.posicao === filterPosition : true;
+    const matchesYear = filterYear ? atleta.ano === parseInt(filterYear) : true;
+
+    return matchesName && matchesPosition && matchesYear;
+  });
+
+  // Posições e anos únicos
+  const uniquePositions = [...new Set(atletas.map((atleta) => atleta.posicao))];
+  const uniqueYears = [...new Set(atletas.map((atleta) => atleta.ano))];
+
   return (
     <div className="atletas-table-containerAT">
-      {/* Botões para Criar e Exportar */}
+      
+      {/* Botões de ações */}
       <div className="actions-buttonsAT">
-        <button className="button-createAT" onClick={openCreateAtletaModal}>Criar Atleta</button>
-        <ExportToPDF atletas={atletas} /> 
+      <AtletasFilters
+        filterText={filterText}
+        filterPosition={filterPosition}
+        filterYear={filterYear}
+        uniquePositions={uniquePositions}
+        uniqueYears={uniqueYears}
+        onFilterTextChange={setFilterText}
+        onFilterPositionChange={setFilterPosition}
+        onFilterYearChange={setFilterYear}
+      />
+        <button className="button-createAT" onClick={openCreateAtletaModal}>
+          Criar Atleta
+        </button>
+        <ExportToPDF atletas={filteredAtletas} />
       </div>
 
-      {/* Tabela com dados dos atletas */}
+      {/* Tabela com dados filtrados */}
       <TabelaAtletas 
-        atletas={atletas} 
+        atletas={filteredAtletas} 
         handleEdit={openEditAtletaModal} 
         handleDelete={handleDelete} 
       />
@@ -82,7 +112,7 @@ function AtletasTable() {
       <EditAthleteModal
         isOpen={isEditModalOpen}
         onRequestClose={closeEditAtletaModal}
-        athleteData={selectedAtleta} // Passa os dados do atleta selecionado
+        athleteData={selectedAtleta}
       />
     </div>
   );

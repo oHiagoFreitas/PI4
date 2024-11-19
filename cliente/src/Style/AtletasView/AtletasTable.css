@@ -13,7 +13,7 @@
 /* Contêiner de botões (criar e exportar) */
 .actions-buttonsAT {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -124,4 +124,20 @@
 
 .action-buttonAT:hover .bi-trash {
   color: #c82333; /* Vermelho mais forte no hover */
+}
+
+.filter-inputAT {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filter-selectAT {
+  padding: 8px;
+  margin: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }

@@ -66,11 +66,11 @@ function UsuariosTable() {
   };
 
   return (
-    <div className="usuarios-table-containerAT">
+    <div className="usuarios-table-containerAAT">
       {/* Botões de Ação: Criar Usuário */}
-      <div className="actions-buttonsAT">
+      <div className="actions-buttonsAAT">
         <button
-          className="button-createAT"
+          className="button-createAAT"
           onClick={openCreateUserModal}
         >
           Criar Usuário

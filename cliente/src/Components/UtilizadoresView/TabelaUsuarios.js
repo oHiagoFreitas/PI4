@@ -5,9 +5,9 @@ import '../../Style/UsuariosTable.css'; // Importando o CSS da tabela
 // Componente da Tabela de Usuários
 function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
     return (
-        <div className="usuarios-table-containerAT"> {/* Contêiner da tabela */}
+        <div className="usuarios-table-containerAAT"> {/* Contêiner da tabela */}
             {/* Tabela com dados dos usuários */}
-            <table className="usuarios-tableAT table table-striped">
+            <table className="usuarios-tableAAT table table-striped">
                 <thead>
                     <tr>
                         <th>Data de Criação</th>
@@ -32,13 +32,13 @@ function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
                                 <td>{new Date(usuario.updatedAt).toLocaleDateString()}</td>
                                 <td>
                                     {/* Botão para visualizar */}
-                                    <Link to={`/utilizadores/detalhes/${usuario.id}`} className="action-buttonAT dashboard-link">
+                                    <Link to={`/utilizadores/detalhes/${usuario.id}`} className="action-buttonAAT dashboard-link">
                                         <i className="bi bi-eye" title="Ver"></i>
                                     </Link>
 
                                     {/* Botão para editar */}
                                     <button
-                                        className="action-buttonAT"
+                                        className="action-buttonAAT"
                                         onClick={() => handleEdit(usuario)}
                                     >
                                         <i className="bi bi-pencil" title="Editar"></i>
@@ -46,7 +46,7 @@ function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
 
                                     {/* Botão para apagar */}
                                     <button
-                                        className="action-buttonAT"
+                                        className="action-buttonAAT"
                                         onClick={() => handleDelete(usuario.id)}
                                     >
                                         <i className="bi bi-trash" title="Apagar"></i>
@@ -56,7 +56,7 @@ function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="5" className="loading-messageAT">Carregando usuários...</td>
+                            <td colSpan="5" className="loading-messageAAT">Carregando usuários...</td>
                         </tr>
                     )}
                 </tbody>

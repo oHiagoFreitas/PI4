@@ -7,6 +7,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
       <thead>
         <tr>
           <th>Nome</th>
+          <th>Ano</th>
           <th>País</th>
           <th>Posição</th>
           <th>Time</th>
@@ -18,6 +19,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
         {atletas.map((atleta) => (
           <tr key={atleta.id}>
             <td>{atleta.nome}</td>
+            <td>{atleta.ano}</td>
             <td>{atleta.nacionalidade}</td>
             <td>{atleta.posicao}</td>
             <td>{atleta.clube}</td>
