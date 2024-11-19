@@ -60,7 +60,7 @@ function RelatoriosTable() {
   return (
     <div className="atletas-table-containerAT">
       {/* Botões de Ação: Criar Relatório */}
-      <div className="actions-buttonsAT">
+      <div className="actions-buttonsAT" style={{justifyContent: 'flex-end'}}>
         <button
           className="button-createAT"
           onClick={openCreateRelatorioModal}
