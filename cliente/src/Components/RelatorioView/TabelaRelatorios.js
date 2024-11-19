@@ -32,7 +32,7 @@ function TabelaRelatorios({ relatorios, handleEdit, handleDelete }) {
                                 <td>{relatorio.comentario}</td>
                                 <td>
                                     {/* Botão para visualizar */}
-                                    <Link to={`/atletas/detalhes/${relatorio.id}`} className="action-buttonAT dashboard-link">
+                                    <Link to={`/relatorios/detalhes/${relatorio.id}`} className="action-buttonAT dashboard-link">
                                         <i className="bi bi-eye" title="Ver"></i>
                                     </Link>
 

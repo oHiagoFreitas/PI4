@@ -10,6 +10,7 @@ import Relatorio from './View/Relatorio'; // Importando o componente de Atletas
 import Backoffice from './View/Backoffice';
 import BackofficeConsultor from './View/backofficeConsultor';
 import DetalhesAtleta from './Components/AtletasView/DetalhesAtleta';
+import RelatorioDetalhes from "./Components/RelatorioView/RelatorioDetalhes"; // Componente do detalhe do relatório
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/atletas/detalhes/:id" element={<DetalhesAtleta />} /> {/* Página de detalhes */}
         <Route path="/backofficeConsultor" element={<BackofficeConsultor />} />
         <Route path="/Relatorios" element={<Relatorio />} /> {/* Rota para a página de Atletas */}
+        <Route path="/relatorios/detalhes/:id" element={<RelatorioDetalhes />} />
       </Routes>
     </Router>
   );
