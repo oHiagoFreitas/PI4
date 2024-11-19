@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // Adicione esta linha para importar Link
 
 function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   return (
@@ -11,7 +11,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
           <th>Posição</th>
           <th>Time</th>
           <th>Status</th>
-          <th>Ações</th> {/* Coluna de Ações */}
+          <th>Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -23,15 +23,17 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
             <td>{atleta.clube}</td>
             <td>{atleta.status}</td>
             <td>
-              {/* Botão para redirecionar */}
+              {/* Botão para visualizar */}
               <Link to={`/atletas/detalhes/${atleta.id}`} className="action-buttonAT dashboard-link">
-                <i className="bi bi-eye" title="Ver"></i> {/* Ícone de Ver */}
+                <i className="bi bi-eye" title="Ver"></i>
               </Link>
-              <button className="action-buttonAT" onClick={() => handleEdit(atleta.id)}>
-                <i className="bi bi-pencil" title="Editar"></i> {/* Ícone de Editar */}
+              {/* Botão para editar */}
+              <button className="action-buttonAT" onClick={() => handleEdit(atleta)}>
+                <i className="bi bi-pencil" title="Editar"></i>
               </button>
+              {/* Botão para apagar */}
               <button className="action-buttonAT" onClick={() => handleDelete(atleta.id)}>
-                <i className="bi bi-trash" title="Apagar"></i> {/* Ícone de Apagar */}
+                <i className="bi bi-trash" title="Apagar"></i>
               </button>
             </td>
           </tr>
