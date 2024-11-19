@@ -6,6 +6,7 @@ import Home from './View/Home';
 import Auth from './View/Auth';
 import SignUp from './View/SignUp';
 import Atletas from './View/Atletas'; // Importando o componente de Atletas
+import Relatorio from './View/Relatorio'; // Importando o componente de Atletas
 import Backoffice from './View/Backoffice';
 import BackofficeConsultor from './View/backofficeConsultor';
 import DetalhesAtleta from './Components/AtletasView/DetalhesAtleta';
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/atletas" element={<Atletas />} /> {/* Rota para a página de Atletas */}
         <Route path="/atletas/detalhes/:id" element={<DetalhesAtleta />} /> {/* Página de detalhes */}
         <Route path="/backofficeConsultor" element={<BackofficeConsultor />} />
+        <Route path="/Relatorios" element={<Relatorio />} /> {/* Rota para a página de Atletas */}
       </Routes>
     </Router>
   );
