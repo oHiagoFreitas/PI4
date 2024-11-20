@@ -18,15 +18,22 @@ module.exports = {
       }
 
       // Verifica se o time visitante existe (se fornecido)
+      let timeVisitante = null; // Usando let para permitir alteração
       if (timeVisitanteId) {
-        const timeVisitante = await Time.findByPk(timeVisitanteId);
+        timeVisitante = await Time.findByPk(timeVisitanteId);
         if (!timeVisitante) {
           return res.status(400).json({ error: 'Time visitante não encontrado' });
         }
       }
 
-      // Cria a partida
-      const partida = await Partida.create({ data, hora, local, timeMandanteId, timeVisitanteId });
+      // Cria a partida com ou sem time visitante
+      const partida = await Partida.create({
+        data,
+        hora,
+        local,
+        timeMandanteId,
+        timeVisitanteId: timeVisitanteId || null, // Se timeVisitanteId não for fornecido, utiliza null
+      });
 
       // Adiciona jogadores à partida (opcional)
       if (jogadoresIds && jogadoresIds.length > 0) {
@@ -41,9 +48,9 @@ module.exports = {
         const scoutsAdmins = await Utilizadores.findAll({
           where: {
             id: scoutsIds,
-            [Sequelize.Op.or]: [  // Aqui estamos utilizando o Sequelize.Op.or para buscar Scout ou Admin
+            [Sequelize.Op.or]: [
               { role: 'Scout' },
-              { role: 'Admin' }
+              { role: 'Admin' },
             ],
           },
         });

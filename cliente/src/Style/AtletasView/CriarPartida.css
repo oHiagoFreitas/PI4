@@ -1,0 +1,93 @@
+.formularioPj {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.formularioPj div {
+    margin-bottom: 15px;
+}
+
+.formularioPj label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #333;
+}
+
+.inputPJ {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+.inputPJ:focus {
+    border-color: #252525;
+    outline: none;
+}
+
+.botao-submitPJ {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #DEAF5E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Adiciona espaço entre os botões */
+}
+
+.botao-submitPJ:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.botao-submitPJ:hover:not(:disabled) {
+    background-color: #997840;
+}
+
+.back-buttonPJ {
+    padding: 12px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #252525;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.back-buttonPJ:hover {
+    background-color: #000000;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 10px; /* Define a distância entre os botões */
+    margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+    .formularioPj {
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .inputPJ {
+        font-size: 14px;
+    }
+
+    .botao-submitPJ, .back-buttonPJ {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}

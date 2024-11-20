@@ -141,3 +141,16 @@
   border-radius: 4px;
   font-size: 14px;
 }
+
+/* Estilos para o modal */
+.ReactModal__Overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.ReactModal__Content {
+  padding: 20px;
+  background: white;
+  border-radius: 4px;
+  max-width: 500px;
+  margin: auto;
+}

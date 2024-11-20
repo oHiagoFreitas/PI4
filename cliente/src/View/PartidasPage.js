@@ -1,13 +1,11 @@
-// src/View/Atletas.js
-
 import React, { useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
 import '../Style/Backoffice.css';
-import PartidasTitle from '../Components/PartidasPage/PartidasTitle';
-import PartidasTable from '../Components/PartidasPage/PartidasTable'; // Tabela de relatórios
+import PartidasTitle from '../Components/PartidasPage/PartidasTitle'; // Título da seção de partidas
+import PartidasTable from '../Components/PartidasPage/PartidasTable'; // Tabela de partidas
 
-function Atletas() {
+function PartidasPage() {
 
     useEffect(() => {
         const scoutId = localStorage.getItem('userId');
@@ -21,13 +19,12 @@ function Atletas() {
             <div className="main-content">
                 <Navbar />
                 <div className='sub-main-content'>
-                    <PartidasTitle /> {/* Exibe a tabela de atletas */}
-                    <PartidasTable /> {/* Exibe a tabela de atletas */}
-                    
+                    <PartidasTitle /> {/* Título da página de partidas */}
+                    <PartidasTable /> {/* Tabela de partidas */}
                 </div>
             </div>
         </div>
     );
 }
 
-export default Atletas;
+export default PartidasPage;

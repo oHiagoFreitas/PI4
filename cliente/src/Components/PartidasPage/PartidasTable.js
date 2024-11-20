@@ -1,17 +1,13 @@
-// src/View/PartidasTable.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
-import CreateMatchModal from './CreateMatchModal.js'; // Modal de criação de partida (novo componente)
 import TabelaPartidas from './TabelaPartidas'; // Componente da Tabela de Partidas
+import { useNavigate } from 'react-router-dom'; // Importando useNavigate para navegação
 
 function PartidasTable() {
   const [partidas, setPartidas] = useState([]);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedPartida, setSelectedPartida] = useState(null); // Partida selecionada para edição
+  const navigate = useNavigate(); // Hook de navegação
 
   useEffect(() => {
     axios
@@ -19,19 +15,6 @@ function PartidasTable() {
       .then((response) => setPartidas(response.data))
       .catch((error) => console.error('Erro ao carregar partidas:', error));
   }, []);
-
-  const openCreatePartidaModal = () => setIsCreateModalOpen(true);
-  const closeCreatePartidaModal = () => setIsCreateModalOpen(false);
-
-  const openEditPartidaModal = (partida) => {
-    setSelectedPartida(partida); // Define a partida selecionada
-    setIsEditModalOpen(true);
-  };
-
-  const closeEditPartidaModal = () => {
-    setSelectedPartida(null); // Reseta a partida selecionada
-    setIsEditModalOpen(false);
-  };
 
   const handleDelete = (partidaId) => {
     Swal.fire({
@@ -57,18 +40,22 @@ function PartidasTable() {
     });
   };
 
+  const handleCreatePartida = () => {
+    navigate('/criar-partida'); // Redireciona para a página de criação de partida
+  };
+
   return (
-    <div className="partidas-table-container">
+    <div className="atletas-table-containerAT">
       {/* Botões de Ação: Criar Partida */}
-      <div className="actions-buttons" style={{justifyContent: 'flex-end'}}>
+      <div className="actions-buttonsAT" style={{ justifyContent: 'flex-end' }}>
         <button
-          className="button-create"
-          onClick={openCreatePartidaModal}
+          className="button-createAT"
+          onClick={handleCreatePartida} // Lógica de navegação para criação de partida
         >
           Criar Partida
         </button>
         {/* Botões adicionais (como exportar, se necessário) */}
-        <button className="button-export">
+        <button className="button-exportAT">
           Exportar Partidas
         </button>
       </div>
@@ -76,14 +63,8 @@ function PartidasTable() {
       {/* Tabela com dados das partidas */}
       <TabelaPartidas 
         partidas={partidas}
-        handleEdit={openEditPartidaModal}
+        handleEdit={() => {/* Lógica de edição sem modal */}}
         handleDelete={handleDelete}
-      />
-
-      {/* Modal de Criação de Partida */}
-      <CreateMatchModal
-        isOpen={isCreateModalOpen}
-        onRequestClose={closeCreatePartidaModal}
       />
     </div>
   );
