@@ -28,6 +28,10 @@ function Sidebar() {
             <hr className="divider" />
             <ul>
                 <li>
+                    <i className="bi bi-calendar-event"></i>
+                    <Link to="/partidas">Partidas</Link> {/* Link para a página de Partidas */}
+                </li>
+                <li>
                     <i className="bi bi-person"></i>
                     <Link to="/atletas">Atletas</Link> {/* Link para a página de Atletas */}
                 </li>
@@ -43,6 +47,7 @@ function Sidebar() {
                     <i className="bi bi-person-circle"></i>
                     <Link to="/utilizadores">Utilizadores</Link> {/* Link para a página de Utilizadores */}
                 </li>
+
                 <li onClick={toggleAdminDropdown} className="dropdown-toggle">
                     <i className="bi bi-tools"></i>
                     Administração

@@ -12,6 +12,7 @@ const authRoute = require('./routes/authRoutes'); // Rota de login
 const equipeSombraRoutes = require('./routes/equipeSombraRoutes'); // Rota de equipes sombra
 const formacaoRoutes = require('./routes/formacaoRoutes'); // Rota de formações
 const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes'); // ajuste o caminho conforme necessário
+const partidaRoutes = require('./routes/partidaRoutes'); // ajuste o caminho conforme necessário
 
 
 // Configurações
@@ -39,6 +40,7 @@ app.use('/auth', authRoute); // Rota de login
 app.use('/equipeSombra', equipeSombraRoutes); // Rota para equipes sombra
 app.use('/formacao', formacaoRoutes); // Rota para formações
 app.use('/atletasEquipeSombra', atletasEquipeSombraRoutes);
+app.use('/partidas', partidaRoutes); // Define o prefixo da rota para partidas
 
 
 // Sincroniza os modelos com o banco de dados
