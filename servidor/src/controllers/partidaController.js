@@ -7,6 +7,7 @@ const Time = require('../models/Time');
 const Utilizadores = require('../models/Utilizadores');
 
 module.exports = {
+  // Método para criar uma partida
   async criarPartida(req, res) {
     const { data, hora, local, timeMandanteId, timeVisitanteId, jogadoresIds, scoutsIds } = req.body;
 
@@ -66,6 +67,7 @@ module.exports = {
     }
   },
 
+  // Método para listar todas as partidas
   async listarPartidas(req, res) {
     try {
       const partidas = await Partida.findAll({
@@ -81,6 +83,79 @@ module.exports = {
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Erro ao buscar as partidas' });
+    }
+  },
+
+  // Método para listar as partidas atribuídas ao usuário logado
+  async listarPartidasAtribuidas(req, res) {
+    const { userId } = req.params; // Recebe o ID do usuário logado como parâmetro
+
+    try {
+      // Busca as partidas em que o usuário logado está como scout
+      const partidas = await Partida.findAll({
+        include: [
+          { model: Time, as: 'timeMandante' },
+          { model: Time, as: 'timeVisitante' },
+          { model: Atleta, as: 'jogadores' },
+          { model: Utilizadores, as: 'scouts', where: { id: userId } }, // Filtra pela id do usuário
+        ],
+      });
+
+      if (partidas.length === 0) {
+        return res.status(404).json({ message: 'Nenhuma partida atribuída para o usuário.' });
+      }
+
+      res.status(200).json(partidas);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao buscar as partidas atribuídas' });
+    }
+  },
+
+  // Método para excluir uma partida
+  async excluirPartida(req, res) {
+    const { partidaId } = req.params; // ID da partida a ser excluída
+
+    try {
+      const partida = await Partida.findByPk(partidaId);
+      if (!partida) {
+        return res.status(404).json({ error: 'Partida não encontrada' });
+      }
+
+      // Exclui a partida
+      await partida.destroy();
+
+      res.status(200).json({ message: 'Partida excluída com sucesso' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao excluir a partida' });
+    }
+  },
+
+  // Método para editar uma partida
+  async editarPartida(req, res) {
+    const { partidaId } = req.params; // ID da partida a ser editada
+    const { data, hora, local, timeMandanteId, timeVisitanteId } = req.body;
+
+    try {
+      const partida = await Partida.findByPk(partidaId);
+      if (!partida) {
+        return res.status(404).json({ error: 'Partida não encontrada' });
+      }
+
+      // Atualiza a partida
+      partida.data = data || partida.data;
+      partida.hora = hora || partida.hora;
+      partida.local = local || partida.local;
+      partida.timeMandanteId = timeMandanteId || partida.timeMandanteId;
+      partida.timeVisitanteId = timeVisitanteId || partida.timeVisitanteId;
+
+      await partida.save();
+
+      res.status(200).json(partida);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao editar a partida' });
     }
   },
 };

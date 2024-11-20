@@ -1,0 +1,54 @@
+/* Estilo para a tabela de jogos atribuídos */
+.tabela-jogos-atribuidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+    text-align: left;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tabela-jogos-atribuidos th, 
+  .tabela-jogos-atribuidos td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+  }
+  
+  .tabela-jogos-atribuidos th {
+    background-color: #DEAF5E;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+  }
+  
+  .tabela-jogos-atribuidos tr:nth-child(even) {
+    background-color: #f2f2f2; /* Linhas alternadas em cinza claro */
+  }
+  
+  .tabela-jogos-atribuidos tr:hover {
+    background-color: #e6f7ff; /* Destaque para o hover */
+  }
+  
+  .tabela-jogos-atribuidos td {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .tabela-jogos-atribuidos td div {
+    margin: 4px 0; /* Espaçamento entre nomes na célula */
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .tabela-jogos-atribuidos {
+      font-size: 14px;
+    }
+    .tabela-jogos-atribuidos th,
+    .tabela-jogos-atribuidos td {
+      padding: 8px 10px;
+    }
+  }
+  

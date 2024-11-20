@@ -3,18 +3,35 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import TabelaPartidas from './TabelaPartidas'; // Componente da Tabela de Partidas
-import { useNavigate } from 'react-router-dom'; // Importando useNavigate para navegação
+import TabelaJogosAtribuidos from './TabelaJogosAtribuidos'; // Componente da Tabela de Jogos Atribuídos
+import { useNavigate } from 'react-router-dom';
 
 function PartidasTable() {
-  const [partidas, setPartidas] = useState([]);
-  const navigate = useNavigate(); // Hook de navegação
+  const [partidas, setPartidas] = useState([]); // Estado para todas as partidas
+  const [jogosAtribuidos, setJogosAtribuidos] = useState([]); // Estado para jogos atribuídos ao usuário logado
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const userId = localStorage.getItem('userId'); // Recupera o ID do usuário do localStorage
+
+    if (!userId) {
+      Swal.fire('Erro', 'Usuário não está logado.', 'error');
+      navigate('/login'); // Redireciona para login se o ID não for encontrado
+      return;
+    }
+
+    // Carrega todas as partidas
     axios
-      .get('http://localhost:3000/partidas') // Rota de partidas
+      .get('http://localhost:3000/partidas') // Rota para buscar todas as partidas
       .then((response) => setPartidas(response.data))
       .catch((error) => console.error('Erro ao carregar partidas:', error));
-  }, []);
+
+    // Carrega as partidas atribuídas ao usuário logado
+    axios
+      .get(`http://localhost:3000/partidas/atribuidas/${userId}`) // Rota de partidas atribuídas
+      .then((response) => setJogosAtribuidos(response.data))
+      .catch((error) => console.error('Erro ao carregar jogos atribuídos:', error));
+  }, [navigate]);
 
   const handleDelete = (partidaId) => {
     Swal.fire({
@@ -46,7 +63,7 @@ function PartidasTable() {
 
   return (
     <div className="atletas-table-containerAT">
-      {/* Botões de Ação: Criar Partida */}
+      {/* Botões de Ação */}
       <div className="actions-buttonsAT" style={{ justifyContent: 'flex-end' }}>
         <button
           className="button-createAT"
@@ -54,10 +71,7 @@ function PartidasTable() {
         >
           Criar Partida
         </button>
-        {/* Botões adicionais (como exportar, se necessário) */}
-        <button className="button-exportAT">
-          Exportar Partidas
-        </button>
+        <button className="button-exportAT">Exportar Partidas</button>
       </div>
 
       {/* Tabela com dados das partidas */}
@@ -66,6 +80,12 @@ function PartidasTable() {
         handleEdit={() => {/* Lógica de edição sem modal */}}
         handleDelete={handleDelete}
       />
+
+      {/* Tabela com jogos atribuídos ao usuário */}
+      <div className="tabela-jogos-atribuídos">
+        <h2>Meus Jogos</h2>
+        <TabelaJogosAtribuidos jogosAtribuidos={jogosAtribuidos} />
+      </div>
     </div>
   );
 }
