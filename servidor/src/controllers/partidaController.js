@@ -1,10 +1,14 @@
+// src/controllers/PartidaController.js
+
+const Sequelize = require('sequelize');
 const Partida = require('../models/Partida');
 const Atleta = require('../models/Atleta');
 const Time = require('../models/Time');
+const Utilizadores = require('../models/Utilizadores');
 
 module.exports = {
   async criarPartida(req, res) {
-    const { hora, local, timeMandanteId, timeVisitanteId, jogadoresIds } = req.body;
+    const { data, hora, local, timeMandanteId, timeVisitanteId, jogadoresIds, scoutsIds } = req.body;
 
     try {
       // Verifica se o time mandante existe
@@ -22,7 +26,7 @@ module.exports = {
       }
 
       // Cria a partida
-      const partida = await Partida.create({ hora, local, timeMandanteId, timeVisitanteId });
+      const partida = await Partida.create({ data, hora, local, timeMandanteId, timeVisitanteId });
 
       // Adiciona jogadores à partida (opcional)
       if (jogadoresIds && jogadoresIds.length > 0) {
@@ -30,6 +34,22 @@ module.exports = {
           where: { id: jogadoresIds },
         });
         await partida.addJogadores(jogadores);
+      }
+
+      // Adiciona scouts e admins à partida (opcional)
+      if (scoutsIds && scoutsIds.length > 0) {
+        const scoutsAdmins = await Utilizadores.findAll({
+          where: {
+            id: scoutsIds,
+            [Sequelize.Op.or]: [  // Aqui estamos utilizando o Sequelize.Op.or para buscar Scout ou Admin
+              { role: 'Scout' },
+              { role: 'Admin' }
+            ],
+          },
+        });
+
+        // Adiciona os scouts e admins à partida
+        await partida.addScouts(scoutsAdmins);
       }
 
       res.status(201).json(partida);
@@ -46,6 +66,7 @@ module.exports = {
           { model: Time, as: 'timeMandante' },
           { model: Time, as: 'timeVisitante' },
           { model: Atleta, as: 'jogadores' },
+          { model: Utilizadores, as: 'scouts' },
         ],
       });
 

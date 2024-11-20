@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const partidaController = require('../controllers/partidaController');
 
-// Rota para criar uma partida
+// Rota para criar uma nova partida
 router.post('/', partidaController.criarPartida);
 
 // Rota para listar todas as partidas

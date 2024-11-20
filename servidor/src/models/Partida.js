@@ -1,7 +1,10 @@
+// src/models/Partida.js
+
 const Sequelize = require('sequelize');
-const sequelize = require('../database'); // ajuste o caminho conforme necessário
-const Time = require('./Time'); // Importa o modelo Time
-const Atleta = require('./Atleta'); // Importa o modelo Atleta
+const sequelize = require('../database');
+const Time = require('./Time');
+const Atleta = require('./Atleta');
+const Utilizadores = require('./Utilizadores');
 
 const Partida = sequelize.define('partida', {
   id: {
@@ -9,46 +12,40 @@ const Partida = sequelize.define('partida', {
     primaryKey: true,
     autoIncrement: true,
   },
-  hora: {
+  data: {  // Campo para a data
+    type: Sequelize.DATEONLY,
+    allowNull: false,
+  },
+  hora: {  // Campo para a hora
     type: Sequelize.TIME,
-    allowNull: false, // Horário do jogo é obrigatório
+    allowNull: false,
   },
   local: {
     type: Sequelize.STRING,
-    allowNull: false, // Local do jogo é obrigatório
+    allowNull: false,
   },
   timeMandanteId: {
     type: Sequelize.INTEGER,
-    allowNull: false, // Time mandante é obrigatório
     references: {
       model: Time,
       key: 'id',
     },
-    onDelete: 'CASCADE',
+    allowNull: false,
   },
   timeVisitanteId: {
     type: Sequelize.INTEGER,
-    allowNull: true, // Time visitante é opcional
     references: {
       model: Time,
       key: 'id',
     },
-    onDelete: 'CASCADE',
+    allowNull: true, // Time visitante é opcional
   },
-}, {
-  timestamps: true, // Inclui campos createdAt e updatedAt
 });
 
-// Relacionamento: Times (Mandante e Visitante)
+// Relacionamentos
 Partida.belongsTo(Time, { as: 'timeMandante', foreignKey: 'timeMandanteId' });
 Partida.belongsTo(Time, { as: 'timeVisitante', foreignKey: 'timeVisitanteId' });
-
-// Relacionamento: Jogadores Participantes
-Partida.belongsToMany(Atleta, {
-  through: 'PartidaAtleta', // Tabela intermediária para associar jogadores à partida
-  foreignKey: 'partidaId',
-  otherKey: 'atletaId',
-  as: 'jogadores', // Alias para referenciar os jogadores da partida
-});
+Partida.belongsToMany(Atleta, { through: 'PartidaAtletas', as: 'jogadores' });
+Partida.belongsToMany(Utilizadores, { through: 'PartidaScouts', as: 'scouts' }); // Novo relacionamento com scouts
 
 module.exports = Partida;

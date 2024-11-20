@@ -5,6 +5,7 @@ import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
 import '../Style/Backoffice.css';
 import PartidasTitle from '../Components/PartidasPage/PartidasTitle';
+import PartidasTable from '../Components/PartidasPage/PartidasTable'; // Tabela de relatórios
 
 function Atletas() {
 
@@ -21,6 +22,7 @@ function Atletas() {
                 <Navbar />
                 <div className='sub-main-content'>
                     <PartidasTitle /> {/* Exibe a tabela de atletas */}
+                    <PartidasTable /> {/* Exibe a tabela de atletas */}
                     
                 </div>
             </div>
