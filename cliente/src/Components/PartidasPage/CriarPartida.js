@@ -13,19 +13,22 @@ function CriarPartida() {
     const [local, setLocal] = useState('');
     const [timeMandanteNome, setTimeMandanteNome] = useState('');
     const [timeVisitanteNome, setTimeVisitanteNome] = useState('');
-    const [jogadoresNomes, setJogadoresNomes] = useState([]);  // Agora é uma lista de nomes de jogadores
-    const [scoutsIds, setScoutsIds] = useState([]);
-    const [times, setTimes] = useState([]);  // Lista de times
-    const [jogadores, setJogadores] = useState([]);  // Lista de jogadores
+    const [jogadoresNomes, setJogadoresNomes] = useState([]);  
+    const [scoutsNomes, setScoutsNomes] = useState([]);  // Lista de nomes de scouts
+    const [scoutsIds, setScoutsIds] = useState([]);  // IDs de scouts selecionados
+    const [times, setTimes] = useState([]);  
+    const [jogadores, setJogadores] = useState([]);  
+    const [scouts, setScouts] = useState([]);  // Lista de scouts
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [jogadoresDisponiveis, setJogadoresDisponiveis] = useState([]); 
     const navigate = useNavigate();
 
     // Função para buscar os times
     useEffect(() => {
-        axios.get('http://localhost:3000/times')  // Alterar para o endpoint correto
+        axios.get('http://localhost:3000/times')  
             .then((response) => {
-                setTimes(response.data);  // Atualiza o estado com os times recebidos
+                setTimes(response.data);  
             })
             .catch((error) => {
                 console.error('Erro ao buscar os times', error);
@@ -35,9 +38,9 @@ function CriarPartida() {
 
     // Função para buscar os jogadores
     useEffect(() => {
-        axios.get('http://localhost:3000/atletas')  // Alterar para o endpoint correto
+        axios.get('http://localhost:3000/atletas')  
             .then((response) => {
-                setJogadores(response.data);  // Atualiza o estado com os jogadores recebidos
+                setJogadores(response.data);  
             })
             .catch((error) => {
                 console.error('Erro ao buscar os jogadores', error);
@@ -45,10 +48,33 @@ function CriarPartida() {
             });
     }, []);
 
+    // Função para buscar os scouts
+    useEffect(() => {
+        axios.get('http://localhost:3000/utilizadores')  // Endpoint para scouts
+            .then((response) => {
+                setScouts(response.data);  // Atualiza o estado com os scouts recebidos
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar os scouts', error);
+                setError('Erro ao buscar os scouts.');
+            });
+    }, []);
+
+    // Função para encontrar o ID do scout a partir do nome
+    const getScoutIdByNome = (nome) => {
+        const scout = scouts.find(scout => scout.nome.toLowerCase() === nome.toLowerCase());
+        return scout ? scout.id : null;
+    };
+
     // Função para encontrar o ID do time a partir do nome
     const getTimeIdByNome = (nome) => {
         const time = times.find(time => time.nome.toLowerCase() === nome.toLowerCase());
         return time ? time.id : null;
+    };
+
+    // Função para filtrar jogadores pelo time
+    const getJogadoresPorTime = (timeId) => {
+        return jogadores.filter(jogador => jogador.timeId === timeId); 
     };
 
     // Função para encontrar o ID do jogador a partir do nome
@@ -57,27 +83,56 @@ function CriarPartida() {
         return jogador ? jogador.id : null;
     };
 
+    const handleTimeMandanteChange = (e) => {
+        const nomeTimeMandante = e.target.value;
+        setTimeMandanteNome(nomeTimeMandante);
+
+        // Encontrar o ID do time mandante e filtrar jogadores
+        const timeMandanteId = getTimeIdByNome(nomeTimeMandante);
+        if (timeMandanteId) {
+            const jogadoresDoTimeMandante = getJogadoresPorTime(timeMandanteId);
+            setJogadoresDisponiveis(jogadoresDoTimeMandante); 
+        } else {
+            setJogadoresDisponiveis([]); // Limpa os jogadores se o time não for encontrado
+        }
+    };
+
+    // Função para lidar com a seleção de jogadores
+    const handleJogadorSelect = (nome) => {
+        if (jogadoresNomes.includes(nome)) {
+            setJogadoresNomes(jogadoresNomes.filter(jogador => jogador !== nome));
+        } else {
+            setJogadoresNomes([...jogadoresNomes, nome]);
+        }
+    };
+
+    // Função para lidar com a seleção de scouts
+    const handleScoutSelect = (nome) => {
+        if (scoutsNomes.includes(nome)) {
+            setScoutsNomes(scoutsNomes.filter(scout => scout !== nome));
+        } else {
+            setScoutsNomes([...scoutsNomes, nome]);
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Validação de campos obrigatórios
         if (!data || !hora || !local || !timeMandanteNome || !jogadoresNomes.length) {
             Swal.fire('Erro!', 'Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
         }
 
-        // Certificar-se de que o campo 'timeVisitanteNome' seja opcional
         const timeMandanteId = getTimeIdByNome(timeMandanteNome);
         const timeVisitanteId = timeVisitanteNome ? getTimeIdByNome(timeVisitanteNome) : null;
 
-        // Se o timeMandanteId não foi encontrado, mostra um alerta de erro
         if (!timeMandanteId) {
             Swal.fire('Erro!', 'Time mandante não encontrado. Verifique o nome digitado.', 'error');
             return;
         }
 
-        // Convertendo os nomes dos jogadores para IDs
         const jogadoresIds = jogadoresNomes.map(nome => getJogadorIdByNome(nome)).filter(id => id !== null);
+        const scoutsIds = scoutsNomes.map(nome => getScoutIdByNome(nome)).filter(id => id !== null);
 
         if (jogadoresIds.length === 0) {
             Swal.fire('Erro!', 'Nenhum jogador encontrado. Verifique os nomes digitados.', 'error');
@@ -92,7 +147,7 @@ function CriarPartida() {
                 hora,
                 local,
                 timeMandanteId,
-                timeVisitanteId,  // Pode ser null ou um número válido
+                timeVisitanteId,
                 jogadoresIds,
                 scoutsIds
             })
@@ -164,7 +219,7 @@ function CriarPartida() {
                                     type="text"
                                     placeholder="Digite o nome do time mandante"
                                     value={timeMandanteNome}
-                                    onChange={(e) => setTimeMandanteNome(e.target.value)}
+                                    onChange={handleTimeMandanteChange}
                                 />
                             </div>
                             <div>
@@ -179,21 +234,27 @@ function CriarPartida() {
                             </div>
                             <div>
                                 <label>Jogadores (nomes separados por vírgula):</label>
-                                <input 
-                                    className="inputPJ" 
-                                    type="text" 
-                                    value={jogadoresNomes} 
-                                    onChange={(e) => setJogadoresNomes(e.target.value.split(','))} 
-                                    placeholder="Digite os nomes dos jogadores separados por vírgula"
-                                />
+                                {jogadoresDisponiveis.map(jogador => (
+                                    <div key={jogador.id}>
+                                        <input 
+                                            type="checkbox"
+                                            id={jogador.id}
+                                            value={jogador.nome}
+                                            checked={jogadoresNomes.includes(jogador.nome)}
+                                            onChange={() => handleJogadorSelect(jogador.nome)}
+                                        />
+                                        <label htmlFor={jogador.id}>{jogador.nome}</label>
+                                    </div>
+                                ))}
                             </div>
                             <div>
-                                <label>Scouts (IDs separados por vírgula):</label>
-                                <input 
-                                    className="inputPJ" 
-                                    type="text" 
-                                    value={scoutsIds} 
-                                    onChange={(e) => setScoutsIds(e.target.value.split(','))} 
+                                <label>Scouts (nomes separados por vírgula):</label>
+                                <input
+                                    className="inputPJ"
+                                    type="text"
+                                    placeholder="Digite os nomes dos scouts separados por vírgula"
+                                    value={scoutsNomes.join(', ')}
+                                    onChange={(e) => setScoutsNomes(e.target.value.split(',').map(nome => nome.trim()))}
                                 />
                             </div>
 
