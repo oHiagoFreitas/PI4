@@ -1,4 +1,5 @@
-const Time = require('../models/Time'); // ajuste o caminho conforme necessário
+const Time = require('../models/Time'); // Ajuste conforme o caminho do modelo
+const Jogador = require('../models/Atleta'); // Ajuste conforme o seu modelo de Jogador
 
 // Criar um novo time
 exports.createTime = async (req, res) => {
@@ -12,9 +13,12 @@ exports.createTime = async (req, res) => {
 
         // Cria o novo time se o nome for único
         const novoTime = await Time.create({ nome, pais, categoria, descricao });
-        res.status(201).json(novoTime);
+        res.status(201).json({
+            message: 'Time criado com sucesso!',
+            data: novoTime
+        });
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao criar time' });
+        res.status(500).json({ error: `Erro ao criar time: ${error.message}` });
     }
 };
 
@@ -22,9 +26,9 @@ exports.createTime = async (req, res) => {
 exports.getAllTimes = async (req, res) => {
     try {
         const times = await Time.findAll();
-        res.json(times);
+        res.status(200).json(times);
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar times' });
+        res.status(500).json({ error: `Erro ao buscar times: ${error.message}` });
     }
 };
 
@@ -32,14 +36,16 @@ exports.getAllTimes = async (req, res) => {
 exports.getTimeById = async (req, res) => {
     const { id } = req.params;
     try {
-        const time = await Time.findByPk(id);
+        const time = await Time.findByPk(id, {
+            include: [{ model: Jogador, as: 'jogadores' }] // Inclui jogadores, caso haja relação
+        });
         if (time) {
-            res.json(time);
+            res.status(200).json(time);
         } else {
             res.status(404).json({ error: 'Time não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar time' });
+        res.status(500).json({ error: `Erro ao buscar time: ${error.message}` });
     }
 };
 
@@ -56,12 +62,15 @@ exports.updateTime = async (req, res) => {
             time.descricao = descricao;
             time.status = status;
             await time.save();
-            res.json(time);
+            res.status(200).json({
+                message: 'Time atualizado com sucesso!',
+                data: time
+            });
         } else {
             res.status(404).json({ error: 'Time não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao atualizar time' });
+        res.status(500).json({ error: `Erro ao atualizar time: ${error.message}` });
     }
 };
 
@@ -77,11 +86,11 @@ exports.deleteTime = async (req, res) => {
             res.status(404).json({ error: 'Time não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao apagar time' });
+        res.status(500).json({ error: `Erro ao apagar time: ${error.message}` });
     }
 };
 
-// Aprovar um time (opcional)
+// Aprovar um time
 exports.approveTime = async (req, res) => {
     const { id } = req.params;
     try {
@@ -89,16 +98,19 @@ exports.approveTime = async (req, res) => {
         if (time) {
             time.status = 'aprovado'; // Atualiza o status para "aprovado"
             await time.save();
-            res.json(time);
+            res.status(200).json({
+                message: 'Time aprovado com sucesso!',
+                data: time
+            });
         } else {
             res.status(404).json({ error: 'Time não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao aprovar time' });
+        res.status(500).json({ error: `Erro ao aprovar time: ${error.message}` });
     }
 };
 
-// Rejeitar um time (opcional)
+// Rejeitar um time
 exports.rejectTime = async (req, res) => {
     const { id } = req.params;
     try {
@@ -106,16 +118,19 @@ exports.rejectTime = async (req, res) => {
         if (time) {
             time.status = 'rejeitado'; // Atualiza o status para "rejeitado"
             await time.save();
-            res.json(time);
+            res.status(200).json({
+                message: 'Time rejeitado com sucesso!',
+                data: time
+            });
         } else {
             res.status(404).json({ error: 'Time não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao rejeitar time' });
+        res.status(500).json({ error: `Erro ao rejeitar time: ${error.message}` });
     }
 };
 
-// Desativar um time (opcional)
+// Desativar um time
 exports.deactivateTime = async (req, res) => {
     const { id } = req.params;
     try {
@@ -123,11 +138,29 @@ exports.deactivateTime = async (req, res) => {
         if (time) {
             time.status = 'desativado'; // Atualiza o status para "desativado"
             await time.save();
-            res.json(time);
+            res.status(200).json({
+                message: 'Time desativado com sucesso!',
+                data: time
+            });
         } else {
             res.status(404).json({ error: 'Time não encontrado' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao desativar time' });
+        res.status(500).json({ error: `Erro ao desativar time: ${error.message}` });
+    }
+};
+
+// Recuperar jogadores de um time
+exports.getJogadoresByTimeId = async (req, res) => {
+    const { timeId } = req.params;
+    try {
+        const jogadores = await Jogador.findAll({ where: { timeId } });
+        if (jogadores.length > 0) {
+            res.status(200).json(jogadores);
+        } else {
+            res.status(404).json({ error: 'Nenhum jogador encontrado para esse time' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: `Erro ao buscar jogadores: ${error.message}` });
     }
 };

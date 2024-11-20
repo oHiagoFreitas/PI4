@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const timesController = require('../controllers/TimeController'); // ajuste o caminho conforme necessário
+const timesController = require('../controllers/TimeController'); // Ajuste o caminho conforme necessário
 
 // Rota para obter todos os times
 router.get('/', timesController.getAllTimes);
@@ -25,5 +25,8 @@ router.put('/:id/rejeitar', timesController.rejectTime);
 
 // Rota para desativar um time (opcional)
 router.put('/:id/desativar', timesController.deactivateTime);
+
+// Rota para recuperar os jogadores de um time específico
+router.get('/:timeId/jogadores', timesController.getJogadoresByTimeId);
 
 module.exports = router;

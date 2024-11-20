@@ -13,9 +13,10 @@ function CriarPartida() {
     const [local, setLocal] = useState('');
     const [timeMandanteNome, setTimeMandanteNome] = useState('');
     const [timeVisitanteNome, setTimeVisitanteNome] = useState('');
-    const [jogadoresIds, setJogadoresIds] = useState([]);
+    const [jogadoresNomes, setJogadoresNomes] = useState([]);  // Agora é uma lista de nomes de jogadores
     const [scoutsIds, setScoutsIds] = useState([]);
     const [times, setTimes] = useState([]);  // Lista de times
+    const [jogadores, setJogadores] = useState([]);  // Lista de jogadores
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
@@ -32,17 +33,35 @@ function CriarPartida() {
             });
     }, []);
 
+    // Função para buscar os jogadores
+    useEffect(() => {
+        axios.get('http://localhost:3000/atletas')  // Alterar para o endpoint correto
+            .then((response) => {
+                setJogadores(response.data);  // Atualiza o estado com os jogadores recebidos
+            })
+            .catch((error) => {
+                console.error('Erro ao buscar os jogadores', error);
+                setError('Erro ao buscar os jogadores.');
+            });
+    }, []);
+
     // Função para encontrar o ID do time a partir do nome
     const getTimeIdByNome = (nome) => {
         const time = times.find(time => time.nome.toLowerCase() === nome.toLowerCase());
         return time ? time.id : null;
     };
 
+    // Função para encontrar o ID do jogador a partir do nome
+    const getJogadorIdByNome = (nome) => {
+        const jogador = jogadores.find(jogador => jogador.nome.toLowerCase() === nome.toLowerCase());
+        return jogador ? jogador.id : null;
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         // Validação de campos obrigatórios
-        if (!data || !hora || !local || !timeMandanteNome || !jogadoresIds.length) {
+        if (!data || !hora || !local || !timeMandanteNome || !jogadoresNomes.length) {
             Swal.fire('Erro!', 'Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
         }
@@ -54,6 +73,14 @@ function CriarPartida() {
         // Se o timeMandanteId não foi encontrado, mostra um alerta de erro
         if (!timeMandanteId) {
             Swal.fire('Erro!', 'Time mandante não encontrado. Verifique o nome digitado.', 'error');
+            return;
+        }
+
+        // Convertendo os nomes dos jogadores para IDs
+        const jogadoresIds = jogadoresNomes.map(nome => getJogadorIdByNome(nome)).filter(id => id !== null);
+
+        if (jogadoresIds.length === 0) {
+            Swal.fire('Erro!', 'Nenhum jogador encontrado. Verifique os nomes digitados.', 'error');
             return;
         }
 
@@ -151,12 +178,13 @@ function CriarPartida() {
                                 />
                             </div>
                             <div>
-                                <label>Jogadores (IDs separados por vírgula):</label>
+                                <label>Jogadores (nomes separados por vírgula):</label>
                                 <input 
                                     className="inputPJ" 
                                     type="text" 
-                                    value={jogadoresIds} 
-                                    onChange={(e) => setJogadoresIds(e.target.value.split(','))} 
+                                    value={jogadoresNomes} 
+                                    onChange={(e) => setJogadoresNomes(e.target.value.split(','))} 
+                                    placeholder="Digite os nomes dos jogadores separados por vírgula"
                                 />
                             </div>
                             <div>
