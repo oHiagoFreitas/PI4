@@ -72,7 +72,7 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="8" className="loading-messageAT">Carregando partidas...</td>
+                            <td colSpan="8" className="loading-messageAT">Nenhuma Partida Encontrada</td>
                         </tr>
                     )}
                 </tbody>

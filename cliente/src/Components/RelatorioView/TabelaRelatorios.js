@@ -56,7 +56,7 @@ function TabelaRelatorios({ relatorios, handleEdit, handleDelete }) {
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="10" className="loading-messageAT">Carregando relatórios...</td>
+                            <td colSpan="10" className="loading-messageAT">Nenhum relatório Encontrado</td>
                         </tr>
                     )}
                 </tbody>
