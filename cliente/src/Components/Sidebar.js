@@ -32,6 +32,10 @@ function Sidebar() {
                     <Link to="/partidas">Partidas</Link> {/* Link para a página de Partidas */}
                 </li>
                 <li>
+                    <i className="bi bi-trophy"></i>
+                    <Link to="/times">Clubes</Link> {/* Link para a página de Atletas */}
+                </li>
+                <li>
                     <i className="bi bi-person"></i>
                     <Link to="/atletas">Atletas</Link> {/* Link para a página de Atletas */}
                 </li>

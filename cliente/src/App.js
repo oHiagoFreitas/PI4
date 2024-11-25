@@ -12,6 +12,7 @@ import RelatorioDetalhes from "./Components/RelatorioView/RelatorioDetalhes";
 import Utilizadores from './View/Utilizadores';
 import PartidasPage from './View/PartidasPage'; // Página de Partidas
 import CriarPartida from './Components/PartidasPage/CriarPartida';
+import Time from './View/Time';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/Utilizadores" element={<Utilizadores />} />
         <Route path="/partidas" element={<PartidasPage />} /> {/* Página de Partidas */}
         <Route path="/criar-partida" element={<CriarPartida />} />
+        <Route path="/times" element={<Time />} />
         
       </Routes>
     </Router>
