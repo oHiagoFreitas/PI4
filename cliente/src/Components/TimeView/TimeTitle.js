@@ -7,7 +7,7 @@ import '../../Style/AtletasTitle.css';
 const TimeTitle = () => {
     return (
         <div className="AtletasTitleMessage">
-            <h1>Time</h1>
+            <h1>Clubes</h1>
         </div>
     );
 };
