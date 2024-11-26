@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Para capturar os parâmetros da URL
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import CriandoESTitle from "./CriandoESTitle";
 import Modal from "./ModalJogadores";
+import CampoFutebol from "./CampoFutebol";
+import EquipeSombraForm from "./EquipeSombraForm";
+import TabelaJogadores from "./TabelaJogadores"; // Importa o componente TabelaJogadores
 import "../../Style/EquipaSombra.css";
 
 function CriarEquipeComJogadores() {
-    const { id } = useParams(); // Captura o ID da URL
-    console.log("ID capturado da URL:", id);
-    const [equipeSombraId, setEquipeSombraId] = useState(null); // Inicializa como null
+    const [equipeSombraId, setEquipeSombraId] = useState(null);
     const [players, setPlayers] = useState([]);
     const [positions, setPositions] = useState({});
+    const [ratings, setRatings] = useState({}); // Novo estado para armazenar ratings dos jogadores
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
-
-    // Atualiza o estado 'equipeSombraId' com o valor de 'id' quando o componente for montado
-    useEffect(() => {
-        if (id) {
-            setEquipeSombraId(id); // Atualiza o ID da equipe sombra com o valor da URL
-        }
-        console.log("ID da equipe sombra:", equipeSombraId);
-    }, [id]); // Só será atualizado se o ID mudar
 
     // Função para carregar os jogadores da API
     useEffect(() => {
@@ -29,6 +22,21 @@ function CriarEquipeComJogadores() {
             .then(response => response.json())
             .then(data => setPlayers(data))
             .catch(error => console.error("Erro ao carregar jogadores:", error));
+    }, []);
+
+    // Função para carregar os ratings dos jogadores
+    useEffect(() => {
+        fetch("http://localhost:3000/relatorios")
+            .then(response => response.json())
+            .then(data => {
+                // Mapeia os ratings para o id do atleta
+                const ratingsMap = data.reduce((acc, report) => {
+                    acc[report.atletaId] = report.ratingFinal;
+                    return acc;
+                }, {});
+                setRatings(ratingsMap);
+            })
+            .catch(error => console.error("Erro ao carregar relatórios:", error));
     }, []);
 
     // Função para abrir a modal com as informações do jogador
@@ -50,6 +58,7 @@ function CriarEquipeComJogadores() {
             [positionId]: {
                 id: player.id,
                 nome: player.nome,
+                rating: ratings[player.id] || "N/A", // Adiciona o rating ao jogador
             },
         }));
         closeModal(); // Fecha a modal após a seleção
@@ -62,6 +71,15 @@ function CriarEquipeComJogadores() {
         );
     };
 
+    // Função para remover um jogador de uma posição
+    const onRemovePlayer = (positionId) => {
+        setPositions((prevPositions) => {
+            const newPositions = { ...prevPositions };
+            delete newPositions[positionId]; // Remove o jogador da posição
+            return newPositions;
+        });
+    };
+
     // Função para salvar a equipe
     const salvarEquipe = () => {
         if (!equipeSombraId) {
@@ -69,12 +87,12 @@ function CriarEquipeComJogadores() {
             return;
         }
 
-        console.log("Equipe Sombra ID:", equipeSombraId); // Verifique se o ID está correto
+        console.log("Equipe Sombra ID:", equipeSombraId);
 
         const jogadoresIds = Object.values(positions).map(player => player.id);
         const requestData = {
-            equipeSombraId: equipeSombraId, // Passando o ID da equipe sombra
-            jogadoresIds: jogadoresIds, // Passando os IDs dos jogadores
+            equipeSombraId: equipeSombraId, 
+            jogadoresIds: jogadoresIds, 
         };
 
         console.log("Dados enviados:", requestData);
@@ -109,100 +127,18 @@ function CriarEquipeComJogadores() {
                     <div className="criar-equipe-container">
                         <CriandoESTitle />
 
-                        <div className="campo-futebol">
-                            <div
-                                className="jogador"
-                                style={{ top: '53.5%', left: '19%' }}
-                                title="Guarda redes"
-                                onClick={() => openModal("Guarda redes", "pos1")}
-                            >
-                                {positions["pos1"] ? positions["pos1"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '30%', left: '28%' }}
-                                title="Defesa Esquerda"
-                                onClick={() => openModal("Defesa Esquerda", "pos2")}
-                            >
-                                {positions["pos2"] ? positions["pos2"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '45%', left: '26%' }}
-                                title="Defesa Central"
-                                onClick={() => openModal("Defesa Central", "pos3")}
-                            >
-                                {positions["pos3"] ? positions["pos3"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '60%', left: '26%' }}
-                                title="Defesa Central"
-                                onClick={() => openModal("Defesa Central", "pos4")}
-                            >
-                                {positions["pos4"] ? positions["pos4"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '75%', left: '28%' }}
-                                title="Defesa Direita"
-                                onClick={() => openModal("Defesa Direita", "pos5")}
-                            >
-                                {positions["pos5"] ? positions["pos5"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '53.5%', left: '45%' }}
-                                title="Meio Campista"
-                                onClick={() => openModal("Meio Campista", "pos6")}
-                            >
-                                {positions["pos6"] ? positions["pos6"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '66%', left: '37%' }}
-                                title="Meio Campista"
-                                onClick={() => openModal("Meio Campista", "pos7")}
-                            >
-                                {positions["pos7"] ? positions["pos7"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '40%', left: '37%' }}
-                                title="Meio Campista"
-                                onClick={() => openModal("Meio Campista", "pos8")}
-                            >
-                                {positions["pos8"] ? positions["pos8"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '35%', left: '52%' }}
-                                title="Atacante"
-                                onClick={() => openModal("Atacante", "pos9")}
-                            >
-                                {positions["pos9"] ? positions["pos9"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '75%', left: '52%' }}
-                                title="Atacante"
-                                onClick={() => openModal("Atacante", "pos10")}
-                            >
-                                {positions["pos10"] ? positions["pos10"].nome : ""}
-                            </div>
-                            <div
-                                className="jogador"
-                                style={{ top: '53.5%', left: '56%' }}
-                                title="Atacante"
-                                onClick={() => openModal("Atacante", "pos11")}
-                            >
-                                {positions["pos11"] ? positions["pos11"].nome : ""}
-                            </div>
-                        </div>
+                        <CampoFutebol
+                            positions={positions}
+                            openModal={openModal}
+                        />
 
                         <button onClick={salvarEquipe} className="btn-salvar-equipe">
                             Salvar Equipe
                         </button>
+
+                        {/* Tabela de Jogadores */}
+                        <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} />
+
                     </div>
                 </div>
             </div>
@@ -216,6 +152,7 @@ function CriarEquipeComJogadores() {
                 players={getAvailablePlayers(selectedPlayer ? selectedPlayer.playerPosition : "")}
                 assignPlayerToPosition={assignPlayerToPosition}
             />
+            <EquipeSombraForm setEquipeSombraId={setEquipeSombraId} />
         </div>
     );
 }

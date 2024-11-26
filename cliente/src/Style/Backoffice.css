@@ -264,3 +264,28 @@
     background-color: #c79d55;
     transform: scale(1.05);
 }
+
+/* EquipaSombra.css */
+.tabela-jogadores {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.tabela-jogadores th, .tabela-jogadores td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.tabela-jogadores th {
+    background-color: #f4f4f4;
+}
+
+.tabela-jogadores tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tabela-jogadores tr:hover {
+    background-color: #f1f1f1;
+}
