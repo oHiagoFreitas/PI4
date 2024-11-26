@@ -1,7 +1,9 @@
 // src/models/EquipeSombra.js
+
 const Sequelize = require('sequelize');
 const sequelize = require('../database');
 const Formacao = require('./Formacao'); // Ajuste o caminho conforme necessário
+const Atleta = require('./Atleta'); // Associar jogadores
 
 const EquipeSombra = sequelize.define('equipeSombra', {
     id: {
@@ -25,15 +27,25 @@ const EquipeSombra = sequelize.define('equipeSombra', {
         type: Sequelize.INTEGER,
         references: {
             model: Formacao,
-            key: 'id'
-        }
+            key: 'id',
+        },
+    },
+    // Podemos adicionar um campo de estado, se necessário (ativo/inativo, etc)
+    status: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: 'ativo',
     }
 }, {
-    timestamps: true, // se você quiser timestamps
+    timestamps: true, // Mantém o createdAt e updatedAt
 });
 
 // Associações
 EquipeSombra.belongsTo(Formacao, { foreignKey: 'formacaoId' });
 Formacao.hasMany(EquipeSombra, { foreignKey: 'formacaoId' });
+
+// Relacionamento com Atletas (jogadores que fazem parte da equipe)
+EquipeSombra.belongsToMany(Atleta, { through: 'EquipeSombraAtletas', as: 'atletas' });
+Atleta.belongsToMany(EquipeSombra, { through: 'EquipeSombraAtletas', as: 'equipesSombra' });
 
 module.exports = EquipeSombra;

@@ -1,4 +1,3 @@
-// src/routes/equipeSombraRoutes.js
 const express = require('express');
 const router = express.Router();
 const equipeSombraController = require('../controllers/EquipeSombraController');
@@ -8,5 +7,11 @@ router.post('/', equipeSombraController.createEquipeSombra);
 
 // Rota para obter todas as equipes sombra
 router.get('/', equipeSombraController.getAllEquipesSombra);
+
+// Rota para adicionar jogadores a uma equipe sombra
+router.post('/jogadores', equipeSombraController.addJogadoresToEquipeSombra);
+
+// Rota para remover jogadores de uma equipe sombra
+router.post('/remover-jogadores', equipeSombraController.removeJogadoresFromEquipeSombra);
 
 module.exports = router;

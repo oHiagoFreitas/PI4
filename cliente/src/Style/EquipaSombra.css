@@ -1,0 +1,98 @@
+/* Criar Equipe com Jogadores */
+.criar-equipe-container {
+    padding: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.jogadores-container {
+    margin-top: 15px;
+}
+
+.jogador-bolinha {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.remove-jogador {
+    margin-left: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.button-criar-equipe,
+.button-voltar {
+    padding: 10px 20px;
+    background-color: #DEAF5E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.button-criar-equipe:hover,
+.button-voltar:hover {
+    background-color: #c79d55;
+    transform: scale(1.05);
+}
+
+/* Estilo para o Campo de Futebol */
+/* Estilo para o Campo de Futebol com Imagem de Tamanho Exato de Largura */
+.campo-futebol {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    width: 70%; /* O campo vai ocupar toda a largura disponível */
+    height: 700px; /* Altura fixa para o campo */
+    background-image: url('../img/campo.jpg'); /* Caminho relativo para a imagem */
+    background-size: 100% auto; /* A imagem vai ocupar 100% da largura e a altura será ajustada automaticamente */
+    background-position: center; /* Centraliza a imagem */
+    border: 2px solid #fff; /* Borda branca ao redor do campo */
+    border-radius: 5px; /* Bordas arredondadas */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombras para dar um efeito de profundidade */
+}
+
+
+.campo {
+    position: relative;
+    width: 100%; /* Faz com que o campo ocupe toda a largura do contêiner */
+    height: 100%; /* Faz com que o campo ocupe toda a altura do contêiner */
+    background-color: #228B22; /* Cor do campo (gramado) */
+    border: 2px solid #fff; /* Borda branca ao redor do campo */
+    border-radius: 5px;
+}
+
+/* Estilo para as Bolinhas (Jogadores) */
+.jogador {
+    position: absolute;
+    width: 100px; /* Largura da bolinha */
+    height: 100px; /* Altura da bolinha */
+    background-color: #ff0000; /* Cor da bolinha (vermelho neste exemplo) */
+    border-radius: 50%; /* Tornar a bolinha redonda */
+    border: 2px solid #fff; /* Borda branca para dar destaque */
+    cursor: pointer; /* Mostrar que é interativo */
+    transition: transform 0.3s; /* Efeito de transição ao passar o mouse */
+}
+
+/* Efeito de transformação ao passar o mouse sobre a bolinha */
+.jogador:hover {
+    transform: scale(1.2); /* Aumenta o tamanho da bolinha ao passar o mouse */
+}
