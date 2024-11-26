@@ -8,6 +8,8 @@ import UserDetailsModal from './DetalhesUtilizadorModal'; // Modal para detalhes
 import TeamDetailsModal from './DetalhesTimeModal'; // Modal para detalhes do time
 import Pagination from '../Pagination'; // Importando o componente de Paginação
 
+
+
 // Componente da Tabela de Pendentes
 function TabelaPendentes() {
   const [pendentes, setPendentes] = useState({
@@ -22,6 +24,8 @@ function TabelaPendentes() {
 
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false); // Controle do modal de times
   const [selectedTeam, setSelectedTeam] = useState(null); // Armazena o time selecionado
+
+  
 
   // Controle de paginação
   const [currentPage, setCurrentPage] = useState(1);
