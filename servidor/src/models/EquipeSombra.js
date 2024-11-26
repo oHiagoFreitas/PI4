@@ -2,7 +2,7 @@
 
 const Sequelize = require('sequelize');
 const sequelize = require('../database');
-const Formacao = require('./Formacao'); // Ajuste o caminho conforme necessário
+const Formacao = require('./Formacao');
 const Atleta = require('./Atleta'); // Associar jogadores
 
 const EquipeSombra = sequelize.define('equipeSombra', {
@@ -30,7 +30,6 @@ const EquipeSombra = sequelize.define('equipeSombra', {
             key: 'id',
         },
     },
-    // Podemos adicionar um campo de estado, se necessário (ativo/inativo, etc)
     status: {
         type: Sequelize.STRING,
         allowNull: true,
@@ -44,8 +43,21 @@ const EquipeSombra = sequelize.define('equipeSombra', {
 EquipeSombra.belongsTo(Formacao, { foreignKey: 'formacaoId' });
 Formacao.hasMany(EquipeSombra, { foreignKey: 'formacaoId' });
 
-// Relacionamento com Atletas (jogadores que fazem parte da equipe)
-EquipeSombra.belongsToMany(Atleta, { through: 'EquipeSombraAtletas', as: 'atletas' });
-Atleta.belongsToMany(EquipeSombra, { through: 'EquipeSombraAtletas', as: 'equipesSombra' });
+// Relacionamento muitos-para-muitos com Atletas (jogadores)
+EquipeSombra.belongsToMany(Atleta, {
+    through: 'EquipeSombraAtletas', 
+    as: 'atletas',
+    foreignKey: 'equipeSombraId',  // Chave estrangeira da EquipeSombra
+    otherKey: 'atletumId',          // Chave estrangeira de Atleta
+    timestamps: false               // Não precisamos dos timestamps na tabela de junção
+});
+
+Atleta.belongsToMany(EquipeSombra, {
+    through: 'EquipeSombraAtletas',
+    as: 'equipesSombra',
+    foreignKey: 'atletumId',        // Chave estrangeira de Atleta
+    otherKey: 'equipeSombraId',     // Chave estrangeira de EquipeSombra
+    timestamps: false               // Não precisamos dos timestamps na tabela de junção
+});
 
 module.exports = EquipeSombra;

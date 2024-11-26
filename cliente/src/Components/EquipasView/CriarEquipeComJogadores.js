@@ -1,18 +1,35 @@
-// src/components/CriarEquipeComJogadores.js
-
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // Para capturar os parâmetros da URL
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
-import CriandoESTitle from "./CriandoESTitle"; // Importe o componente CriandoESTitle
-import Modal from "./ModalJogadores"; // Importando o componente Modal
-import "../../Style/EquipaSombra.css"; // Estilos
+import CriandoESTitle from "./CriandoESTitle";
+import Modal from "./ModalJogadores";
+import "../../Style/EquipaSombra.css";
 
 function CriarEquipeComJogadores() {
-    // Estado para controlar a visibilidade da modal, o jogador selecionado e os jogadores nas posições
+    const { id } = useParams(); // Captura o ID da URL
+    console.log("ID capturado da URL:", id);
+    const [equipeSombraId, setEquipeSombraId] = useState(null); // Inicializa como null
+    const [players, setPlayers] = useState([]);
+    const [positions, setPositions] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
-    const [players, setPlayers] = useState([]);
-    const [positions, setPositions] = useState({}); // Armazenar os jogadores nas posições
+
+    // Atualiza o estado 'equipeSombraId' com o valor de 'id' quando o componente for montado
+    useEffect(() => {
+        if (id) {
+            setEquipeSombraId(id); // Atualiza o ID da equipe sombra com o valor da URL
+        }
+        console.log("ID da equipe sombra:", equipeSombraId);
+    }, [id]); // Só será atualizado se o ID mudar
+
+    // Função para carregar os jogadores da API
+    useEffect(() => {
+        fetch("http://localhost:3000/atletas")
+            .then(response => response.json())
+            .then(data => setPlayers(data))
+            .catch(error => console.error("Erro ao carregar jogadores:", error));
+    }, []);
 
     // Função para abrir a modal com as informações do jogador
     const openModal = (playerPosition, positionId) => {
@@ -26,29 +43,61 @@ function CriarEquipeComJogadores() {
         setSelectedPlayer(null);
     };
 
-    // Função para carregar os jogadores da API
-    useEffect(() => {
-        fetch("http://localhost:3000/atletas")
-            .then(response => response.json())
-            .then(data => setPlayers(data))
-            .catch(error => console.error("Erro ao carregar jogadores:", error));
-    }, []);
-
     // Função para alocar jogador na posição
     const assignPlayerToPosition = (player, positionId) => {
         setPositions((prevPositions) => ({
             ...prevPositions,
-            [positionId]: player, // Armazena o jogador na posição
+            [positionId]: {
+                id: player.id,
+                nome: player.nome,
+            },
         }));
         closeModal(); // Fecha a modal após a seleção
     };
 
     // Função para filtrar jogadores já selecionados
     const getAvailablePlayers = (selectedPosition) => {
-        // Filtra jogadores que não estão alocados em nenhuma posição ainda
-        return players.filter(player => 
+        return players.filter(player =>
             !Object.values(positions).some(p => p.id === player.id) && player.posicao === selectedPosition
         );
+    };
+
+    // Função para salvar a equipe
+    const salvarEquipe = () => {
+        if (!equipeSombraId) {
+            alert("ID da equipe sombra não encontrado.");
+            return;
+        }
+
+        console.log("Equipe Sombra ID:", equipeSombraId); // Verifique se o ID está correto
+
+        const jogadoresIds = Object.values(positions).map(player => player.id);
+        const requestData = {
+            equipeSombraId: equipeSombraId, // Passando o ID da equipe sombra
+            jogadoresIds: jogadoresIds, // Passando os IDs dos jogadores
+        };
+
+        console.log("Dados enviados:", requestData);
+
+        fetch("http://localhost:3000/equipeSombra/jogadores", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Jogadores adicionados com sucesso!") {
+                    alert("Equipe salva com sucesso!");
+                } else {
+                    alert("Erro ao salvar equipe.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao salvar equipe:", error);
+                alert("Erro ao salvar equipe.");
+            });
     };
 
     return (
@@ -58,12 +107,9 @@ function CriarEquipeComJogadores() {
                 <Navbar />
                 <div className="sub-main-content">
                     <div className="criar-equipe-container">
-                        {/* Inserindo o título CriandoESTitle */}
                         <CriandoESTitle />
-                        
-                        {/* Retângulo de Campo com a Imagem de Fundo */}
+
                         <div className="campo-futebol">
-                            {/* Adicionando bolinhas de jogadores nas posições exatas com IDs únicos */}
                             <div
                                 className="jogador"
                                 style={{ top: '53.5%', left: '19%' }}
@@ -153,18 +199,22 @@ function CriarEquipeComJogadores() {
                                 {positions["pos11"] ? positions["pos11"].nome : ""}
                             </div>
                         </div>
+
+                        <button onClick={salvarEquipe} className="btn-salvar-equipe">
+                            Salvar Equipe
+                        </button>
                     </div>
                 </div>
             </div>
 
             {/* Modal */}
-            <Modal 
-                isOpen={isModalOpen} 
+            <Modal
+                isOpen={isModalOpen}
                 playerPosition={selectedPlayer ? selectedPlayer.playerPosition : ""}
                 positionId={selectedPlayer ? selectedPlayer.positionId : ""}
-                closeModal={closeModal} 
-                players={getAvailablePlayers(selectedPlayer ? selectedPlayer.playerPosition : "")} // Filtra jogadores disponíveis
-                assignPlayerToPosition={assignPlayerToPosition} // Passa a função para a modal
+                closeModal={closeModal}
+                players={getAvailablePlayers(selectedPlayer ? selectedPlayer.playerPosition : "")}
+                assignPlayerToPosition={assignPlayerToPosition}
             />
         </div>
     );

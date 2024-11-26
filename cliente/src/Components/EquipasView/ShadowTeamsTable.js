@@ -33,7 +33,7 @@ function ShadowTeamsTable() {
     const handleCreateShadowTeam = (newTeam) => {
         setShadowTeams([...shadowTeams, newTeam]);
         // Redireciona para a página de criação de equipe com jogadores, passando o id da equipe
-        navigate(`/criar-equipa-com-jogadores/${newTeam.id}`);
+        navigate(`/equipeSombra/${newTeam.id}`);
     };
 
     // Efeito para carregar as equipas sombras quando o componente for montado
@@ -60,9 +60,12 @@ function ShadowTeamsTable() {
                             <td>{team.descricao}</td>
                             <td>
                                 {/* Ações, como visualizar ou editar podem ser adicionadas aqui */}
-                                <button 
-                                    className="action-buttonES" 
-                                    onClick={() => navigate(`/criar-equipa-com-jogadores/${team.id}`)} 
+                                <button
+                                    className="action-buttonES"
+                                    onClick={() => {
+                                        console.log("ID da equipe sombra:", team.id); // Verifique o ID
+                                        navigate(`/equipeSombra/${team.id}`);
+                                    }}
                                 >
                                     Ver Detalhes
                                 </button>
@@ -78,10 +81,10 @@ function ShadowTeamsTable() {
             </button>
 
             {/* Modal de criação de equipa sombra */}
-            <CreateShadowTeamModal 
-                isOpen={isModalOpen} 
-                onClose={closeModal} 
-                onCreate={handleCreateShadowTeam} 
+            <CreateShadowTeamModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                onCreate={handleCreateShadowTeam}
             />
         </div>
     );

@@ -17,7 +17,7 @@ import Validacoes from './View/Validacoes';
 import UtilizadorDetalhe from "./Components/ValidacoesView/DetalhesUtilizador";
 import DetalhesTime from "./Components/TimeView/DetalhesTime";
 import Equipas from './View/Equipas';
-import CreateTeamWithPlayers from './Components/EquipasView/CriarEquipeComJogadores';
+import CriarEquipeComJogadores from './Components/EquipasView/CriarEquipeComJogadores';
 
 
 
@@ -43,7 +43,7 @@ const App = () => {
         <Route path="/utilizadores/detalhes/:id" element={<UtilizadorDetalhe />} />
         <Route path="/times/detalhes/:id" element={<DetalhesTime />} />
         <Route path="/Equipas" element={<Equipas />} />´
-        <Route path="/criar-equipa-com-jogadores/:teamId" element={<CreateTeamWithPlayers />} />
+        <Route path="/equipeSombra/:id" element={<CriarEquipeComJogadores />} />
      
         
         
