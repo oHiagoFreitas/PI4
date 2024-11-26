@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 import CreateAthleteModal from './CreateAthleteModal';
-import CreateUserModal from './CreateUserModal';
+import CreateUserModal from './CreateUserModaal';
 import CreateTeamModal from './CreateTeamModal';
 import CreateReportModal from './CreateReportModal'; // Importando o modal para criar relatórios
 import '../Style/Backoffice.css';
@@ -22,6 +23,23 @@ const Badges = () => {
 
     const openReportModal = () => setReportModalIsOpen(true); // Abre o modal de relatório
     const closeReportModal = () => setReportModalIsOpen(false); // Fecha o modal de relatório
+
+    // Função para lidar com a criação de um usuário, com SweetAlert
+    const handleCreateUser = () => {
+        Swal.fire({
+            title: 'Confirmar Criação de Usuário',
+            text: 'Tem certeza que deseja criar este usuário?',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, criar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Lógica para criar o usuário
+                console.log('Usuário criado!');
+            }
+        });
+    };
 
     return (
         <div className="badges-section">
