@@ -4,11 +4,8 @@ import Swal from 'sweetalert2'; // Importando o SweetAlert2
 import 'bootstrap-icons/font/bootstrap-icons.css'; // Importando os ícones do Bootstrap
 import { Link } from 'react-router-dom'; // Importando o Link do react-router-dom
 import '../../Style/UsuariosTable.css'; // Importando o CSS da tabela
-import UserDetailsModal from './DetalhesUtilizadorModal'; // Modal para detalhes do usuário
-import TeamDetailsModal from './DetalhesTimeModal'; // Modal para detalhes do time
 import Pagination from '../Pagination'; // Importando o componente de Paginação
-
-
+import FiltroCategoria from '../FiltroCategoria'; // Importando o componente FiltroCategoria
 
 // Componente da Tabela de Pendentes
 function TabelaPendentes() {
@@ -19,16 +16,8 @@ function TabelaPendentes() {
     utilizadores: [],
   });
 
-  const [isUserModalOpen, setIsUserModalOpen] = useState(false); // Controle do modal de usuários
-  const [selectedUsuario, setSelectedUsuario] = useState(null); // Armazena o usuário selecionado
-
-  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false); // Controle do modal de times
-  const [selectedTeam, setSelectedTeam] = useState(null); // Armazena o time selecionado
-
-  
-
-  // Controle de paginação
-  const [currentPage, setCurrentPage] = useState(1);
+  const [categoriaFiltro, setCategoriaFiltro] = useState(''); // Estado para o filtro de categoria
+  const [currentPage, setCurrentPage] = useState(1); // Estado de controle de paginação
   const pendentesPerPage = 5; // Número de pendentes por página
 
   // Carregar os dados de pendentes
@@ -103,48 +92,60 @@ function TabelaPendentes() {
       });
   };
 
-  // Função para abrir o modal de detalhes do usuário
-  const abrirModalDetalhesUsuario = (usuario) => {
-    setSelectedUsuario(usuario);
-    setIsUserModalOpen(true);
-  };
-
-  // Função para abrir o modal de detalhes do time
-  const abrirModalDetalhesTime = (time) => {
-    setSelectedTeam(time);
-    setIsTeamModalOpen(true);
-  };
-
   // Função de paginação
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Função para filtrar pendentes por categoria
+  const filtrarPendentesPorCategoria = () => {
+    if (categoriaFiltro === '') {
+      return pendentes; // Se nenhum filtro for selecionado, retorna todos os pendentes
+    }
+
+    // Filtra os pendentes pela categoria escolhida
+    return {
+      atletas: categoriaFiltro === 'Atleta' ? pendentes.atletas : [],
+      relatorios: categoriaFiltro === 'Relatório' ? pendentes.relatorios : [],
+      times: categoriaFiltro === 'Time' ? pendentes.times : [],
+      utilizadores: categoriaFiltro === 'Utilizador' ? pendentes.utilizadores : [],
+    };
+  };
+
+  // Obter os dados filtrados
+  const pendentesFiltrados = filtrarPendentesPorCategoria();
 
   // Calcular os pendentes da página atual
   const indexOfLastItem = currentPage * pendentesPerPage;
   const indexOfFirstItem = indexOfLastItem - pendentesPerPage;
-  const currentAtletas = pendentes.atletas.slice(indexOfFirstItem, indexOfLastItem);
-  const currentRelatorios = pendentes.relatorios.slice(indexOfFirstItem, indexOfLastItem);
-  const currentTimes = pendentes.times.slice(indexOfFirstItem, indexOfLastItem);
-  const currentUtilizadores = pendentes.utilizadores.slice(indexOfFirstItem, indexOfLastItem);
+  const currentAtletas = pendentesFiltrados.atletas.slice(indexOfFirstItem, indexOfLastItem);
+  const currentRelatorios = pendentesFiltrados.relatorios.slice(indexOfFirstItem, indexOfLastItem);
+  const currentTimes = pendentesFiltrados.times.slice(indexOfFirstItem, indexOfLastItem);
+  const currentUtilizadores = pendentesFiltrados.utilizadores.slice(indexOfFirstItem, indexOfLastItem);
 
   // Calcular o número total de páginas
   const totalPages = Math.ceil(
-    (pendentes.atletas.length +
-      pendentes.relatorios.length +
-      pendentes.times.length +
-      pendentes.utilizadores.length) /
-      pendentesPerPage
+    (pendentesFiltrados.atletas.length +
+      pendentesFiltrados.relatorios.length +
+      pendentesFiltrados.times.length +
+      pendentesFiltrados.utilizadores.length) / pendentesPerPage
   );
 
   return (
     <div className="usuarios-table-containerAAT">
+      {/* Filtro de Categoria */}
+      <FiltroCategoria
+        categoriaFiltro={categoriaFiltro}
+        setCategoriaFiltro={setCategoriaFiltro}
+      />
+
+      {/* Tabela com dados dos pendentes */}
       <table className="usuarios-tableAAT table table-striped">
         <thead>
           <tr>
             <th>Categoria</th>
-            <th>Nome</th>
+            <th>Nome/Rating Final</th>
             <th>Status</th>
             <th>Data de Solicitação</th>
-            <th>Ações</th>
+            <th>Ações</th> {/* Adicionando coluna de ações */}
           </tr>
         </thead>
         <tbody>
@@ -182,7 +183,7 @@ function TabelaPendentes() {
             currentRelatorios.map((relatorio) => (
               <tr key={relatorio.id}>
                 <td>Relatório</td>
-                <td>{relatorio.tecnica}</td>
+                <td>{relatorio.ratingFinal}</td>
                 <td>{relatorio.status}</td>
                 <td>{new Date(relatorio.createdAt).toLocaleDateString()}</td>
                 <td>
@@ -220,13 +221,12 @@ function TabelaPendentes() {
                     onClick={() => aprovar(time.id, 'Time')}
                     style={{ cursor: 'pointer', color: 'green', marginRight: '10px' }}
                   />
-                  <button
-                    onClick={() => abrirModalDetalhesTime(time)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                    title="Ver detalhes"
+                  <Link
+                    to={`/times/detalhes/${time.id}`}
+                    className="action-buttonAT dashboard-link"
                   >
-                    <i className="bi bi-eye action-buttonAT dashboard-link"  style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }} />
-                  </button>
+                    <i className="bi bi-eye" title="Ver" style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }}></i>
+                  </Link>
                   <i
                     className="bi bi-x-circle"
                     onClick={() => rejeitar(time.id, 'Time')}
@@ -250,13 +250,12 @@ function TabelaPendentes() {
                     onClick={() => aprovar(utilizador.id, 'Utilizador')}
                     style={{ cursor: 'pointer', color: 'green', marginRight: '10px' }}
                   />
-                  <button
-                    onClick={() => abrirModalDetalhesUsuario(utilizador)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                    title="Ver detalhes"
+                  <Link
+                    to={`/utilizadores/detalhes/${utilizador.id}`}
+                    className="action-buttonAT dashboard-link"
                   >
-                    <i className="bi bi-eye action-buttonAT dashboard-link"   style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }} />
-                  </button>
+                    <i className="bi bi-eye" title="Ver" style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }}></i>
+                  </Link>
                   <i
                     className="bi bi-x-circle"
                     onClick={() => rejeitar(utilizador.id, 'Utilizador')}
@@ -265,40 +264,14 @@ function TabelaPendentes() {
                 </td>
               </tr>
             ))}
-
-          {/* Caso não haja dados */}
-          {pendentes.atletas.length === 0 &&
-            pendentes.relatorios.length === 0 &&
-            pendentes.times.length === 0 &&
-            pendentes.utilizadores.length === 0 && (
-              <tr>
-                <td colSpan="5" className="loading-messageAAT">
-                  Nenhum item pendente encontrado.
-                </td>
-              </tr>
-            )}
         </tbody>
       </table>
 
-      {/* Paginação */}
+      {/* Exibindo a Paginação */}
       <Pagination
         totalPages={totalPages}
-        paginate={paginate}
         currentPage={currentPage}
-      />
-
-      {/* Modal de detalhes do usuário */}
-      <UserDetailsModal
-        isOpen={isUserModalOpen}
-        onRequestClose={() => setIsUserModalOpen(false)}
-        selectedUsuario={selectedUsuario}
-      />
-
-      {/* Modal de detalhes do time */}
-      <TeamDetailsModal
-        isOpen={isTeamModalOpen}
-        onRequestClose={() => setIsTeamModalOpen(false)}
-        teamData={selectedTeam}
+        paginate={paginate}
       />
     </div>
   );

@@ -14,6 +14,8 @@ import PartidasPage from './View/PartidasPage'; // Página de Partidas
 import CriarPartida from './Components/PartidasPage/CriarPartida';
 import Time from './View/Time';
 import Validacoes from './View/Validacoes';
+import UtilizadorDetalhe from "./Components/ValidacoesView/DetalhesUtilizador";
+import DetalhesTime from "./Components/TimeView/DetalhesTime";
 
 
 const App = () => {
@@ -34,6 +36,9 @@ const App = () => {
         <Route path="/criar-partida" element={<CriarPartida />} />
         <Route path="/times" element={<Time />} />´
         <Route path="/Validacoes" element={<Validacoes />} />
+        <Route path="/utilizadores/detalhes/:id" element={<UtilizadorDetalhe />} />
+        <Route path="/times/detalhes/:id" element={<DetalhesTime />} />
+
         
       </Routes>
     </Router>

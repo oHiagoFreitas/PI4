@@ -32,20 +32,19 @@ exports.getAllTimes = async (req, res) => {
     }
 };
 
-// Mostrar um time pelo ID
 exports.getTimeById = async (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // Pega o ID do time da URL
     try {
-        const time = await Time.findByPk(id, {
-            include: [{ model: Jogador, as: 'jogadores' }] // Inclui jogadores, caso haja relação
-        });
+        // Busca o time pelo ID
+        const time = await Time.findByPk(id);
+
         if (time) {
-            res.status(200).json(time);
+            res.status(200).json(time); // Retorna o time em formato JSON
         } else {
-            res.status(404).json({ error: 'Time não encontrado' });
+            res.status(404).json({ error: 'Time não encontrado' }); // Caso o time não exista
         }
     } catch (error) {
-        res.status(500).json({ error: `Erro ao buscar time: ${error.message}` });
+        res.status(500).json({ error: `Erro ao buscar time: ${error.message}` }); // Erro no servidor
     }
 };
 
