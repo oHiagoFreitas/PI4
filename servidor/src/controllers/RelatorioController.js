@@ -46,7 +46,7 @@ exports.createRelatorio = async (req, res) => {
             comentario, 
             atletaId: atleta.id, // Usando o ID do atleta
             scoutId, // Salvando o scoutId (userId) no campo scoutid
-            status: status || 'Pendente' // Define o status ou usa 'Pendente' como padrão
+            status: status || 'pendente' // Define o status ou usa 'Pendente' como padrão
         });
 
         res.status(201).json(novoRelatorio);
@@ -132,7 +132,7 @@ exports.deleteRelatorio = async (req, res) => {
 exports.getRelatoriosPendentes = async (req, res) => {
     try {
         const relatoriosPendentes = await Relatorio.findAll({
-            where: { status: 'Pendente' }, // Filtra relatórios com status 'Pendente'
+            where: { status: 'pendente' }, // Filtra relatórios com status 'Pendente'
             include: [
                 { model: Atleta, as: 'atleta' }, // Inclui os dados do Atleta
             ],
@@ -168,5 +168,45 @@ exports.getRelatoriosByAtletaId = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Erro ao buscar relatórios do atleta.' });
+    }
+};
+
+// Aprovar o relatório
+exports.aprovarRelatorio = async (req, res) => {
+    const { id } = req.params; // ID do relatório a ser aprovado
+
+    try {
+        const relatorio = await Relatorio.findByPk(id);
+        if (!relatorio) {
+            return res.status(404).json({ error: 'Relatório não encontrado.' });
+        }
+
+        // Atualiza o status para 'Aprovado'
+        await relatorio.update({ status: 'Aprovado' });
+
+        res.json({ message: 'Relatório aprovado com sucesso.', relatorio });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao aprovar relatório.' });
+    }
+};
+
+// Rejeitar o relatório
+exports.rejeitarRelatorio = async (req, res) => {
+    const { id } = req.params; // ID do relatório a ser rejeitado
+
+    try {
+        const relatorio = await Relatorio.findByPk(id);
+        if (!relatorio) {
+            return res.status(404).json({ error: 'Relatório não encontrado.' });
+        }
+
+        // Atualiza o status para 'Rejeitado'
+        await relatorio.update({ status: 'Rejeitado' });
+
+        res.json({ message: 'Relatório rejeitado com sucesso.', relatorio });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao rejeitar relatório.' });
     }
 };

@@ -139,3 +139,21 @@ exports.deactivateUtilizador = async (req, res) => {
         res.status(500).json({ error: 'Erro ao desativar utilizador' });
     }
 };
+
+// Procurar utilizadores com status "pendente"
+exports.getPendentes = async (req, res) => {
+    try {
+        const pendentes = await Utilizadores.findAll({
+            where: { status: 'pendente' },
+        });
+        if (pendentes.length > 0) {
+            res.json(pendentes);
+        } else {
+            res.status(404).json({ message: 'Nenhum utilizador pendente encontrado' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar utilizadores pendentes' });
+    }
+};
+
+

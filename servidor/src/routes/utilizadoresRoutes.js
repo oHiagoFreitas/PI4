@@ -8,6 +8,8 @@ router.get('/', utilizadoresController.getAllUtilizadores);
 // Rota para criar um novo utilizador
 router.post('/', utilizadoresController.createUtilizador);
 
+router.get('/pendentes', utilizadoresController.getPendentes);
+
 // Rota para mostrar um utilizador pelo ID
 router.get('/:id', utilizadoresController.getUtilizadorById);
 

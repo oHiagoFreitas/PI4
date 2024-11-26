@@ -23,4 +23,9 @@ router.put('/:id', relatorioController.updateRelatorio);
 // Deletar um relatório
 router.delete('/:id', relatorioController.deleteRelatorio);
 
+router.put('/:id/aprovar', relatorioController.aprovarRelatorio);
+
+// Rota para rejeitar relatório
+router.put('/:id/rejeitar', relatorioController.rejeitarRelatorio);
+
 module.exports = router;
