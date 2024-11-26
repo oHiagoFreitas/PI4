@@ -265,27 +265,71 @@
     transform: scale(1.05);
 }
 
-/* EquipaSombra.css */
-.tabela-jogadores {
+/* Container da Tabela */
+.table-container {
+    margin: 20px auto;
     width: 100%;
-    margin-top: 20px;
-    border-collapse: collapse;
+    overflow-x: auto;
 }
 
-.tabela-jogadores th, .tabela-jogadores td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ddd;
+/* Tabela */
+.tabela-jogadores {
+    width: 100%;  
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+/* Cabeçalho */
+.tabela-jogadores thead tr {
+    background-color: #c79d55;
+    color: white;
 }
 
 .tabela-jogadores th {
-    background-color: #f4f4f4;
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
 }
 
-.tabela-jogadores tr:nth-child(even) {
-    background-color: #f9f9f9;
+/* Corpo da Tabela */
+.tabela-jogadores tbody tr {
+    border-bottom: 1px solid #ddd;
 }
 
-.tabela-jogadores tr:hover {
-    background-color: #f1f1f1;
+.tabela-jogadores td {
+    padding: 10px;
+    text-align: LEFT;
+}
+
+/* Estilo para as linhas de reserva */
+.tabela-jogadores .reservas-header {
+    text-align: center;
+    background-color: #c79d55;
+    font-weight: bold;
+    color: #ffffff;
+    padding: 12px;
+}
+
+/* Rating */
+.rating {
+    font-weight: bold;
+    color: #FFD700; /* Cor dourada */
+}
+
+/* Ícone de Remover */
+.remove-icon {
+    cursor: pointer;
+    color: red;
+    font-size: 20px;
+    transition: transform 0.3s ease;
+}
+
+.remove-icon:hover {
+    transform: scale(1.6);
+}
+
+/* Vaga Livre */
+.tabela-jogadores td {
+    color: #888;
 }

@@ -28,6 +28,7 @@ function EquipasSelector() {
                     onClick={handleMainTeamClick}>
                     Equipa Principal
                 </button>
+                
                 <button 
                     className={`button-createAT ${selectedTeam === 'Equipa Sombra' ? 'active' : ''}`} 
                     onClick={handleShadowTeamClick}>

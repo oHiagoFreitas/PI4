@@ -75,10 +75,11 @@ function ShadowTeamsTable() {
                 </tbody>
             </table>
 
-            {/* Botão para abrir a modal */}
-            <button className="button-createAT button-createES" onClick={openModal}>
-                Criar Equipa Sombra
-            </button>
+            <div className='actions-buttonsAT'>
+                <button className="button-createAT button-createES" onClick={openModal}>
+                    Criar Equipa Sombra
+                </button>
+            </div>
 
             {/* Modal de criação de equipa sombra */}
             <CreateShadowTeamModal

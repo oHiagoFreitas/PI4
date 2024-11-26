@@ -85,7 +85,7 @@
     position: absolute;
     width: 100px; /* Largura da bolinha */
     height: 100px; /* Altura da bolinha */
-    background-color: #ff0000; /* Cor da bolinha (vermelho neste exemplo) */
+    background-color: #c79d55; /* Cor da bolinha (vermelho neste exemplo) */
     border-radius: 50%; /* Tornar a bolinha redonda */
     border: 2px solid #fff; /* Borda branca para dar destaque */
     cursor: pointer; /* Mostrar que é interativo */

@@ -6,6 +6,7 @@ import Modal from "./ModalJogadores";
 import CampoFutebol from "./CampoFutebol";
 import EquipeSombraForm from "./EquipeSombraForm";
 import TabelaJogadores from "./TabelaJogadores"; // Importa o componente TabelaJogadores
+import Swal from 'sweetalert2'; // Importando SweetAlert2
 import "../../Style/EquipaSombra.css";
 
 function CriarEquipeComJogadores() {
@@ -83,7 +84,11 @@ function CriarEquipeComJogadores() {
     // Função para salvar a equipe
     const salvarEquipe = () => {
         if (!equipeSombraId) {
-            alert("ID da equipe sombra não encontrado.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'ID da equipe sombra não encontrado.',
+            });
             return;
         }
 
@@ -91,8 +96,8 @@ function CriarEquipeComJogadores() {
 
         const jogadoresIds = Object.values(positions).map(player => player.id);
         const requestData = {
-            equipeSombraId: equipeSombraId, 
-            jogadoresIds: jogadoresIds, 
+            equipeSombraId: equipeSombraId,
+            jogadoresIds: jogadoresIds,
         };
 
         console.log("Dados enviados:", requestData);
@@ -107,14 +112,26 @@ function CriarEquipeComJogadores() {
             .then(response => response.json())
             .then(data => {
                 if (data.message === "Jogadores adicionados com sucesso!") {
-                    alert("Equipe salva com sucesso!");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Equipe salva com sucesso!',
+                    });
                 } else {
-                    alert("Erro ao salvar equipe.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Erro ao salvar equipe.',
+                    });
                 }
             })
             .catch(error => {
                 console.error("Erro ao salvar equipe:", error);
-                alert("Erro ao salvar equipe.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Erro ao salvar equipe.',
+                });
             });
     };
 
@@ -131,10 +148,11 @@ function CriarEquipeComJogadores() {
                             positions={positions}
                             openModal={openModal}
                         />
-
-                        <button onClick={salvarEquipe} className="btn-salvar-equipe">
-                            Salvar Equipe
-                        </button>
+                        <div className="actions-buttonsAT" style={{marginTop: "10px"}}>
+                            <button onClick={salvarEquipe} className="button-createAT ">
+                                Salvar Equipe
+                            </button>
+                        </div>
 
                         {/* Tabela de Jogadores */}
                         <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} />
