@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Para criar links de navegação
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
+import EditTeamModal from './EditTeamModal'; // Importando o modal de edição
 
 // Componente da Tabela de Times
 function TabelaTimes({ times, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState(null);
+
   const timesPerPage = 5; // Número de times por página
 
   // Função para calcular os times da página atual
@@ -18,6 +22,21 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
 
   // Função para mudar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Função para abrir o modal com o time selecionado
+  const openEditModal = (team) => {
+    setSelectedTeam(team);
+    setIsModalOpen(true);
+  };
+
+  // Função para fechar o modal e recarregar a página
+  const closeEditModal = (refresh = false) => {
+    setIsModalOpen(false);
+    setSelectedTeam(null);
+    if (refresh) {
+      window.location.reload(); // Recarrega a página após edição
+    }
+  };
 
   return (
     <div className="atletas-table-containerAT"> {/* Contêiner da tabela */}
@@ -49,7 +68,7 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
                   {/* Botão para editar */}
                   <button
                     className="action-buttonAT"
-                    onClick={() => handleEdit(time)}
+                    onClick={() => openEditModal(time)} // Abrir modal ao clicar
                   >
                     <i className="bi bi-pencil" title="Editar"></i>
                   </button>
@@ -78,6 +97,15 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
         paginate={paginate}
         currentPage={currentPage}
       />
+
+      {/* Modal de Edição */}
+      {selectedTeam && (
+        <EditTeamModal
+          isOpen={isModalOpen}
+          onRequestClose={() => closeEditModal(true)} // Fecha modal e recarrega a página
+          teamData={selectedTeam}
+        />
+      )}
     </div>
   );
 }

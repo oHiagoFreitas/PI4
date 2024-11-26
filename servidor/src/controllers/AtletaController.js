@@ -89,32 +89,53 @@ exports.getAtletaById = async (req, res) => {
     }
 };
 
-// Editar um atleta
+
 exports.updateAtleta = async (req, res) => {
     const { id } = req.params;
-    const { nome, dataNascimento, ano, nacionalidade, posicao, clube, link, agente, contactoAgente, timeId } = req.body;
+    const { 
+        nome, 
+        dataNascimento, 
+        ano, 
+        nacionalidade, 
+        posicao, 
+        clube, 
+        link, 
+        agente, 
+        contactoAgente 
+    } = req.body;
+
     try {
+        // Encontrar o atleta pelo ID
         const atleta = await Atleta.findByPk(id);
-        if (atleta) {
-            atleta.nome = nome;
-            atleta.dataNascimento = dataNascimento;
-            atleta.ano = ano;
-            atleta.nacionalidade = nacionalidade;
-            atleta.posicao = posicao;
-            atleta.clube = clube;
-            atleta.link = link;
-            atleta.agente = agente;
-            atleta.contactoAgente = contactoAgente;
-            atleta.timeId = timeId;
-            await atleta.save();
-            res.json(atleta);
-        } else {
-            res.status(404).json({ error: 'Atleta não encontrado' });
+        if (!atleta) {
+            return res.status(404).json({ error: 'Atleta não encontrado' });
         }
+
+        // Verificar se o clube (time) existe e está aprovado
+        const time = await Time.findOne({ where: { nome: clube } });
+        if (!time || time.status !== 'aprovado') {
+            return res.status(400).json({ error: 'Time não encontrado ou não aprovado.' });
+        }
+
+        // Atualizar os dados do atleta
+        atleta.nome = nome;
+        atleta.dataNascimento = dataNascimento;
+        atleta.ano = ano;
+        atleta.nacionalidade = nacionalidade;
+        atleta.posicao = posicao;
+        atleta.clube = clube; // Atualiza o nome do clube
+        atleta.link = link;
+        atleta.agente = agente;
+        atleta.contactoAgente = contactoAgente;
+        atleta.timeId = time.id; // Atualiza o ID do time associado
+
+        await atleta.save();
+        res.json(atleta);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar atleta' });
     }
 };
+
 
 // Deletar um atleta
 exports.deleteAtleta = async (req, res) => {

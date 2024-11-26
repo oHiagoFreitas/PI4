@@ -48,21 +48,31 @@ exports.getTimeById = async (req, res) => {
     }
 };
 
-// Editar um time
 exports.updateTime = async (req, res) => {
     const { id } = req.params;
-    const { nome, pais, categoria, descricao, status } = req.body;
+    const { nome, pais, categoria, descricao } = req.body;
+    
     try {
+        // Verifica se o time existe
         const time = await Time.findByPk(id);
         if (time) {
+            // Atualiza os dados do time
             time.nome = nome;
             time.pais = pais;
             time.categoria = categoria;
             time.descricao = descricao;
-            time.status = status;
+            
+            // Atualiza os atletas associados ao time
+            const atletas = await Jogador.findAll({ where: { timeId: time.id } });
+            for (const atleta of atletas) {
+                atleta.clube = nome; // Atualiza o nome do time no atleta
+                await atleta.save(); // Salva a mudança
+            }
+
+            // Salva as mudanças no time
             await time.save();
             res.status(200).json({
-                message: 'Time atualizado com sucesso!',
+                message: 'Time e atletas atualizados com sucesso!',
                 data: time
             });
         } else {
@@ -163,3 +173,5 @@ exports.getJogadoresByTimeId = async (req, res) => {
         res.status(500).json({ error: `Erro ao buscar jogadores: ${error.message}` });
     }
 };
+
+

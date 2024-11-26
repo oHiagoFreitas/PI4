@@ -28,7 +28,7 @@ const Time = sequelize.define('time', {
         defaultValue: 'pendente', // Define o status padrão como 'ativo'
     },
 }, {
-    timestamps: false, // Se não precisar de campos createdAt e updatedAt
+    timestamps: true, // Se não precisar de campos createdAt e updatedAt
 });
 
 module.exports = Time;

@@ -1,21 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Adicionando Link para navegação
 import Pagination from '../Pagination'; // Importando o componente Pagination
+import axios from 'axios'; // Para realizar requisições HTTP
 
 function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1); // Página atual
+  const [atletasData, setAtletasData] = useState(atletas); // Estado para armazenar os atletas
   const atletasPerPage = 5; // Quantidade de atletas por página
 
   // Lógica para determinar os atletas da página atual
   const indexOfLastAtleta = currentPage * atletasPerPage;
   const indexOfFirstAtleta = indexOfLastAtleta - atletasPerPage;
-  const currentAtletas = atletas.slice(indexOfFirstAtleta, indexOfLastAtleta);
+  const currentAtletas = atletasData.slice(indexOfFirstAtleta, indexOfLastAtleta);
 
   // Lógica para mudar a página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Número total de páginas
-  const totalPages = Math.ceil(atletas.length / atletasPerPage);
+  const totalPages = Math.ceil(atletasData.length / atletasPerPage);
+
+  // Função para atualizar os atletas após a edição de um time
+  const updateAtletas = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/atletas'); // Requisição para obter os atletas novamente
+      setAtletasData(response.data); // Atualiza o estado com os atletas atualizados
+    } catch (error) {
+      console.error('Erro ao atualizar os atletas:', error);
+    }
+  };
+
+  // Atualiza os atletas sempre que a lista mudar
+  useEffect(() => {
+    setAtletasData(atletas); // Atualiza os dados quando os atletas mudam
+  }, [atletas]);
 
   return (
     <div>
@@ -38,7 +55,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
               <td>{atleta.ano}</td>
               <td>{atleta.nacionalidade}</td>
               <td>{atleta.posicao}</td>
-              <td>{atleta.clube}</td>
+              <td>{atleta.time ? atleta.time.nome : atleta.clube}</td> {/* Nome do time aqui */}
               <td>{atleta.status}</td>
               <td>
                 {/* Botão para visualizar */}
@@ -46,7 +63,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
                   <i className="bi bi-eye" title="Ver"></i>
                 </Link>
                 {/* Botão para editar */}
-                <button className="action-buttonAT" onClick={() => handleEdit(atleta)}>
+                <button className="action-buttonAT" onClick={() => handleEdit(atleta, updateAtletas)}>
                   <i className="bi bi-pencil" title="Editar"></i>
                 </button>
                 {/* Botão para apagar */}
