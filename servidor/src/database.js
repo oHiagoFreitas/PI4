@@ -2,7 +2,7 @@ var Sequelize = require('sequelize');
 const sequelize = new Sequelize(
     'API4',
     'postgres',
-    '23agosto',
+    'postgres',
     {
         host: 'localhost',
         port: '5432',
