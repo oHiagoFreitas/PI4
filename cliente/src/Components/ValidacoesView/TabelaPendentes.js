@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'; // Importando o Link do react-router-do
 import '../../Style/UsuariosTable.css'; // Importando o CSS da tabela
 import UserDetailsModal from './DetalhesUtilizadorModal'; // Modal para detalhes do usuário
 import TeamDetailsModal from './DetalhesTimeModal'; // Modal para detalhes do time
+import Pagination from '../Pagination'; // Importando o componente de Paginação
 
 // Componente da Tabela de Pendentes
 function TabelaPendentes() {
@@ -21,6 +22,10 @@ function TabelaPendentes() {
 
   const [isTeamModalOpen, setIsTeamModalOpen] = useState(false); // Controle do modal de times
   const [selectedTeam, setSelectedTeam] = useState(null); // Armazena o time selecionado
+
+  // Controle de paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const pendentesPerPage = 5; // Número de pendentes por página
 
   // Carregar os dados de pendentes
   useEffect(() => {
@@ -106,6 +111,26 @@ function TabelaPendentes() {
     setIsTeamModalOpen(true);
   };
 
+  // Função de paginação
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Calcular os pendentes da página atual
+  const indexOfLastItem = currentPage * pendentesPerPage;
+  const indexOfFirstItem = indexOfLastItem - pendentesPerPage;
+  const currentAtletas = pendentes.atletas.slice(indexOfFirstItem, indexOfLastItem);
+  const currentRelatorios = pendentes.relatorios.slice(indexOfFirstItem, indexOfLastItem);
+  const currentTimes = pendentes.times.slice(indexOfFirstItem, indexOfLastItem);
+  const currentUtilizadores = pendentes.utilizadores.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Calcular o número total de páginas
+  const totalPages = Math.ceil(
+    (pendentes.atletas.length +
+      pendentes.relatorios.length +
+      pendentes.times.length +
+      pendentes.utilizadores.length) /
+      pendentesPerPage
+  );
+
   return (
     <div className="usuarios-table-containerAAT">
       <table className="usuarios-tableAAT table table-striped">
@@ -120,8 +145,8 @@ function TabelaPendentes() {
         </thead>
         <tbody>
           {/* Exibindo os Atletas Pendentes */}
-          {pendentes.atletas.length > 0 &&
-            pendentes.atletas.map((atleta) => (
+          {currentAtletas.length > 0 &&
+            currentAtletas.map((atleta) => (
               <tr key={atleta.id}>
                 <td>Atleta</td>
                 <td>{atleta.nome}</td>
@@ -149,8 +174,8 @@ function TabelaPendentes() {
             ))}
 
           {/* Exibindo os Relatórios Pendentes */}
-          {pendentes.relatorios.length > 0 &&
-            pendentes.relatorios.map((relatorio) => (
+          {currentRelatorios.length > 0 &&
+            currentRelatorios.map((relatorio) => (
               <tr key={relatorio.id}>
                 <td>Relatório</td>
                 <td>{relatorio.tecnica}</td>
@@ -178,8 +203,8 @@ function TabelaPendentes() {
             ))}
 
           {/* Exibindo os Times Pendentes */}
-          {pendentes.times.length > 0 &&
-            pendentes.times.map((time) => (
+          {currentTimes.length > 0 &&
+            currentTimes.map((time) => (
               <tr key={time.id}>
                 <td>Time</td>
                 <td>{time.nome}</td>
@@ -208,8 +233,8 @@ function TabelaPendentes() {
             ))}
 
           {/* Exibindo os Utilizadores Pendentes */}
-          {pendentes.utilizadores.length > 0 &&
-            pendentes.utilizadores.map((utilizador) => (
+          {currentUtilizadores.length > 0 &&
+            currentUtilizadores.map((utilizador) => (
               <tr key={utilizador.id}>
                 <td>Utilizador</td>
                 <td>{utilizador.nome}</td>
@@ -226,7 +251,7 @@ function TabelaPendentes() {
                     style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                     title="Ver detalhes"
                   >
-                    <i className="bi bi-eye action-buttonAT dashboard-link"   style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }}/>
+                    <i className="bi bi-eye action-buttonAT dashboard-link"   style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }} />
                   </button>
                   <i
                     className="bi bi-x-circle"
@@ -250,6 +275,13 @@ function TabelaPendentes() {
             )}
         </tbody>
       </table>
+
+      {/* Paginação */}
+      <Pagination
+        totalPages={totalPages}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
 
       {/* Modal de detalhes do usuário */}
       <UserDetailsModal
