@@ -67,40 +67,40 @@ function CriarEquipeComJogadores() {
                             <div
                                 className="jogador"
                                 style={{ top: '53.5%', left: '19%' }}
-                                title="Guarda-redes"
-                                onClick={() => openModal("Guarda-redes", "pos1")}
+                                title="Guarda redes"
+                                onClick={() => openModal("Guarda redes", "pos1")}
                             >
                                 {positions["pos1"] ? positions["pos1"].nome : ""}
                             </div>
                             <div
                                 className="jogador"
                                 style={{ top: '30%', left: '28%' }}
-                                title="Defesa-Esquerda"
-                                onClick={() => openModal("Defesa-Esquerda", "pos2")}
+                                title="Defesa Esquerda"
+                                onClick={() => openModal("Defesa Esquerda", "pos2")}
                             >
                                 {positions["pos2"] ? positions["pos2"].nome : ""}
                             </div>
                             <div
                                 className="jogador"
                                 style={{ top: '45%', left: '26%' }}
-                                title="Defesa-Central"
-                                onClick={() => openModal("Defesa-Central", "pos3")}
+                                title="Defesa Central"
+                                onClick={() => openModal("Defesa Central", "pos3")}
                             >
                                 {positions["pos3"] ? positions["pos3"].nome : ""}
                             </div>
                             <div
                                 className="jogador"
                                 style={{ top: '60%', left: '26%' }}
-                                title="Defesa-Central"
-                                onClick={() => openModal("Defesa-Central", "pos4")}
+                                title="Defesa Central"
+                                onClick={() => openModal("Defesa Central", "pos4")}
                             >
                                 {positions["pos4"] ? positions["pos4"].nome : ""}
                             </div>
                             <div
                                 className="jogador"
                                 style={{ top: '75%', left: '28%' }}
-                                title="Defesa-Direita"
-                                onClick={() => openModal("Defesa-Direita", "pos5")}
+                                title="Defesa Direita"
+                                onClick={() => openModal("Defesa Direita", "pos5")}
                             >
                                 {positions["pos5"] ? positions["pos5"].nome : ""}
                             </div>
