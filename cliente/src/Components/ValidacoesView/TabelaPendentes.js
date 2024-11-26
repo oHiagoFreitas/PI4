@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2'; // Importando o SweetAlert2
-import 'bootstrap-icons/font/bootstrap-icons.css'; // Importando os ícones do Bootstrap
-import { Link } from 'react-router-dom'; // Importando o Link do react-router-dom
-import '../../Style/UsuariosTable.css'; // Importando o CSS da tabela
-import Pagination from '../Pagination'; // Importando o componente de Paginação
-import FiltroCategoria from '../FiltroCategoria'; // Importando o componente FiltroCategoria
+import Swal from 'sweetalert2';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Link } from 'react-router-dom';
+import '../../Style/UsuariosTable.css';
+import Pagination from '../Pagination';
+import FiltroCategoria from '../FiltroCategoria';
 
-// Componente da Tabela de Pendentes
 function TabelaPendentes() {
   const [pendentes, setPendentes] = useState({
     atletas: [],
@@ -16,19 +15,22 @@ function TabelaPendentes() {
     utilizadores: [],
   });
 
-  const [categoriaFiltro, setCategoriaFiltro] = useState(''); // Estado para o filtro de categoria
-  const [currentPage, setCurrentPage] = useState(1); // Estado de controle de paginação
-  const pendentesPerPage = 5; // Número de pendentes por página
+  const [categoriaFiltro, setCategoriaFiltro] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pendentesPerPage = 5;
 
   // Carregar os dados de pendentes
-  useEffect(() => {
+  const carregarPendentes = () => {
     axios
-      .get('http://localhost:3000/pendentes/pendentes') // Rota de pendentes
+      .get('http://localhost:3000/pendentes/pendentes')
       .then((response) => setPendentes(response.data))
       .catch((error) => console.error('Erro ao carregar pendentes:', error));
+  };
+
+  useEffect(() => {
+    carregarPendentes(); // Chama a função para carregar os pendentes ao inicializar
   }, []);
 
-  // Função de Aprovação
   const aprovar = (id, categoria) => {
     const baseURL = `http://localhost:3000`;
     const endpoints = {
@@ -46,21 +48,21 @@ function TabelaPendentes() {
         Swal.fire({
           icon: 'success',
           title: `${categoria} aprovado com sucesso!`,
-          text: `ID: ${id} foi aprovado.`,
+          text: `Aprovado com sucesso.`,
           confirmButtonText: 'Ok',
         });
+        carregarPendentes(); // Recarrega os pendentes após aprovação
       })
       .catch(() => {
         Swal.fire({
           icon: 'error',
           title: 'Erro ao aprovar',
-          text: `Erro ao aprovar ${categoria} com ID: ${id}`,
+          text: `Erro ao aprovar ${categoria}.`,
           confirmButtonText: 'Ok',
         });
       });
   };
 
-  // Função de Rejeição
   const rejeitar = (id, categoria) => {
     const baseURL = `http://localhost:3000`;
     const endpoints = {
@@ -78,30 +80,28 @@ function TabelaPendentes() {
         Swal.fire({
           icon: 'success',
           title: `${categoria} rejeitado com sucesso!`,
-          text: `ID: ${id} foi rejeitado.`,
+          text: `foi rejeitado com sucesso.`,
           confirmButtonText: 'Ok',
         });
+        carregarPendentes(); // Recarrega os pendentes após rejeição
       })
       .catch(() => {
         Swal.fire({
           icon: 'error',
-          title: 'Erro ao rejeitar',
-          text: `Erro ao rejeitar ${categoria} com ID: ${id}`,
+          title: 'Erro ao rejeitar.',
+          text: `Erro ao rejeitar ${categoria}.`,
           confirmButtonText: 'Ok',
         });
       });
   };
 
-  // Função de paginação
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Função para filtrar pendentes por categoria
   const filtrarPendentesPorCategoria = () => {
     if (categoriaFiltro === '') {
-      return pendentes; // Se nenhum filtro for selecionado, retorna todos os pendentes
+      return pendentes;
     }
 
-    // Filtra os pendentes pela categoria escolhida
     return {
       atletas: categoriaFiltro === 'Atleta' ? pendentes.atletas : [],
       relatorios: categoriaFiltro === 'Relatório' ? pendentes.relatorios : [],
@@ -110,10 +110,8 @@ function TabelaPendentes() {
     };
   };
 
-  // Obter os dados filtrados
   const pendentesFiltrados = filtrarPendentesPorCategoria();
 
-  // Calcular os pendentes da página atual
   const indexOfLastItem = currentPage * pendentesPerPage;
   const indexOfFirstItem = indexOfLastItem - pendentesPerPage;
   const currentAtletas = pendentesFiltrados.atletas.slice(indexOfFirstItem, indexOfLastItem);
@@ -121,7 +119,6 @@ function TabelaPendentes() {
   const currentTimes = pendentesFiltrados.times.slice(indexOfFirstItem, indexOfLastItem);
   const currentUtilizadores = pendentesFiltrados.utilizadores.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Calcular o número total de páginas
   const totalPages = Math.ceil(
     (pendentesFiltrados.atletas.length +
       pendentesFiltrados.relatorios.length +
@@ -131,13 +128,11 @@ function TabelaPendentes() {
 
   return (
     <div className="usuarios-table-containerAAT">
-      {/* Filtro de Categoria */}
       <FiltroCategoria
         categoriaFiltro={categoriaFiltro}
         setCategoriaFiltro={setCategoriaFiltro}
       />
 
-      {/* Tabela com dados dos pendentes */}
       <table className="usuarios-tableAAT table table-striped">
         <thead>
           <tr>
@@ -145,11 +140,10 @@ function TabelaPendentes() {
             <th>Nome/Rating Final</th>
             <th>Status</th>
             <th>Data de Solicitação</th>
-            <th>Ações</th> {/* Adicionando coluna de ações */}
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-          {/* Exibindo os Atletas Pendentes */}
           {currentAtletas.length > 0 &&
             currentAtletas.map((atleta) => (
               <tr key={atleta.id}>
@@ -177,8 +171,6 @@ function TabelaPendentes() {
                 </td>
               </tr>
             ))}
-
-          {/* Exibindo os Relatórios Pendentes */}
           {currentRelatorios.length > 0 &&
             currentRelatorios.map((relatorio) => (
               <tr key={relatorio.id}>
@@ -206,8 +198,6 @@ function TabelaPendentes() {
                 </td>
               </tr>
             ))}
-
-          {/* Exibindo os Times Pendentes */}
           {currentTimes.length > 0 &&
             currentTimes.map((time) => (
               <tr key={time.id}>
@@ -235,8 +225,6 @@ function TabelaPendentes() {
                 </td>
               </tr>
             ))}
-
-          {/* Exibindo os Utilizadores Pendentes */}
           {currentUtilizadores.length > 0 &&
             currentUtilizadores.map((utilizador) => (
               <tr key={utilizador.id}>
@@ -267,7 +255,6 @@ function TabelaPendentes() {
         </tbody>
       </table>
 
-      {/* Exibindo a Paginação */}
       <Pagination
         totalPages={totalPages}
         currentPage={currentPage}
