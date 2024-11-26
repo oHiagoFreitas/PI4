@@ -3,7 +3,7 @@
 import React from 'react';
 import "../../Style/Modal.css"; // Estilos da modal
 
-const ModalJogadores = ({ isOpen, playerPosition, closeModal, players }) => {
+const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPlayerToPosition, positionId }) => {
     if (!isOpen) return null; // Não renderiza a modal se não estiver aberta
 
     return (
@@ -28,7 +28,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players }) => {
                                     <td>{player.posicao}</td>
                                     <td>
                                         <button 
-                                            onClick={() => alert(`Jogador ${player.nome} selecionado para ${playerPosition}`)}
+                                            onClick={() => assignPlayerToPosition(player, positionId)} // Atribui jogador à posição
                                         >
                                             Selecionar
                                         </button>
@@ -37,13 +37,13 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players }) => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="3">Nenhum jogador encontrado para esta posição.</td>
+                                <td colSpan="3">Carregando jogadores...</td>
                             </tr>
                         )}
                     </tbody>
                 </table>
 
-                <div className="modal-actions-MJ">
+                <div className="modal-actions">
                     <button onClick={closeModal}>Fechar</button>
                 </div>
             </div>

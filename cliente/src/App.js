@@ -17,7 +17,7 @@ import Validacoes from './View/Validacoes';
 import UtilizadorDetalhe from "./Components/ValidacoesView/DetalhesUtilizador";
 import DetalhesTime from "./Components/TimeView/DetalhesTime";
 import Equipas from './View/Equipas';
-import CreateTeamWithPlayers from './Components/EquipasView/CreateTeamWithPlayers';
+import CreateTeamWithPlayers from './Components/EquipasView/CriarEquipeComJogadores';
 
 
 
