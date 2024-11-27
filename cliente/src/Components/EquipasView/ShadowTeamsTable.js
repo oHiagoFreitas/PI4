@@ -43,39 +43,41 @@ function ShadowTeamsTable() {
 
     return (
         <div className="shadow-teams-tableES">
-            <table className="teams-tableES">
-                <thead>
-                    <tr>
-                        <th>Nome da Equipa</th>
-                        <th>Categoria</th>
-                        <th>Descrição</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {shadowTeams.map(team => (
-                        <tr key={team.id}>
-                            <td>{team.nome}</td>
-                            <td>{team.categoria}</td>
-                            <td>{team.descricao}</td>
-                            <td>
-                                {/* Ações, como visualizar ou editar podem ser adicionadas aqui */}
-                                <button
-                                    className="action-buttonES"
-                                    onClick={() => {
-                                        console.log("ID da equipe sombra:", team.id); // Verifique o ID
-                                        navigate(`/equipeSombra/${team.id}`);
-                                    }}
-                                >
-                                    Ver Detalhes
-                                </button>
-                            </td>
+            <div className="table-container">
+                <table className="usuarios-tableAAT table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome da Equipa</th>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                            <th>Ações</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {shadowTeams.map(team => (
+                            <tr key={team.id}>
+                                <td>{team.nome}</td>
+                                <td>{team.categoria}</td>
+                                <td>{team.descricao}</td>
+                                <td>
+                                    {/* Ações, como visualizar ou editar podem ser adicionadas aqui */}
+                                    <button
+                                        className="action-buttonES"
+                                        onClick={() => {
+                                            console.log("ID da equipe sombra:", team.id); // Verifique o ID
+                                            navigate(`/equipeSombra/${team.id}`);
+                                        }}
+                                    >
+                                        Ver Detalhes
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
 
-            <div className='actions-buttonsAT'>
+            <div className="actions-buttonsAT">
                 <button className="button-createAT button-createES" onClick={openModal}>
                     Criar Equipa Sombra
                 </button>

@@ -22,7 +22,7 @@ function EquipasSelector() {
 
     return (
         <div className="equipas-selector">
-            <div className="actions-buttonsAT">
+            <div className="actions-buttonsAT" style={{marginTop: '20px'}}>
                 <button 
                     className={`button-createAT ${selectedTeam === 'Equipa Principal' ? 'active' : ''}`} 
                     onClick={handleMainTeamClick}>
