@@ -85,11 +85,19 @@
     position: absolute;
     width: 100px; /* Largura da bolinha */
     height: 100px; /* Altura da bolinha */
-    background-color: #c79d55; /* Cor da bolinha (vermelho neste exemplo) */
+    background-color: #c79d55; /* Cor da bolinha */
     border-radius: 50%; /* Tornar a bolinha redonda */
     border: 2px solid #fff; /* Borda branca para dar destaque */
     cursor: pointer; /* Mostrar que é interativo */
     transition: transform 0.3s; /* Efeito de transição ao passar o mouse */
+
+    display: flex; /* Usando Flexbox para centralizar o conteúdo */
+    justify-content: center; /* Alinha o conteúdo horizontalmente no centro */
+    align-items: center; /* Alinha o conteúdo verticalmente no centro */
+    font-size: 16px; /* Tamanho da fonte */
+    color: white; /* Cor do texto */
+    font-weight: bold; /* Deixa o texto mais grosso */
+    text-align: center; /* Garante que o texto fique alinhado ao centro */
 }
 
 /* Efeito de transformação ao passar o mouse sobre a bolinha */

@@ -1,15 +1,14 @@
-// Jogador.js
 import React from "react";
 
-function Jogador({ position, nome, onClick }) {
+function Jogador({ nome, position, onClick }) {
     return (
         <div
             className="jogador"
             style={position.style}
-            title={position.title}
             onClick={onClick}
         >
-            {nome}
+            {/* Exibe o nome do jogador, se houver */}
+            {nome ? nome : position.title} 
         </div>
     );
 }
