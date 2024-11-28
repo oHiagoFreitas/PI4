@@ -57,7 +57,8 @@ function CriarEquipeComJogadores() {
         setPositions((prevPositions) => ({
             ...prevPositions,
             [positionId]: {
-                id: player.id,  // Agora estamos apenas atribuindo o ID do jogador à posição
+                id: player.id,
+                nome: player.nome, // Aqui estamos armazenando o nome do jogador junto com o id
             },
         }));
         closeModal(); // Fecha a modal após a seleção
