@@ -57,9 +57,7 @@ function CriarEquipeComJogadores() {
         setPositions((prevPositions) => ({
             ...prevPositions,
             [positionId]: {
-                id: player.id,
-                nome: player.nome,
-                rating: ratings[player.id] || "N/A", // Adiciona o rating ao jogador
+                id: player.id,  // Agora estamos apenas atribuindo o ID do jogador à posição
             },
         }));
         closeModal(); // Fecha a modal após a seleção
@@ -67,9 +65,11 @@ function CriarEquipeComJogadores() {
 
     // Função para filtrar jogadores já selecionados
     const getAvailablePlayers = (selectedPosition) => {
-        return players.filter(player =>
-            !Object.values(positions).some(p => p.id === player.id) && player.posicao === selectedPosition
-        );
+        return players.filter(player => {
+            // Verifica se o jogador não está alocado em nenhuma posição
+            const isAlreadyAssigned = Object.values(positions).some(p => p.id === player.id);
+            return !isAlreadyAssigned && player.posicao === selectedPosition;
+        });
     };
 
     // Função para remover um jogador de uma posição
@@ -91,17 +91,21 @@ function CriarEquipeComJogadores() {
             });
             return;
         }
-
+    
         console.log("Equipe Sombra ID:", equipeSombraId);
-
-        const jogadoresIds = Object.values(positions).map(player => player.id);
+    
+        // Estrutura de jogadores e suas posições
         const requestData = {
-            equipeSombraId: equipeSombraId,
-            jogadoresIds: jogadoresIds,
+            equipeSombraId: equipeSombraId.toString(),  // Garantir que seja uma string como no exemplo
+            jogadoresIds: Object.values(positions).map(player => player.id),  // Mapeia os IDs dos jogadores para um array
+            positions: Object.entries(positions).reduce((acc, [positionId, player]) => {
+                acc[player.id] = positionId;  // Agora estamos mapeando o ID do jogador para a posição (ID -> posição)
+                return acc;
+            }, {})
         };
-
+    
         console.log("Dados enviados:", requestData);
-
+    
         fetch("http://localhost:3000/equipeSombra/jogadores", {
             method: "POST",
             headers: {
@@ -134,6 +138,7 @@ function CriarEquipeComJogadores() {
                 });
             });
     };
+    
 
     return (
         <div className="backoffice-container">
@@ -156,7 +161,6 @@ function CriarEquipeComJogadores() {
 
                         {/* Tabela de Jogadores */}
                         <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} />
-
                     </div>
                 </div>
             </div>

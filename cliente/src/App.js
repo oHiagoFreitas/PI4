@@ -18,6 +18,7 @@ import UtilizadorDetalhe from "./Components/ValidacoesView/DetalhesUtilizador";
 import DetalhesTime from "./Components/TimeView/DetalhesTime";
 import Equipas from './View/Equipas';
 import CriarEquipeComJogadores from './Components/EquipasView/CriarEquipeComJogadores';
+import MostrarEquipeComJogadores from './Components/EquipasView/MostrarEquipeComJogadores';
 
 
 
@@ -44,6 +45,7 @@ const App = () => {
         <Route path="/times/detalhes/:id" element={<DetalhesTime />} />
         <Route path="/Equipas" element={<Equipas />} />´
         <Route path="/equipeSombra/:id" element={<CriarEquipeComJogadores />} />
+        <Route path="/MostrarequipeSombra/:id" element={<MostrarEquipeComJogadores />} />
      
         
         

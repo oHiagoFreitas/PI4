@@ -9,7 +9,7 @@ exports.createEquipeSombra = async (req, res) => {
     try {
         // Buscar a formação pelo nome
         const formacao = await Formacao.findOne({ where: { nome: formacaoNome } });
-        
+
         if (!formacao) {
             return res.status(404).json({ error: 'Formação não encontrada' });
         }
@@ -21,7 +21,7 @@ exports.createEquipeSombra = async (req, res) => {
             categoria,
             formacaoId: formacao.id // Usa o ID da formação encontrada
         });
-        
+
         res.status(201).json(novaEquipe);
     } catch (error) {
         res.status(500).json({ error: 'Erro ao criar equipe sombra' });
@@ -30,10 +30,10 @@ exports.createEquipeSombra = async (req, res) => {
 
 exports.getAllEquipesSombra = async (req, res) => {
     try {
-        const equipesSombra = await EquipeSombra.findAll({ 
-            include: Formacao 
+        const equipesSombra = await EquipeSombra.findAll({
+            include: Formacao
         });
-        
+
         if (!equipesSombra || equipesSombra.length === 0) {
             return res.status(404).json({ error: 'Nenhuma equipe sombra encontrada' });
         }
@@ -45,47 +45,44 @@ exports.getAllEquipesSombra = async (req, res) => {
     }
 };
 
-// Adicionar jogadores a uma equipe sombra
 exports.addJogadoresToEquipeSombra = async (req, res) => {
-    const { equipeSombraId, jogadoresIds } = req.body;
-    console.log('Dados recebidos:', req.body);
+    const { equipeSombraId, jogadoresIds, positions } = req.body;
 
     try {
-        console.log("Dados recebidos:", req.body);
-
-        // Buscar a equipe sombra
         const equipeSombra = await EquipeSombra.findByPk(equipeSombraId);
-        
+
         if (!equipeSombra) {
-            console.log("Equipe sombra não encontrada!");
             return res.status(404).json({ error: 'Equipe Sombra não encontrada' });
         }
 
-        // Buscar os jogadores pelo ID
+        // Busca os jogadores pelo ID
         const jogadores = await Atleta.findAll({ where: { id: jogadoresIds } });
-        
+
         if (jogadores.length !== jogadoresIds.length) {
-            console.log("Alguns jogadores não foram encontrados:", jogadoresIds);
             return res.status(404).json({ error: 'Alguns jogadores não foram encontrados' });
         }
 
-        console.log("Jogadores encontrados:", jogadores);
-
-        // Verificar se o atleta já está em outra equipe sombra
+        // Adicionar jogadores às posições corretas
         for (let jogador of jogadores) {
-            const equipesExistentes = await jogador.getEquipesSombra();
-            if (equipesExistentes.length > 0) {
-                console.log(`Jogador ${jogador.nome} já está associado a uma equipe sombra.`);
-            }
-        }
+            const posicao = positions[jogador.id]; // Pega a posição do jogador
 
-        // Adicionar os jogadores à equipe sombra
-        await equipeSombra.addAtletas(jogadores);
+            if (!posicao) {
+                return res.status(400).json({ error: `Posição não encontrada para o jogador ${jogador.id}` });
+            }
+
+            // Salva a relação com a posição do jogador
+            await equipeSombra.addAtletas(jogador, {
+                through: {
+                    posicaoId: posicao  // Agora apenas armazena o ID da posição
+                }
+            });
+        }
 
         res.status(200).json({ message: 'Jogadores adicionados com sucesso!' });
     } catch (error) {
-        console.error("Erro ao adicionar jogadores:", error);
-        res.status(500).json({ error: 'Erro ao adicionar jogadores à equipe sombra' });
+        console.error("Erro ao adicionar jogadores:", error);  // Log completo
+        res.status(500).json({ error: 'Erro ao adicionar jogadores à equipe sombra', details: error.message });
+
     }
 };
 
@@ -113,5 +110,34 @@ exports.removeJogadoresFromEquipeSombra = async (req, res) => {
         res.status(200).json({ message: 'Jogadores removidos com sucesso!' });
     } catch (error) {
         res.status(500).json({ error: 'Erro ao remover jogadores da equipe sombra' });
+    }
+};
+
+exports.getAtletasByEquipeSombra = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const equipeSombra = await EquipeSombra.findByPk(id, {
+            include: {
+                model: Atleta,
+                as: 'atletas',
+                attributes: ['id', 'nome'],
+                through: { attributes: ['posicaoId'] },  // Inclui a posição do jogador na resposta
+            },
+        });
+
+        if (!equipeSombra) {
+            return res.status(404).json({ error: 'Equipe Sombra não encontrada' });
+        }
+
+        // Retorna os jogadores com suas posições
+        res.status(200).json(equipeSombra.atletas.map(jogador => ({
+            id: jogador.id,
+            nome: jogador.nome,
+            posicao: jogador.EquipeSombraAtletas.posicaoId,  // A posição do jogador
+        })));
+    } catch (error) {
+        console.error("Erro ao buscar atletas da equipe sombra:", error);
+        res.status(500).json({ error: 'Erro ao buscar atletas da equipe sombra' });
     }
 };

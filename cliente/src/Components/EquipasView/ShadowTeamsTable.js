@@ -65,7 +65,12 @@ function ShadowTeamsTable() {
                                         className="action-buttonES"
                                         onClick={() => {
                                             console.log("ID da equipe sombra:", team.id); // Verifique o ID
-                                            navigate(`/equipeSombra/${team.id}`);
+                                            
+                                            // Armazena o ID da equipe sombra no localStorage
+                                            localStorage.setItem('equipeSombraId', team.id);
+
+                                            // Redireciona para a página de detalhes da equipe sombra
+                                            navigate(`/MostrarequipeSombra/${team.id}`);
                                         }}
                                     >
                                         Ver Detalhes

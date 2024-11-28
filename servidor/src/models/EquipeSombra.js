@@ -1,5 +1,3 @@
-// src/models/EquipeSombra.js
-
 const Sequelize = require('sequelize');
 const sequelize = require('../database');
 const Formacao = require('./Formacao');
@@ -43,21 +41,28 @@ const EquipeSombra = sequelize.define('equipeSombra', {
 EquipeSombra.belongsTo(Formacao, { foreignKey: 'formacaoId' });
 Formacao.hasMany(EquipeSombra, { foreignKey: 'formacaoId' });
 
+const EquipeSombraAtletas = sequelize.define('EquipeSombraAtletas', {
+    posicaoId: {
+        type: Sequelize.STRING,  // Título da posição
+        allowNull: false,
+    }
+}, {
+    timestamps: false, // Não usamos timestamps na tabela de junção
+});
+
 // Relacionamento muitos-para-muitos com Atletas (jogadores)
 EquipeSombra.belongsToMany(Atleta, {
-    through: 'EquipeSombraAtletas', 
+    through: EquipeSombraAtletas,  // Tabela de junção explícita
     as: 'atletas',
     foreignKey: 'equipeSombraId',  // Chave estrangeira da EquipeSombra
     otherKey: 'atletumId',          // Chave estrangeira de Atleta
-    timestamps: false               // Não precisamos dos timestamps na tabela de junção
 });
 
 Atleta.belongsToMany(EquipeSombra, {
-    through: 'EquipeSombraAtletas',
+    through: EquipeSombraAtletas,  // Tabela de junção explícita
     as: 'equipesSombra',
     foreignKey: 'atletumId',        // Chave estrangeira de Atleta
     otherKey: 'equipeSombraId',     // Chave estrangeira de EquipeSombra
-    timestamps: false               // Não precisamos dos timestamps na tabela de junção
 });
 
 module.exports = EquipeSombra;
