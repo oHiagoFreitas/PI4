@@ -206,3 +206,30 @@ exports.updateEquipeSombra = async (req, res) => {
         res.status(500).json({ error: 'Erro ao atualizar jogadores na equipe sombra' });
     }
 };
+
+// src/controllers/EquipeSombraController.js
+
+// Buscar uma equipe sombra pelo ID
+exports.getEquipeSombraById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Buscando a equipe sombra pelo ID
+        const equipeSombra = await EquipeSombra.findByPk(id, {
+            include: {
+                model: Formacao,  // Inclui a formação associada à equipe sombra
+                attributes: ['nome'] // Exemplo de atributo que você pode querer incluir da formação
+            }
+        });
+
+        if (!equipeSombra) {
+            return res.status(404).json({ error: 'Equipe Sombra não encontrada' });
+        }
+
+        // Retorna a equipe sombra com o nome da formação incluído
+        res.status(200).json(equipeSombra);
+    } catch (error) {
+        console.error("Erro ao buscar equipe sombra:", error);
+        res.status(500).json({ error: 'Erro ao buscar equipe sombra' });
+    }
+};

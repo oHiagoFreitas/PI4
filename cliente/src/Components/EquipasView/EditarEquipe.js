@@ -7,8 +7,8 @@ import EditarCampoFutebol from "./EditarCampoFutebol";
 import TabelaJogadores from "./EditarTabelaJogadores";
 import Modal from "./ModalJogadores";
 import "../../Style/EquipaSombra.css";
-import "./EquipasTitle"
-import EquipasTitle from "./EquipasTitle";
+import "./EquipasEditarTime"
+import EquipasEditarTime from "./EquipasEditarTime";
 
 function EditarEquipe() {
     const navigate = useNavigate();
@@ -234,7 +234,7 @@ function EditarEquipe() {
                 <Navbar />
                 <div className="sub-main-content">
                     <div className="criar-equipe-container">
-                        <EquipasTitle />
+                        <EquipasEditarTime />
                         <div className="actions-buttonsAT" style={{ marginTop: "20px", justifyContent: "start" }}>
                             <button onClick={salvarAlteracoes} className="button-createAT">
                                 Salvar Alterações
