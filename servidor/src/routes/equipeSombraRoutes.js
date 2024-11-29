@@ -16,10 +16,13 @@ router.post('/remover-jogadores', equipeSombraController.removeJogadoresFromEqui
 
 router.put('/:id', equipeSombraController.updateEquipeSombra);
 
+
 router.get('/:id', equipeSombraController.getEquipeSombraById);
 
 // Buscar atletas de uma equipe sombra específica
 router.get('/:id/atletas', equipeSombraController.getAtletasByEquipeSombra);
+
+router.put('/:id/nome', equipeSombraController.updateEquipeSombraNome);
 
 
 

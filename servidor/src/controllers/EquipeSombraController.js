@@ -233,3 +233,39 @@ exports.getEquipeSombraById = async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar equipe sombra' });
     }
 };
+
+exports.updateEquipeSombraNome = async (req, res) => {
+    const { id } = req.params;
+    const { nome, descricao, categoria, formacaoNome } = req.body;
+
+    try {
+        // Verifica se a equipe sombra existe
+        const equipeSombra = await EquipeSombra.findByPk(id, {
+            include: { model: Formacao, as: 'formacao' }
+        });
+
+        if (!equipeSombra) {
+            return res.status(404).json({ error: 'Equipe Sombra não encontrada' });
+        }
+
+        // Atualiza os dados da equipe sombra
+        equipeSombra.nome = nome;
+        equipeSombra.descricao = descricao;
+        equipeSombra.categoria = categoria;
+
+        // Atualiza a formação, se fornecido
+        if (formacaoNome) {
+            const formacao = await Formacao.findOne({ where: { nome: formacaoNome } });
+            if (formacao) {
+                equipeSombra.formacaoId = formacao.id;
+            }
+        }
+
+        await equipeSombra.save(); // Salva as alterações
+
+        res.status(200).json(equipeSombra); // Retorna a equipe sombra atualizada
+    } catch (error) {
+        console.error("Erro ao atualizar equipe sombra:", error);
+        res.status(500).json({ error: 'Erro ao atualizar equipe sombra' });
+    }
+};

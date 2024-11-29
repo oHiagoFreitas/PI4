@@ -84,7 +84,7 @@
   }
   
   .action-buttonES {
-    background-color: #4CAF50;
+    background-color: #DEAF5E;
     color: white;
     padding: 6px 12px;
     border: none;
@@ -93,7 +93,7 @@
   }
   
   .action-buttonES:hover {
-    background-color: #45a049;
+    background-color: #dd9d2e;
   }
 
 /* Estilos para a modal */
