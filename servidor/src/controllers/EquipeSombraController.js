@@ -86,6 +86,7 @@ exports.addJogadoresToEquipeSombra = async (req, res) => {
     }
 };
 
+
 // Remover jogadores de uma equipe sombra
 exports.removeJogadoresFromEquipeSombra = async (req, res) => {
     const { equipeSombraId, jogadoresIds } = req.body;
@@ -112,6 +113,7 @@ exports.removeJogadoresFromEquipeSombra = async (req, res) => {
         res.status(500).json({ error: 'Erro ao remover jogadores da equipe sombra' });
     }
 };
+
 
 exports.getAtletasByEquipeSombra = async (req, res) => {
     const { id } = req.params;

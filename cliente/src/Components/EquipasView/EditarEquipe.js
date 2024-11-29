@@ -18,18 +18,44 @@ function EditarEquipe() {
     const [ratings, setRatings] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [loading, setLoading] = useState(false);
 
+    // Pega o ID da equipe sombra armazenado no localStorage
+    const equipeSombraId = localStorage.getItem('equipeSombraId');
+
+    // Função para carregar os jogadores de uma equipe sombra específica
     useEffect(() => {
-        fetch(`http://localhost:3000/equipeSombra/${id}/atletas`)
-            .then(response => response.json())
-            .then(data => {
-                setPositions(data.atletas.reduce((acc, jogador) => {
-                    acc[jogador.posicao] = jogador;
-                    return acc;
-                }, {}));
-            })
-            .catch(error => console.error("Erro ao carregar dados da equipe:", error));
+        if (equipeSombraId) {
+            setLoading(true);
+            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}/atletas`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro!',
+                            text: 'Erro ao carregar jogadores da equipe.',
+                        });
+                    } else {
+                        // Atualiza as posições com os jogadores da equipe, usando o nome da posição
+                        const initialPositions = {};
+                        data.forEach(jogador => {
+                            initialPositions[jogador.posicao] = {
+                                id: jogador.id,
+                                nome: jogador.nome,
+                                rating: ratings[jogador.id] || "N/A",
+                            };
+                        });
+                        setPositions(initialPositions);
+                    }
+                })
+                .catch(error => console.error("Erro ao carregar jogadores da equipe:", error))
+                .finally(() => setLoading(false));
+        }
+    }, [equipeSombraId, ratings]);
 
+    // Função para carregar todos os jogadores disponíveis e os ratings
+    useEffect(() => {
         fetch("http://localhost:3000/atletas")
             .then(response => response.json())
             .then(data => setPlayers(data))
@@ -44,8 +70,8 @@ function EditarEquipe() {
                 }, {});
                 setRatings(ratingsMap);
             })
-            .catch(error => console.error("Erro ao carregar ratings:", error));
-    }, [id]);
+            .catch(error => console.error("Erro ao carregar relatórios:", error));
+    }, []);
 
     const openModal = (playerPosition, positionId) => {
         setSelectedPlayer({ playerPosition, positionId });
@@ -64,22 +90,103 @@ function EditarEquipe() {
         setSelectedPlayer(null);
     };
 
-    const assignPlayerToPosition = (player, positionId) => {
-        setPositions(prevPositions => ({
-            ...prevPositions,
-            [positionId]: {
-                id: player.id,
-                nome: player.nome,
-            },
-        }));
-        closeModal();
+    const assignPlayerToPosition = (newPlayer, positionId) => {
+        const oldPlayer = positions[positionId];
+    
+        // Se houver um jogador antigo, removê-lo antes de adicionar o novo jogador
+        if (oldPlayer) {
+            // Realiza a chamada para remover o jogador antigo
+            fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    equipeSombraId: equipeSombraId,
+                    jogadoresIds: [oldPlayer.id],  // Envia o ID do jogador antigo
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Jogadores removidos com sucesso!") {
+                    // Agora, adiciona o novo jogador à posição
+                    setPositions(prevPositions => ({
+                        ...prevPositions,
+                        [positionId]: {
+                            id: newPlayer.id,
+                            nome: newPlayer.nome,
+                        },
+                    }));
+                    Swal.fire('Jogador Substituído!', 'O jogador foi substituído com sucesso.', 'success');
+                } else {
+                    Swal.fire('Erro!', 'Erro ao remover o jogador antigo.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao remover jogador:", error);
+                Swal.fire('Erro!', 'Erro ao remover o jogador antigo.', 'error');
+            });
+        } else {
+            // Se não houver jogador anterior, apenas atribui o novo jogador
+            setPositions(prevPositions => ({
+                ...prevPositions,
+                [positionId]: {
+                    id: newPlayer.id,
+                    nome: newPlayer.nome,
+                },
+            }));
+            Swal.fire('Jogador Atribuído!', 'O jogador foi atribuído à posição com sucesso.', 'success');
+        }
+    
+        closeModal();  // Fecha o modal após a substituição
     };
 
     const onRemovePlayer = (positionId) => {
-        setPositions(prevPositions => {
-            const newPositions = { ...prevPositions };
-            delete newPositions[positionId];
-            return newPositions;
+        const player = positions[positionId];
+        
+        // Se não houver jogador na posição, não faz nada
+        if (!player) return;
+    
+        // Confirmação antes de remover
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você deseja remover esse jogador da equipe?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, remover',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Realiza a chamada para remover o jogador
+                fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        equipeSombraId: equipeSombraId,
+                        jogadoresIds: [player.id],  // Envia o ID do jogador
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === "Jogadores removidos com sucesso!") {
+                        // Atualiza a UI após a remoção
+                        setPositions(prevPositions => {
+                            const newPositions = { ...prevPositions };
+                            delete newPositions[positionId];  // Remove o jogador da posição
+                            return newPositions;
+                        });
+                        Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
+                    } else {
+                        Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao remover jogador:", error);
+                    Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
+                });
+            }
         });
     };
 
