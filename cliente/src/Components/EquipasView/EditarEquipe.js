@@ -95,7 +95,7 @@ function EditarEquipe() {
     
         // Se houver um jogador antigo, removê-lo antes de adicionar o novo jogador
         if (oldPlayer) {
-            // Realiza a chamada para remover o jogador antigo
+            // Realiza a chamada para remover o jogador antigo sem notificação ao usuário
             fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
                 method: "POST",
                 headers: {
@@ -117,14 +117,10 @@ function EditarEquipe() {
                             nome: newPlayer.nome,
                         },
                     }));
-                    Swal.fire('Jogador Substituído!', 'O jogador foi substituído com sucesso.', 'success');
-                } else {
-                    Swal.fire('Erro!', 'Erro ao remover o jogador antigo.', 'error');
                 }
             })
             .catch(error => {
                 console.error("Erro ao remover jogador:", error);
-                Swal.fire('Erro!', 'Erro ao remover o jogador antigo.', 'error');
             });
         } else {
             // Se não houver jogador anterior, apenas atribui o novo jogador
@@ -135,11 +131,11 @@ function EditarEquipe() {
                     nome: newPlayer.nome,
                 },
             }));
-            Swal.fire('Jogador Atribuído!', 'O jogador foi atribuído à posição com sucesso.', 'success');
         }
     
         closeModal();  // Fecha o modal após a substituição
     };
+    
 
     const onRemovePlayer = (positionId) => {
         const player = positions[positionId];
@@ -239,15 +235,16 @@ function EditarEquipe() {
                 <div className="sub-main-content">
                     <div className="criar-equipe-container">
                         <EquipasTitle />
-                        <EditarCampoFutebol
-                            positions={positions}
-                            openModal={openModal}
-                        />
-                        <div className="actions-buttonsAT" style={{ marginTop: "10px" }}>
+                        <div className="actions-buttonsAT" style={{ marginTop: "20px", justifyContent: "start" }}>
                             <button onClick={salvarAlteracoes} className="button-createAT">
                                 Salvar Alterações
                             </button>
                         </div>
+                        <EditarCampoFutebol
+                            positions={positions}
+                            openModal={openModal}
+                        />
+                        
                         <TabelaJogadores
                             positions={positions}
                             ratings={ratings}
