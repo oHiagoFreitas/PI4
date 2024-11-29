@@ -105,7 +105,16 @@ function MostrarEquipeComJogadores() {
                 <div className="sub-main-content">
                     <div className="criar-equipe-container">
                         <CriandoESTitle />
-                        
+
+                        <div className="actions-buttonsAT" style={{ justifyContent: "start", marginTop: 20 }}>
+                            <button
+                                className="button-createAT"
+                                onClick={() => navigate(`/editar-equipe/${equipeSombraId}`)}
+                            >
+                                Editar Equipe
+                            </button>
+                        </div>
+
                         {loading ? (
                             <div className="loading-spinner">Carregando...</div>
                         ) : (

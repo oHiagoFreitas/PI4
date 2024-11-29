@@ -69,7 +69,7 @@ function ShadowTeamsTable() {
                                             className="action-buttonES"
                                             onClick={() => {
                                                 console.log("ID da equipe sombra:", team.id); // Verifique o ID
-                                                
+
                                                 // Armazena o ID da equipe sombra no localStorage
                                                 localStorage.setItem('equipeSombraId', team.id);
 
@@ -78,6 +78,21 @@ function ShadowTeamsTable() {
                                             }}
                                         >
                                             Ver Detalhes
+                                        </button>
+
+                                        <button
+                                            className="action-buttonES"
+                                            onClick={() => {
+                                                console.log("ID da equipe sombra:", team.id); // Verifique o ID
+
+                                                // Armazena o ID da equipe sombra no localStorage
+                                                localStorage.setItem('equipeSombraId', team.id);
+
+                                                // Redireciona para a página de detalhes da equipe sombra
+                                                navigate(`/editar-equipe/${team.id}`);
+                                            }}
+                                        >
+                                            Editar Time
                                         </button>
                                     </td>
                                 </tr>
@@ -89,11 +104,11 @@ function ShadowTeamsTable() {
 
             <div className="actions-buttonsAT">
 
-            <Pagination 
-                currentPage={currentPage} 
-                totalPages={Math.ceil(allShadowTeams.length / itemsPerPage)} 
-                paginate={paginate} 
-            />
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={Math.ceil(allShadowTeams.length / itemsPerPage)}
+                    paginate={paginate}
+                />
                 <button className="button-createAT button-createES" onClick={() => setIsModalOpen(true)}>
                     Criar Equipa Sombra
                 </button>

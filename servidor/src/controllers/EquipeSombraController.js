@@ -141,3 +141,66 @@ exports.getAtletasByEquipeSombra = async (req, res) => {
         res.status(500).json({ error: 'Erro ao buscar atletas da equipe sombra' });
     }
 };
+
+exports.updateEquipeSombra = async (req, res) => {
+    const { id } = req.params;
+    const { jogadoresIds, positions } = req.body; // Agora espera os jogadores e suas novas posições
+
+    try {
+        // Verificar se a equipe sombra existe
+        const equipeSombra = await EquipeSombra.findByPk(id, {
+            include: {
+                model: Atleta,
+                as: 'atletas',
+                attributes: ['id'],
+                through: { attributes: ['posicaoId'] }  // Incluindo a posição dos jogadores
+            }
+        });
+
+        if (!equipeSombra) {
+            return res.status(404).json({ error: 'Equipe Sombra não encontrada' });
+        }
+
+        // Verificar se os jogadores existem
+        const jogadores = await Atleta.findAll({ where: { id: jogadoresIds } });
+
+        if (jogadores.length !== jogadoresIds.length) {
+            return res.status(404).json({ error: 'Alguns jogadores não foram encontrados' });
+        }
+
+        // Adicionar ou atualizar jogadores
+        for (let jogador of jogadores) {
+            const posicao = positions[jogador.id]; // Pega a posição do jogador
+
+            if (!posicao) {
+                return res.status(400).json({ error: `Posição não encontrada para o jogador ${jogador.id}` });
+            }
+
+            // Verificar se o jogador já está na equipe
+            const jogadorExistente = equipeSombra.atletas.find(atleta => atleta.id === jogador.id);
+
+            if (jogadorExistente) {
+                // Atualizar a posição do jogador existente
+                await equipeSombra.removeAtletas(jogador);
+                await equipeSombra.addAtletas(jogador, {
+                    through: {
+                        posicaoId: posicao // Atualiza a posição do jogador
+                    }
+                });
+            } else {
+                // Adicionar o jogador à equipe
+                await equipeSombra.addAtletas(jogador, {
+                    through: {
+                        posicaoId: posicao // Define a posição ao adicionar
+                    }
+                });
+            }
+        }
+
+        // Se tudo correr bem, retorna uma resposta de sucesso
+        res.status(200).json({ message: 'Jogadores atualizados com sucesso!' });
+    } catch (error) {
+        console.error("Erro ao atualizar jogadores na equipe sombra:", error);
+        res.status(500).json({ error: 'Erro ao atualizar jogadores na equipe sombra' });
+    }
+};

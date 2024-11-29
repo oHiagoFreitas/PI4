@@ -19,6 +19,7 @@ import DetalhesTime from "./Components/TimeView/DetalhesTime";
 import Equipas from './View/Equipas';
 import CriarEquipeComJogadores from './Components/EquipasView/CriarEquipeComJogadores';
 import MostrarEquipeComJogadores from './Components/EquipasView/MostrarEquipeComJogadores';
+import EditarEquipeComJogadores from "./Components/EquipasView/EditarEquipe";
 
 
 
@@ -46,6 +47,8 @@ const App = () => {
         <Route path="/Equipas" element={<Equipas />} />´
         <Route path="/equipeSombra/:id" element={<CriarEquipeComJogadores />} />
         <Route path="/MostrarequipeSombra/:id" element={<MostrarEquipeComJogadores />} />
+        <Route path="/editar-equipe/:id" element={<EditarEquipeComJogadores />} />
+
      
         
         
