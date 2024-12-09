@@ -71,7 +71,7 @@ function Sidebar() {
                     <i className="bi bi-shield-lock"></i>
                     Políticas de Privacidade
                 </a>
-                <a href="#logout">
+                <a href="/login">
                     <i className="bi bi-box-arrow-right"></i>
                     Logout
                 </a>
