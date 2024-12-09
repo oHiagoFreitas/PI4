@@ -8,8 +8,11 @@ import AtletasConsultor from './View/AtletasConsultor';
 import Relatorio from './View/Relatorio';
 import Backoffice from './View/Backoffice';
 import BackofficeConsultor from './View/backofficeConsultor';
+import RelatorioConsultor from './View/RelatorioConsultor';
 import DetalhesAtleta from './Components/AtletasView/DetalhesAtleta';
+import DetalhesAtleta2 from './Components/BackofficeConsultor/AtletasView/DetalhesAtleta2';
 import RelatorioDetalhes from "./Components/RelatorioView/RelatorioDetalhes";
+import RelatorioDetalhes2 from "./Components/BackofficeConsultor/RelatorioView/RelatorioDetalhes2";
 import Utilizadores from './View/Utilizadores';
 import PartidasPage from './View/PartidasPage'; // Página de Partidas
 import CriarPartida from './Components/PartidasPage/CriarPartida';
@@ -36,9 +39,12 @@ const App = () => {
         <Route path="/atletas" element={<Atletas />} />
         <Route path="/AtletasConsultor" element={<AtletasConsultor />} />
         <Route path="/atletas/detalhes/:id" element={<DetalhesAtleta />} />
+        <Route path="/atletas2/detalhes/:id" element={<DetalhesAtleta2 />} />
         <Route path="/backofficeConsultor" element={<BackofficeConsultor />} />
+        <Route path="/RelatorioConsultor" element={<RelatorioConsultor />} />
         <Route path="/Relatorios" element={<Relatorio />} />
         <Route path="/relatorios/detalhes/:id" element={<RelatorioDetalhes />} />
+        <Route path="/relatorios2/detalhes/:id" element={<RelatorioDetalhes2 />} />
         <Route path="/Utilizadores" element={<Utilizadores />} />
         <Route path="/partidas" element={<PartidasPage />} /> {/* Página de Partidas */}
         <Route path="/criar-partida" element={<CriarPartida />} />

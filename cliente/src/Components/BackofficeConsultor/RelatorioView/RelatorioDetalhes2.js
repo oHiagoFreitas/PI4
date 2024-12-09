@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../Sidebar";
-import Navbar from "../Navbar";
+import Sidebar2 from "../SideBar2";
+import Navbar from "../../Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "../../Style/AtletasView/DetalhesAtleta.css"; // Estilos
+import "../../../Style/AtletasView/DetalhesAtleta.css"; // Estilos
 import Swal from 'sweetalert2'; // Importando SweetAlert
 
 function DetalhesRelatorio() {
@@ -38,7 +38,7 @@ function DetalhesRelatorio() {
 
     return (
         <div className="backoffice-container">
-            <Sidebar />
+            <Sidebar2 />
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">

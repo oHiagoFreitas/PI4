@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../Sidebar";
-import Navbar from "../Navbar";
+import Sidebar from "../SideBar2";
+import Navbar from "../../Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import AtletasName from "../AtletasView/AtletasName"; // Componente para o nome do atleta
-import AtletasInfo from "../AtletasView/AtletasInfo";
-import AtletasClube from "../AtletasView/AtletasClube";
-import AtletasAvaliacao from "../AtletasView/AtletasAvaliacao";
-import AtletasAgente from "../AtletasView/AtletasAgente";
-import ExportarPDFButton from "../AtletasView/ExportarPDFButton";
-import HistoricoRelatorios from "../AtletasView/HistoricoRelatorios";
-import "../../Style/AtletasView/DetalhesAtleta.css"; // Estilos
+import AtletasName from "../../AtletasView/AtletasName"; // Componente para o nome do atleta
+import AtletasInfo from "../../AtletasView/AtletasInfo";
+import AtletasClube from "../../AtletasView/AtletasClube";
+import AtletasAvaliacao from "../../AtletasView/AtletasAvaliacao";
+import AtletasAgente from "../../AtletasView/AtletasAgente";
+import ExportarPDFButton from "../../AtletasView/ExportarPDFButton";
+import HistoricoRelatorios from "../../AtletasView/HistoricoRelatorios";
+import "../../../Style/AtletasView/DetalhesAtleta.css"; // Estilos
 
 import Swal from 'sweetalert2'; // Importando SweetAlert
 

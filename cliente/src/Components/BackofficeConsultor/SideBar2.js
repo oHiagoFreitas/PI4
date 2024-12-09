@@ -30,7 +30,7 @@ function Sidebar() {
                 </li>
                 <li>
                     <i className="bi bi-file-earmark-text"></i>
-                    <a href="#">Relatórios</a>
+                    <a href="/RelatorioConsultor">Relatórios</a>
                 </li>
                 <li>
                     <i className="bi bi-person-circle"></i>

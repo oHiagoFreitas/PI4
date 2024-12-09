@@ -1,10 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom"; // Adicione esta linha para importar Link corretamente
 
 function HistoricoRelatorios({ relatorios = [] }) {  // Define valor padrão como array vazio
     return (
         <div className="historico-relatoriosAD">
-            <h2 className="headerAD" style={{ color: 'white' }}
-            >Histórico de Relatórios</h2>
+            <h2 className="headerAD" style={{ color: 'white' }}>
+                Histórico de Relatórios
+            </h2>
             <table className="tableAD">
                 <thead>
                     <tr>
@@ -22,11 +24,14 @@ function HistoricoRelatorios({ relatorios = [] }) {  // Define valor padrão com
                             return (
                                 <tr key={index}>
                                     <td>{new Date(relatorio.createdAt).toLocaleDateString()}</td>
-                                    {/* Verificar se scoutId ou o nome do utilizador está disponível */}
                                     <td>{relatorio.utilizador ? relatorio.utilizador.nome : relatorio.scoutId || "Não disponível"}</td>
                                     <td>{relatorio.ratingFinal}</td>
                                     <td>{relatorio.comentario}</td>
-                                    <td><button>Ver</button></td>
+                                    <td>
+                                        <Link to={`/relatorios2/detalhes/${relatorio.id}`} className="action-buttonAT dashboard-link">
+                                            <i className="bi bi-eye" title="Ver"></i>
+                                        </Link>
+                                    </td>
                                 </tr>
                             );
                         })

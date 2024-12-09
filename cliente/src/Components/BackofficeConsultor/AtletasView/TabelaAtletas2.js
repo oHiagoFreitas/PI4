@@ -49,7 +49,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
               <td>{atleta.status}</td>
               <td>
                 {/* Botão para visualizar */}
-                <Link to={`/atletas/detalhes/${atleta.id}`} className="action-buttonAT dashboard-link">
+                <Link to={`/atletas2/detalhes/${atleta.id}`} className="action-buttonAT dashboard-link">
                   <i className="bi bi-eye" title="Ver"></i>
                 </Link>
                 {/* Botão para editar */}
