@@ -4,6 +4,7 @@ import Home from './View/Home';
 import Auth from './View/Auth';
 import SignUp from './View/SignUp';
 import Atletas from './View/Atletas';
+import AtletasConsultor from './View/AtletasConsultor';
 import Relatorio from './View/Relatorio';
 import Backoffice from './View/Backoffice';
 import BackofficeConsultor from './View/backofficeConsultor';
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/backoffice" element={<Backoffice />} />
         <Route path="/atletas" element={<Atletas />} />
+        <Route path="/AtletasConsultor" element={<AtletasConsultor />} />
         <Route path="/atletas/detalhes/:id" element={<DetalhesAtleta />} />
         <Route path="/backofficeConsultor" element={<BackofficeConsultor />} />
         <Route path="/Relatorios" element={<Relatorio />} />

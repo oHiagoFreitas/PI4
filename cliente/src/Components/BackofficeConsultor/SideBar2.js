@@ -26,15 +26,11 @@ function Sidebar() {
             <ul>
                 <li>
                     <i className="bi bi-person"></i>
-                    <a href="#">Atletas</a>
+                    <a href="/AtletasConsultor">Atletas</a>
                 </li>
                 <li>
                     <i className="bi bi-file-earmark-text"></i>
                     <a href="#">Relatórios</a>
-                </li>
-                <li>
-                    <i className="bi bi-people"></i>
-                    <a href="#">Equipas</a>
                 </li>
                 <li>
                     <i className="bi bi-person-circle"></i>

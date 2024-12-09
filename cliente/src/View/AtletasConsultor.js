@@ -1,16 +1,16 @@
-// src/pages/Backoffice.js
+// src/pages/AtletasConsultor.js
 
 import React from 'react';
 import Sidebar2 from '../Components/BackofficeConsultor/SideBar2';
 import Navbar from '../Components/Navbar';
-import WelcomeMessage from '../Components/WelcomeMessage';
-
-import AthletesReportsChart from '../Components/AthletesReportsChart';
+import AtletaTitle from '../Components/AtletasView/AtletasTitle'
+import AtletasTable2 from '../Components/BackofficeConsultor/AtletasView/AtletasTable2'
 
 import '../Style/Backoffice.css';
 
-function backofficeConsultor() {
 
+
+function AtletasConsultor() {
     
     return (
         <div className="backoffice-container">
@@ -18,12 +18,13 @@ function backofficeConsultor() {
             <div className="main-content">
                 <Navbar />
                 <div className='sub-main-content'>
-                    <WelcomeMessage /> {/* Usando o componente de mensagem de boas-vindas */}
-                    <AthletesReportsChart /> {/* Usando o componente de gráfico */}   
+                    <AtletaTitle/>
+                    <AtletasTable2/>
+                    
                 </div>
             </div>
         </div>
     );
 }
 
-export default backofficeConsultor;
+export default AtletasConsultor;
