@@ -134,21 +134,58 @@ module.exports = {
 
   // Método para editar uma partida
   async editarPartida(req, res) {
-    const { partidaId } = req.params; // ID da partida a ser editada
-    const { data, hora, local, timeMandanteId, timeVisitanteId } = req.body;
+    const { id } = req.params; // ID da partida a ser editada
+    const { data, hora, local, timeMandanteId, timeVisitanteId, jogadoresIds, scoutsIds } = req.body;
 
     try {
-      const partida = await Partida.findByPk(partidaId);
+      const partida = await Partida.findByPk(id);
       if (!partida) {
         return res.status(404).json({ error: 'Partida não encontrada' });
       }
 
-      // Atualiza a partida
+      // Verifica se o time mandante existe
+      const timeMandante = await Time.findByPk(timeMandanteId);
+      if (!timeMandante) {
+        return res.status(400).json({ error: 'Time mandante não encontrado' });
+      }
+
+      // Verifica se o time visitante existe (se fornecido)
+      let timeVisitante = null; // Usando let para permitir alteração
+      if (timeVisitanteId) {
+        timeVisitante = await Time.findByPk(timeVisitanteId);
+        if (!timeVisitante) {
+          return res.status(400).json({ error: 'Time visitante não encontrado' });
+        }
+      }
+
+      // Atualiza os campos principais da partida
       partida.data = data || partida.data;
       partida.hora = hora || partida.hora;
       partida.local = local || partida.local;
       partida.timeMandanteId = timeMandanteId || partida.timeMandanteId;
       partida.timeVisitanteId = timeVisitanteId || partida.timeVisitanteId;
+
+      // Atualiza jogadores da partida
+      if (jogadoresIds && jogadoresIds.length > 0) {
+        const jogadores = await Atleta.findAll({
+          where: { id: jogadoresIds },
+        });
+        await partida.setJogadores(jogadores); // Substitui jogadores existentes
+      }
+
+      // Atualiza scouts e admins da partida
+      if (scoutsIds && scoutsIds.length > 0) {
+        const scoutsAdmins = await Utilizadores.findAll({
+          where: {
+            id: scoutsIds,
+            [Sequelize.Op.or]: [
+              { role: 'Scout' },
+              { role: 'Admin' },
+            ],
+          },
+        });
+        await partida.setScouts(scoutsAdmins); // Substitui scouts/admins existentes
+      }
 
       await partida.save();
 
@@ -158,4 +195,63 @@ module.exports = {
       res.status(500).json({ error: 'Erro ao editar a partida' });
     }
   },
+
+  async obterPartidaPorId(req, res) {
+    const { id } = req.params; // ID da partida a ser recuperada
+
+    try {
+      const partida = await Partida.findByPk(id, {
+        include: [
+          { model: Time, as: 'timeMandante', attributes: ['id', 'nome'] },
+          { model: Time, as: 'timeVisitante', attributes: ['id', 'nome'] },
+          { model: Atleta, as: 'jogadores', attributes: ['id', 'nome', 'posicao'] },
+          { model: Utilizadores, as: 'scouts', attributes: ['id', 'nome', 'role'] },
+        ],
+      });
+
+      if (!partida) {
+        return res.status(404).json({ error: 'Partida não encontrada' });
+      }
+
+      res.status(200).json(partida);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erro ao obter a partida' });
+    }
+  },
+
+async atribuirScout(req, res) {
+    const { id } = req.params;
+    const { scoutsIds } = req.body;
+
+    try {
+        // Verifica se a partida existe
+        const partida = await Partida.findByPk(id);
+        if (!partida) {
+            return res.status(404).json({ error: 'Partida não encontrada' });
+        }
+
+        // Verifica se o(s) scout(s) existe(m) e tem(têm) o papel de 'Scout' ou 'Admin'
+        const scouts = await Utilizadores.findAll({
+            where: {
+                id: scoutsIds,
+                [Sequelize.Op.or]: [{ role: 'Scout' }, { role: 'Admin' }]
+            }
+        });
+
+        if (scouts.length === 0) {
+            return res.status(404).json({ error: 'Scout(s) não encontrado(s) ou não autorizado(s)' });
+        }
+
+        // Adiciona os scouts à partida
+        await partida.addScouts(scouts);
+
+        res.status(200).json({ message: 'Scout(s) atribuído(s) com sucesso', partida });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro ao atribuir scout à partida' });
+    }
+}
+
+
 };

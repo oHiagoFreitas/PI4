@@ -24,9 +24,7 @@ import Equipas from './View/Equipas';
 import CriarEquipeComJogadores from './Components/EquipasView/CriarEquipeComJogadores';
 import MostrarEquipeComJogadores from './Components/EquipasView/MostrarEquipeComJogadores';
 import EditarEquipeComJogadores from "./Components/EquipasView/EditarEquipe";
-
-
-
+import EditarPartida from './Components/PartidasPage/EditarPartida'; // Página de edição de partida
 
 const App = () => {
   return (
@@ -48,6 +46,7 @@ const App = () => {
         <Route path="/Utilizadores" element={<Utilizadores />} />
         <Route path="/partidas" element={<PartidasPage />} /> {/* Página de Partidas */}
         <Route path="/criar-partida" element={<CriarPartida />} />
+        <Route path="/criar-partida/:id" element={<EditarPartida />} /> {/* Página de edição de partida */}
         <Route path="/times" element={<Time />} />´
         <Route path="/Validacoes" element={<Validacoes />} />
         <Route path="/utilizadores/detalhes/:id" element={<UtilizadorDetalhe />} />
@@ -56,12 +55,6 @@ const App = () => {
         <Route path="/equipeSombra/:id" element={<CriarEquipeComJogadores />} />
         <Route path="/MostrarequipeSombra/:id" element={<MostrarEquipeComJogadores />} />
         <Route path="/editar-equipe/:id" element={<EditarEquipeComJogadores />} />
-
-     
-        
-        
-
-        
       </Routes>
     </Router>
   );

@@ -16,7 +16,11 @@ router.post('/', PartidaController.criarPartida);
 // Rota para excluir uma partida
 router.delete('/:partidaId', PartidaController.excluirPartida);
 
+router.put('/:id/atribuir-scout', PartidaController.atribuirScout);
+
 // Rota para editar uma partida
-router.put('/:partidaId', PartidaController.editarPartida);
+router.put('/:id', PartidaController.editarPartida);
+
+router.get('/:id', PartidaController.obterPartidaPorId);
 
 module.exports = router;
