@@ -36,9 +36,20 @@ function DetalhesTime() {
             });
     }, [id]);
 
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const scoutId = localStorage.getItem('userId');
+        const role = localStorage.getItem('userRole');
+        console.log('Scout ID no localStorage:', scoutId);
+        console.log('Role do utilizador no localStorage:', role);
+
+        setUserRole(role); // Atualiza o estado
+    }, []);
+
     return (
         <div className="backoffice-container">
-            <Sidebar />
+            <Sidebar userRole={userRole}/>
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
@@ -67,9 +78,10 @@ function DetalhesTime() {
                             </div>
 
                             <div className="button-containerAD">
-                                <button onClick={() => navigate("/times")} className="back-buttonAD">
+                                <button onClick={() => navigate(-1)} className="back-buttonAD">
                                     Voltar
                                 </button>
+
                             </div>
                         </div>
                     )}
