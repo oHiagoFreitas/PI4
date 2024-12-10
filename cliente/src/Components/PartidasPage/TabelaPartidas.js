@@ -1,40 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../Style/AtletasView/AtletasTable.css'; // Estilo da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate para redirecionar
 import axios from 'axios'; // Biblioteca para requisições HTTP
 
 // Componente da Tabela de Partidas
-function TabelaPartidas({ partidas, handleEdit, handleDelete, handleAssign }) {
+function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const matchesPerPage = 5; // Número de partidas por página
+  const [assignedScouts, setAssignedScouts] = useState({});
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const scoutId = localStorage.getItem('userId');
+    console.log('Scout ID no localStorage:', scoutId);
+    // Inicializando os scouts atribuídos a partir do localStorage
+    setAssignedScouts(prev => ({
+      ...prev,
+      [scoutId]: []
+    }));
+  }, []);
+
   // Calcular as partidas a serem exibidas na página atual
-  const indexOfLastMatch = currentPage * matchesPerPage;
-  const indexOfFirstMatch = indexOfLastMatch - matchesPerPage;
+  const indexOfLastMatch = currentPage * 5; // Limite de 5 partidas por página
+  const indexOfFirstMatch = indexOfLastMatch - 5;
   const currentMatches = partidas.slice(indexOfFirstMatch, indexOfLastMatch);
 
   // Calcular o número total de páginas
-  const totalPages = Math.ceil(partidas.length / matchesPerPage);
+  const totalPages = Math.ceil(partidas.length / 5);
 
   // Função para mudar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Função para atribuir scout
-  const handleAssignScout = async (partidaId, scoutId) => {
+  const handleAssignScout = async (id) => {
     try {
-      // Solicita ao backend para atribuir um scout à partida
-      const response = await axios.put(`/partidas/${partidaId}/atribuir-scout`, { scoutId });
-      if (response.status === 200) {
-        alert('Scout atribuído com sucesso!');
-        // Pode-se atualizar a tabela ou realizar outras ações aqui após a atribuição
-      }
+      const scoutId = localStorage.getItem('userId');
+      const scoutsIds = assignedScouts[id] || [];
+      console.log('IDs de scouts a serem atribuídos:', scoutsIds);
+  
+      // Inclui o ID do scout obtido do localStorage na lista de IDs de scouts
+      scoutsIds.push(scoutId);
+  
+      const response = await axios.put(`http://localhost:3000/partidas/${id}/atribuir-scout`, { scoutsIds });
+      
+      console.log('Resposta da atribuição de scouts:', response.data);
+  
+      // Atualizar o estado para refletir a atribuição
+      setAssignedScouts(prev => ({
+        ...prev,
+        [id]: [...scoutsIds]
+      }));
     } catch (error) {
-      console.error(error);
-      alert('Erro ao tentar atribuir scout');
+      console.error('Erro ao atribuir scout:', error);
     }
   };
+  
 
   return (
     <div className="atletas-table-containerAT"> {/* Contêiner da tabela */}
@@ -102,7 +122,7 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete, handleAssign }) {
                   {/* Botão para atribuir scout */}
                   <button
                     className="action-buttonAT"
-                    onClick={() => handleAssignScout(partida.id, partida.scoutId)} // Supondo que scoutId esteja disponível diretamente no objeto partida
+                    onClick={() => handleAssignScout(partida.id)}
                   >
                     <i className="bi bi-plus" title="Atribuir"></i>
                   </button>

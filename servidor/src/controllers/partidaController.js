@@ -220,7 +220,7 @@ module.exports = {
     }
   },
 
-async atribuirScout(req, res) {
+  async atribuirScout(req, res) {
     const { id } = req.params;
     const { scoutsIds } = req.body;
 
