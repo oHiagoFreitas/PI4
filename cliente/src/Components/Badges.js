@@ -50,10 +50,13 @@ const Badges = () => {
                 </div>
                 <CreateAthleteModal isOpen={athleteModalIsOpen} onRequestClose={closeAthleteModal} />
 
-                <div className="badge" onClick={openUserModal}>
-                    <span className="badge-icon">+</span>
-                    Criar Utilizador
-                </div>
+                {/* Exibe o botão de "Criar Utilizador" apenas para Admins */}
+                {localStorage.getItem('userRole') === 'Admin' && (
+                    <div className="badge" onClick={openUserModal}>
+                        <span className="badge-icon">+</span>
+                        Criar Utilizador
+                    </div>
+                )}
                 <CreateUserModal isOpen={userModalIsOpen} onRequestClose={closeUserModal} />
 
                 <div className="badge" onClick={openTeamModal}>
@@ -67,6 +70,8 @@ const Badges = () => {
                     Criar Relatório
                 </div>
                 <CreateReportModal isOpen={reportModalIsOpen} onRequestClose={closeReportModal} />
+                
+
             </div>
         </div>
     );
