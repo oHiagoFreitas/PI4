@@ -251,7 +251,8 @@ module.exports = {
         console.error(error);
         res.status(500).json({ error: 'Erro ao atribuir scout à partida' });
     }
-}
+},
+
 
 
 };

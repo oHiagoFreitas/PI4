@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
-import PartidasTitleCriar from './PartidasTitleCriar';
+import EditarPartidaTitle from './EditarPartidaTitle';
 import "../../Style/AtletasView/CriarPartida.css";  // Referência ao CSS
 
 function EditarPartida() {
@@ -142,32 +142,32 @@ function EditarPartida() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         if (!data || !hora || !local || !timeMandanteNome || !jogadoresNomes.length) {
             Swal.fire('Erro!', 'Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
         }
-
+    
         const timeMandanteId = getTimeIdByNome(timeMandanteNome);
         const timeVisitanteId = timeVisitanteNome ? getTimeIdByNome(timeVisitanteNome) : null;
-
+    
         if (!timeMandanteId) {
             Swal.fire('Erro!', 'Time mandante não encontrado. Verifique o nome digitado.', 'error');
             return;
         }
-
+    
         const jogadoresIds = jogadoresNomes.map(nome => getJogadorIdByNome(nome)).filter(id => id !== null);
-        const scoutsIds = scoutsNomes.map(nome => getScoutIdByNome(nome)).filter(id => id !== null);
-
+        const scoutsIdsFiltered = scoutsNomes.map(nome => getScoutIdByNome(nome)).filter(id => id !== null);
+    
         if (jogadoresIds.length === 0) {
             Swal.fire('Erro!', 'Nenhum jogador encontrado. Verifique os nomes digitados.', 'error');
             return;
         }
-
+    
         setLoading(true);
-
+    
         axios
             .put(`http://localhost:3000/partidas/${id}`, {
                 data,
@@ -176,7 +176,7 @@ function EditarPartida() {
                 timeMandanteId,
                 timeVisitanteId,
                 jogadoresIds,
-                scoutsIds
+                scoutsIds: scoutsIdsFiltered  // Envia apenas os scouts selecionados
             })
             .then((response) => {
                 console.log('Partida editada com sucesso!', response);
@@ -186,7 +186,7 @@ function EditarPartida() {
             .catch((error) => {
                 setLoading(false);
                 setError('Erro ao editar a partida.');
-
+    
                 if (error.response && error.response.status === 400) {
                     Swal.fire({
                         icon: 'error',
@@ -202,6 +202,7 @@ function EditarPartida() {
                 }
             });
     };
+    
 
     return (
         <div className="criar-partidaPJ">
@@ -209,8 +210,8 @@ function EditarPartida() {
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
-                    <PartidasTitleCriar />
-                    <section className="sectionAD clube-infoAD">
+                    <EditarPartidaTitle />
+                    <section className="sectionAD clube-infoAD" style={{marginTop: 20}}>
                         <form className="formularioPj" onSubmit={handleSubmit}>
                             <div>
                                 <label>Data:</label>

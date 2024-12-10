@@ -3,30 +3,40 @@ import '../../Style/AtletasView/AtletasTable.css'; // Estilo da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate para redirecionar
 import axios from 'axios'; // Biblioteca para requisições HTTP
+import Swal from 'sweetalert2';
 
 // Componente da Tabela de Partidas
 function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [assignedScouts, setAssignedScouts] = useState({});
+  const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const scoutId = localStorage.getItem('userId');
-    console.log('Scout ID no localStorage:', scoutId);
-    // Inicializando os scouts atribuídos a partir do localStorage
-    setAssignedScouts(prev => ({
-      ...prev,
-      [scoutId]: []
-    }));
+    // Obtendo o papel do usuário do localStorage
+    const role = localStorage.getItem('userRole');
+    console.log('Role no localStorage:', role); // Debug para conferir o papel no localStorage
+    if (role) {
+      setUserRole(role); // Atualiza o estado apenas se o papel estiver definido
+    }
   }, []);
+
+  // Filtrar partidas de acordo com o papel do usuário
+  const filteredMatches = partidas.filter((partida) => {
+    if (userRole === 'Scout') {
+      // Mostrar apenas partidas que possuem o texto "Nenhum scout"
+      return !partida.scouts || partida.scouts.length === 0;
+    }
+    // Mostrar todas as partidas para outros papéis
+    return true;
+  });
 
   // Calcular as partidas a serem exibidas na página atual
   const indexOfLastMatch = currentPage * 5; // Limite de 5 partidas por página
   const indexOfFirstMatch = indexOfLastMatch - 5;
-  const currentMatches = partidas.slice(indexOfFirstMatch, indexOfLastMatch);
+  const currentMatches = filteredMatches.slice(indexOfFirstMatch, indexOfLastMatch);
 
   // Calcular o número total de páginas
-  const totalPages = Math.ceil(partidas.length / 5);
+  const totalPages = Math.ceil(filteredMatches.length / 5);
 
   // Função para mudar de página
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -35,26 +45,30 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
   const handleAssignScout = async (id) => {
     try {
       const scoutId = localStorage.getItem('userId');
-      const scoutsIds = assignedScouts[id] || [];
-      console.log('IDs de scouts a serem atribuídos:', scoutsIds);
-  
-      // Inclui o ID do scout obtido do localStorage na lista de IDs de scouts
-      scoutsIds.push(scoutId);
-  
-      const response = await axios.put(`http://localhost:3000/partidas/${id}/atribuir-scout`, { scoutsIds });
-      
-      console.log('Resposta da atribuição de scouts:', response.data);
-  
-      // Atualizar o estado para refletir a atribuição
-      setAssignedScouts(prev => ({
-        ...prev,
-        [id]: [...scoutsIds]
-      }));
+      const response = await axios.put(`http://localhost:3000/partidas/${id}/atribuir-scout`, { scoutId });
+
+      // SweetAlert de sucesso
+      Swal.fire({
+        icon: 'success',
+        title: 'Sucesso!',
+        text: 'Scout atribuído com sucesso!',
+      });
     } catch (error) {
       console.error('Erro ao atribuir scout:', error);
+
+      // SweetAlert de erro
+      Swal.fire({
+        icon: 'error',
+        title: 'Erro',
+        text: 'Ocorreu um erro ao atribuir scout!',
+      });
     }
   };
-  
+
+  // Renderização condicional enquanto userRole não está definido
+  if (userRole === null) {
+    return <div>Carregando...</div>; // Exibe carregamento até que o papel seja definido
+  }
 
   return (
     <div className="atletas-table-containerAT"> {/* Contêiner da tabela */}
@@ -103,21 +117,25 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
                 {/* Exibindo o Local */}
                 <td>{partida.local}</td>
 
-                {/* Ações de editar, excluir e atribuir */}
+                {/* Ações */}
                 <td>
-                  <button
-                    className="action-buttonAT"
-                    onClick={() => navigate(`/criar-partida/${partida.id}`)}
-                  >
-                    <i className="bi bi-pencil" title="Editar"></i>
-                  </button>
-
-                  <button
-                    className="action-buttonAT"
-                    onClick={() => handleDelete(partida.id)}
-                  >
-                    <i className="bi bi-trash" title="Deletar"></i>
-                  </button>
+                  {/* Exibir o botão de edição apenas para Admin */}
+                  {userRole === 'Admin' && (
+                    <div className="action-buttons-container">
+                      <button
+                        className="action-buttonAT"
+                        onClick={() => navigate(`/criar-partida/${partida.id}`)}
+                      >
+                        <i className="bi bi-pencil" title="Editar"></i>
+                      </button>
+                      <button
+                        className="action-buttonAT"
+                        onClick={() => handleDelete(partida.id)}
+                      >
+                        <i className="bi bi-trash" title="Deletar"></i>
+                      </button>
+                    </div>
+                  )}
 
                   {/* Botão para atribuir scout */}
                   <button
