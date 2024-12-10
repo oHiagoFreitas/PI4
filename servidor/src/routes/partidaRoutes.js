@@ -13,7 +13,7 @@ router.get('/atribuidas/:userId', PartidaController.listarPartidasAtribuidas);
 // Rota para criar uma partida
 router.post('/', PartidaController.criarPartida);
 
-
+router.delete('/:partidaId/scouts/:scoutId', PartidaController.removerScout);
 
 // Rota para excluir uma partida
 router.delete('/:partidaId', PartidaController.excluirPartida);

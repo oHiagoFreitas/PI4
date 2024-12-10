@@ -61,6 +61,9 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
           title: 'Sucesso!',
           text: 'Scout atribuído com sucesso!',
         });
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       } else {
         Swal.fire({
           icon: 'error',

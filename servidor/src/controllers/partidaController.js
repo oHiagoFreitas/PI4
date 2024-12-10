@@ -253,6 +253,40 @@ module.exports = {
     }
 },
 
+// Método para remover um scout de uma partida
+async removerScout(req, res) {
+  const { partidaId, scoutId } = req.params; // ID da partida e ID do scout a ser removido
+
+  try {
+    // Verifica se a partida existe
+    const partida = await Partida.findByPk(partidaId);
+    if (!partida) {
+      return res.status(404).json({ error: 'Partida não encontrada' });
+    }
+
+    // Verifica se o scout existe e está atribuído à partida
+    const scout = await Utilizadores.findByPk(scoutId);
+    if (!scout) {
+      return res.status(404).json({ error: 'Scout não encontrado' });
+    }
+
+    // Verifica se o scout está associado à partida
+    const isScoutAssigned = await partida.hasScout(scout);
+    if (!isScoutAssigned) {
+      return res.status(404).json({ error: 'Scout não está associado a essa partida' });
+    }
+
+    // Remove o scout da partida
+    await partida.removeScout(scout);
+
+    res.status(200).json({ message: 'Scout removido da partida com sucesso' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao remover scout da partida' });
+  }
+}
+
+
 
 
 };

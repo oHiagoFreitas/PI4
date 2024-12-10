@@ -25,6 +25,17 @@ function EditarPartida() {
     const [jogadoresDisponiveis, setJogadoresDisponiveis] = useState([]); 
     const navigate = useNavigate();
 
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const scoutId = localStorage.getItem('userId');
+        const role = localStorage.getItem('userRole');
+        console.log('Scout ID no localStorage:', scoutId);
+        console.log('Role do utilizador no localStorage:', role);
+
+        setUserRole(role); // Atualiza o estado
+    }, []);
+
     // Carregar os dados da partida para edição
     useEffect(() => {
         axios.get(`http://localhost:3000/partidas/${id}`)
@@ -206,7 +217,7 @@ function EditarPartida() {
 
     return (
         <div className="criar-partidaPJ">
-            <Sidebar />
+            <Sidebar userRole={userRole}/>
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
