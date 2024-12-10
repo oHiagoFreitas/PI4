@@ -45,18 +45,32 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
   const handleAssignScout = async (id) => {
     try {
       const scoutId = localStorage.getItem('userId');
-      const response = await axios.put(`http://localhost:3000/partidas/${id}/atribuir-scout`, { scoutId });
-
-      // SweetAlert de sucesso
-      Swal.fire({
-        icon: 'success',
-        title: 'Sucesso!',
-        text: 'Scout atribuído com sucesso!',
-      });
+      console.log('Scout ID:', scoutId);
+      console.log('Partida ID:', id);
+      
+      // Supondo que a API espera um array de IDs de scouts
+      const scoutsIds = [scoutId];
+  
+      // Envia a requisição PUT com um array de IDs
+      const response = await axios.put(`http://localhost:3000/partidas/${id}/atribuir-scout`, { scoutsIds });
+  
+      // Verifica se a resposta foi bem-sucedida
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Sucesso!',
+          text: 'Scout atribuído com sucesso!',
+        });
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Erro',
+          text: 'Ocorreu um erro inesperado ao atribuir scout!',
+        });
+      }
     } catch (error) {
-      console.error('Erro ao atribuir scout:', error);
-
-      // SweetAlert de erro
+      console.error('Erro ao atribuir scout:', error.response ? error.response.data : error.message);
+  
       Swal.fire({
         icon: 'error',
         title: 'Erro',
@@ -64,6 +78,7 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
       });
     }
   };
+  
 
   // Renderização condicional enquanto userRole não está definido
   if (userRole === null) {
