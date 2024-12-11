@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
-import CriandoESTitle from "./CriandoESTitle";
+import MostrarEquipeSombra from "./MostrarEquipeSombra";
 import CampoFutebol from "./MostrarCampoFutebol";
 import TabelaJogadores from "./MostrarTabelaJogadores";
 import Swal from 'sweetalert2';
@@ -15,6 +15,17 @@ function MostrarEquipeComJogadores() {
     const [positions, setPositions] = useState({});
     const [ratings, setRatings] = useState({});
     const [loading, setLoading] = useState(false);
+
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const scoutId = localStorage.getItem('userId');
+        const role = localStorage.getItem('userRole');
+        console.log('Scout ID no localStorage:', scoutId);
+        console.log('Role do utilizador no localStorage:', role);
+
+        setUserRole(role); // Atualiza o estado
+    }, []);
 
     // Verifica se o ID foi encontrado
     useEffect(() => {
@@ -96,12 +107,19 @@ function MostrarEquipeComJogadores() {
 
     return (
         <div className="backoffice-container">
-            <Sidebar />
+            <Sidebar userRole={userRole}/>
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
                     <div className="criar-equipe-container">
-                        <CriandoESTitle />
+                        <MostrarEquipeSombra />
+
+
+                        {loading ? (
+                            <div className="loading-spinner">Carregando...</div>
+                        ) : (
+                            <CampoFutebol positions={positions} />
+                        )}
 
                         <div className="actions-buttonsAT" style={{ justifyContent: "start", marginTop: 20 }}>
                             <button
@@ -110,13 +128,11 @@ function MostrarEquipeComJogadores() {
                             >
                                 Editar Equipe
                             </button>
+
+                            <button onClick={() => navigate(-1)} className="button-createAT">Voltar</button>
+
                         </div>
 
-                        {loading ? (
-                            <div className="loading-spinner">Carregando...</div>
-                        ) : (
-                            <CampoFutebol positions={positions} />
-                        )}
                         <TabelaJogadores
                             positions={positions}
                             ratings={ratings}

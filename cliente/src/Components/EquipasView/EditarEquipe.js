@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom"; 
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
@@ -20,14 +20,32 @@ function EditarEquipe() {
     const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const scoutId = localStorage.getItem('userId');
+        const role = localStorage.getItem('userRole');
+        console.log('Scout ID no localStorage:', scoutId);
+        console.log('Role do utilizador no localStorage:', role);
+
+        setUserRole(role); // Atualiza o estado
+    }, []);
+    
+    // Armazena o ID da equipe sombra no localStorage
+    useEffect(() => {
+        if (id) {
+            localStorage.setItem('equipeSombraId', id);
+        }
+    }, [id]);
+
     // Pega o ID da equipe sombra armazenado no localStorage
     const equipeSombraId = localStorage.getItem('equipeSombraId');
 
     // Função para carregar os jogadores de uma equipe sombra específica
     useEffect(() => {
-        if (id) {
+        if (equipeSombraId) {
             setLoading(true);
-            fetch(`http://localhost:3000/equipeSombra/${id}/atletas`)
+            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -52,7 +70,7 @@ function EditarEquipe() {
                 .catch(error => console.error("Erro ao carregar jogadores da equipe:", error))
                 .finally(() => setLoading(false));
         }
-    }, [id, ratings]);
+    }, [equipeSombraId, ratings]);
 
     // Função para carregar todos os jogadores disponíveis e os ratings
     useEffect(() => {
@@ -92,7 +110,7 @@ function EditarEquipe() {
 
     const assignPlayerToPosition = (newPlayer, positionId) => {
         const oldPlayer = positions[positionId];
-    
+
         // Se houver um jogador antigo, removê-lo antes de adicionar o novo jogador
         if (oldPlayer) {
             // Realiza a chamada para remover o jogador antigo sem notificação ao usuário
@@ -102,26 +120,26 @@ function EditarEquipe() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    id: id,
+                    id: equipeSombraId,
                     jogadoresIds: [oldPlayer.id],  // Envia o ID do jogador antigo
                 }),
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === "Jogadores removidos com sucesso!") {
-                    // Agora, adiciona o novo jogador à posição
-                    setPositions(prevPositions => ({
-                        ...prevPositions,
-                        [positionId]: {
-                            id: newPlayer.id,
-                            nome: newPlayer.nome,
-                        },
-                    }));
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao remover jogador:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === "Jogadores removidos com sucesso!") {
+                        // Agora, adiciona o novo jogador à posição
+                        setPositions(prevPositions => ({
+                            ...prevPositions,
+                            [positionId]: {
+                                id: newPlayer.id,
+                                nome: newPlayer.nome,
+                            },
+                        }));
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao remover jogador:", error);
+                });
         } else {
             // Se não houver jogador anterior, apenas atribui o novo jogador
             setPositions(prevPositions => ({
@@ -132,17 +150,16 @@ function EditarEquipe() {
                 },
             }));
         }
-    
+
         closeModal();  // Fecha o modal após a substituição
     };
-    
 
     const onRemovePlayer = (positionId) => {
         const player = positions[positionId];
-        
+
         // Se não houver jogador na posição, não faz nada
         if (!player) return;
-    
+
         // Confirmação antes de remover
         Swal.fire({
             title: 'Tem certeza?',
@@ -160,35 +177,35 @@ function EditarEquipe() {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        equipeSombraId: id,
+                        equipeSombraId: equipeSombraId,
                         jogadoresIds: [player.id],  // Envia o ID do jogador
                     }),
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message === "Jogadores removidos com sucesso!") {
-                        // Atualiza a UI após a remoção
-                        setPositions(prevPositions => {
-                            const newPositions = { ...prevPositions };
-                            delete newPositions[positionId];  // Remove o jogador da posição
-                            return newPositions;
-                        });
-                        Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
-                    } else {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === "Jogadores removidos com sucesso!") {
+                            // Atualiza a UI após a remoção
+                            setPositions(prevPositions => {
+                                const newPositions = { ...prevPositions };
+                                delete newPositions[positionId];  // Remove o jogador da posição
+                                return newPositions;
+                            });
+                            Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
+                        } else {
+                            Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro ao remover jogador:", error);
                         Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao remover jogador:", error);
-                    Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
-                });
+                    });
             }
         });
     };
 
     const salvarAlteracoes = () => {
         const requestData = {
-            equipeSombraId: id,
+            equipeSombraId: equipeSombraId,
             jogadoresIds: Object.values(positions).map(player => player.id),
             positions: Object.entries(positions).reduce((acc, [positionId, player]) => {
                 acc[player.id] = positionId;
@@ -229,22 +246,25 @@ function EditarEquipe() {
 
     return (
         <div className="backoffice-container">
-            <Sidebar />
+            <Sidebar userRole={userRole} />
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
                     <div className="criar-equipe-container">
                         <EquipasEditarTime />
-                        <div className="actions-buttonsAT" style={{ marginTop: "20px", justifyContent: "start" }}>
-                            <button onClick={salvarAlteracoes} className="button-createAT">
-                                Salvar Alterações
-                            </button>
-                        </div>
+
                         <EditarCampoFutebol
                             positions={positions}
                             openModal={openModal}
                         />
-                        
+
+                        <div className="actions-buttonsAT" style={{ marginTop: "20px", justifyContent: "start" }}>
+                            <button onClick={salvarAlteracoes} className="button-createAT">
+                                Salvar Alterações
+                            </button>
+                            <button onClick={() => navigate(-1)} className="button-createAT">Voltar</button>
+                        </div>
+
                         <TabelaJogadores
                             positions={positions}
                             ratings={ratings}

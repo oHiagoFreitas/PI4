@@ -3,10 +3,11 @@ import '../../Style/AtletasTitle.css';
 
 const EquipasEditarTime = () => {
     const [equipeNome, setEquipeNome] = useState("");  // Estado para armazenar o nome da equipe
-
+    
+    // Pega o ID da equipe sombra armazenado no localStorage
+    const equipeSombraId = localStorage.getItem('equipeSombraId');
+    
     useEffect(() => {
-        // Tente pegar o nome da equipe do localStorage (caso tenha sido armazenado lá)
-        const equipeSombraId = localStorage.getItem('equipeSombraId');
         if (equipeSombraId) {
             fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}`)
                 .then(response => response.json())
@@ -17,7 +18,7 @@ const EquipasEditarTime = () => {
                 })
                 .catch(error => console.error("Erro ao carregar o nome da equipe:", error));
         }
-    }, []);
+    }, [equipeSombraId]);
 
     return (
         <div className="AtletasTitleMessage">
