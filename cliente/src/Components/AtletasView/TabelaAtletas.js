@@ -37,7 +37,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
 
   return (
     <div>
-      <table className="atletas-tableAT">
+      <table className="atletas-tableAT" style={{marginTop: 20}}>
         <thead>
           <tr>
             <th>Nome</th>

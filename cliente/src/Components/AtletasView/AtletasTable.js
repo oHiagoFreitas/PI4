@@ -68,9 +68,9 @@ function AtletasTable() {
     const matchesPosition = filterPosition ? atleta.posicao === filterPosition : true;
     const matchesYear = filterYear ? atleta.ano === parseInt(filterYear) : true;
     const matchesCountry = atleta.nacionalidade.toLowerCase().includes(filterCountry.toLowerCase()); // Filtro de país
-    const matchesTeam = atleta.time?.nome?.toLowerCase().includes(filterTeam.toLowerCase()) || 
-                        atleta.clube?.toLowerCase().includes(filterTeam.toLowerCase()); // Filtro de time
-  
+    const matchesTeam = atleta.time?.nome?.toLowerCase().includes(filterTeam.toLowerCase()) ||
+      atleta.clube?.toLowerCase().includes(filterTeam.toLowerCase()); // Filtro de time
+
     return matchesName && matchesPosition && matchesYear && matchesCountry && matchesTeam;
   });
 

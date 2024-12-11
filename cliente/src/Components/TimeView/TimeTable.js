@@ -6,12 +6,16 @@ import Swal from 'sweetalert2';
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import CreateTeamModal from '../CreateTeamModal'; // Modal de criação de time
 import TabelaTime from './TabelaTime'; // Componente da Tabela de Times
+import TimesFilters from './TimesFilters'; // Componente de filtros de times
 
 function TimesTable() {
   const [times, setTimes] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState(null); // Time selecionado para edição
+  const [filterTeamName, setFilterTeamName] = useState('');
+  const [filterCategory, setFilterCategory] = useState('');
+  const [filterCountry, setFilterCountry] = useState('');
 
   useEffect(() => {
     axios
@@ -57,25 +61,40 @@ function TimesTable() {
     });
   };
 
+  // Filtros de times
+  const filteredTimes = times.filter((time) => {
+    const nameMatch = filterTeamName ? time.nome.toLowerCase().includes(filterTeamName.toLowerCase()) : true;
+    const categoryMatch = filterCategory ? time.categoria === filterCategory : true;
+    const countryMatch = filterCountry ? time.pais.toLowerCase().includes(filterCountry.toLowerCase()) : true;
+
+    return nameMatch && categoryMatch && countryMatch;
+  });
+
   return (
     <div className="atletas-table-containerAT">
+      {/* Componente de filtros */}
+      <TimesFilters
+        filterTeamName={filterTeamName}
+        filterCategory={filterCategory}
+        filterCountry={filterCountry}
+        onFilterTeamNameChange={(value) => setFilterTeamName(value)}
+        onFilterCategoryChange={(value) => setFilterCategory(value)}
+        onFilterCountryChange={(value) => setFilterCountry(value)}
+      />
+
       {/* Botões de Ação: Criar Time */}
       <div className="actions-buttonsAT" style={{ justifyContent: 'flex-end' }}>
-        <button
-          className="button-createAT"
-          onClick={openCreateTimeModal}
-        >
+        <button className="button-createAT" onClick={openCreateTimeModal}>
           Criar Time
         </button>
-        {/* Você pode adicionar outros botões, como o de exportação, aqui */}
         <button className="button-exportAT">
           Exportar Times
         </button>
       </div>
 
       {/* Tabela com dados dos times */}
-      <TabelaTime 
-        times={times}
+      <TabelaTime
+        times={filteredTimes}
         handleEdit={openEditTimeModal}
         handleDelete={handleDelete}
       />

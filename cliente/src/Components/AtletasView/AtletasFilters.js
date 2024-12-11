@@ -26,34 +26,6 @@ const AtletasFilters = ({
         onChange={(e) => onFilterTextChange(e.target.value)}
       />
 
-      {/* Filtro por posição */}
-      <select
-        className="filter-selectAT"
-        value={filterPosition}
-        onChange={(e) => onFilterPositionChange(e.target.value)}
-      >
-        <option value="">Todas as posições</option>
-        {uniquePositions.map((posicao) => (
-          <option key={posicao} value={posicao}>
-            {posicao}
-          </option>
-        ))}
-      </select>
-
-      {/* Filtro por ano */}
-      <select
-        className="filter-selectAT"
-        value={filterYear}
-        onChange={(e) => onFilterYearChange(e.target.value)}
-      >
-        <option value="">Todos os anos</option>
-        {uniqueYears.map((ano) => (
-          <option key={ano} value={ano}>
-            {ano}
-          </option>
-        ))}
-      </select>
-
       {/* Filtro por país */}
       <input
         type="text"
@@ -71,6 +43,39 @@ const AtletasFilters = ({
         value={filterTeam}
         onChange={(e) => onFilterTeamChange(e.target.value)}
       />
+      
+
+      {/* Filtro por posição */}
+      <select
+        className="filter-selectAT"
+        value={filterPosition}
+        onChange={(e) => onFilterPositionChange(e.target.value)}
+      >
+        <option value="">Todas as posições</option>
+        <option value="Guarda Redes">Guarda Redes</option>
+        <option value="Defesa Central">Defesa Central</option>
+        <option value="Defesa Esquerda">Defesa Esquerda</option>
+        <option value="Defesa Direita">Defesa Direita</option>
+        <option value="Meio Campista">Meio Campista</option>
+        <option value="Atacante">Atacante</option>
+        <option value="Universal">Universal</option>
+      </select>
+
+      {/* Filtro por ano */}
+      <select
+        className="filter-selectAT"
+        value={filterYear}
+        onChange={(e) => onFilterYearChange(e.target.value)}
+      >
+        <option value="">Todos os anos</option>
+        {uniqueYears.map((ano) => (
+          <option key={ano} value={ano}>
+            {ano}
+          </option>
+        ))}
+      </select>
+
+      
     </div>
   );
 };

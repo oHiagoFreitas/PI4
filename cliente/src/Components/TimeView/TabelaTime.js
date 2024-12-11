@@ -39,9 +39,9 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
   };
 
   return (
-    <div className="atletas-table-containerAT"> {/* Contêiner da tabela */}
+    <div > {/* Contêiner da tabela */}
       {/* Tabela com dados dos times */}
-      <table className="atletas-tableAT table table-striped">
+      <table  className="atletas-tableAT" style={{marginTop: 20}}>
         <thead>
           <tr>
             <th>Nome do Time</th>
