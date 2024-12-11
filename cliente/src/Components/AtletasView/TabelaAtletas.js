@@ -7,6 +7,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1); // Página atual
   const [atletasData, setAtletasData] = useState(atletas); // Estado para armazenar os atletas
   const atletasPerPage = 5; // Quantidade de atletas por página
+  
 
   // Lógica para determinar os atletas da página atual
   const indexOfLastAtleta = currentPage * atletasPerPage;
@@ -41,7 +42,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
           <tr>
             <th>Nome</th>
             <th>Ano</th>
-            <th>País</th>
+            <th>Nacionalidade</th>
             <th>Posição</th>
             <th>Time</th>
             <th>Status</th>

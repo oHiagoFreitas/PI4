@@ -5,11 +5,15 @@ const AtletasFilters = ({
   filterText,
   filterPosition,
   filterYear,
+  filterCountry, // Adicionado
+  filterTeam,    // Adicionado
   uniquePositions,
   uniqueYears,
   onFilterTextChange,
   onFilterPositionChange,
   onFilterYearChange,
+  onFilterCountryChange, // Adicionado
+  onFilterTeamChange,    // Adicionado
 }) => {
   return (
     <div className="filters-containerAT">
@@ -49,6 +53,24 @@ const AtletasFilters = ({
           </option>
         ))}
       </select>
+
+      {/* Filtro por país */}
+      <input
+        type="text"
+        className="filter-inputAT"
+        placeholder="Buscar pelo país..."
+        value={filterCountry}
+        onChange={(e) => onFilterCountryChange(e.target.value)}
+      />
+
+      {/* Filtro por time */}
+      <input
+        type="text"
+        className="filter-inputAT"
+        placeholder="Buscar pelo time..."
+        value={filterTeam}
+        onChange={(e) => onFilterTeamChange(e.target.value)}
+      />
     </div>
   );
 };
