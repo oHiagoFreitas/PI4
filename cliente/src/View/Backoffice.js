@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
 import WelcomeMessage from '../Components/WelcomeMessage';
@@ -10,28 +10,24 @@ import RecentReportsTable from '../Components/RecentReportsTable';
 import '../Style/Backoffice.css';
 
 function Backoffice() {
-    const [userRole, setUserRole] = useState(null);
 
+    // useEffect para verificar o scoutId no localStorage
     useEffect(() => {
         const scoutId = localStorage.getItem('userId');
-        const role = localStorage.getItem('userRole');
-        console.log('Scout ID no localStorage:', scoutId);
-        console.log('Role do utilizador no localStorage:', role);
-
-        setUserRole(role); // Atualiza o estado
+        console.log('Scout ID no localStorage:', scoutId); // Log para verificar o valor de scoutId
     }, []);
 
     return (
         <div className="backoffice-container">
-            <Sidebar userRole={userRole} /> {/* Passa userRole para Sidebar */}
+            <Sidebar />
             <div className="main-content">
                 <Navbar />
-                <div className="sub-main-content">
-                    <WelcomeMessage />
-                    <QuickActions />
-                    <Badges />
-                    <AthletesReportsChart />
-                    <RecentReportsTable />
+                <div className='sub-main-content'>
+                    <WelcomeMessage /> {/* Usando o componente de mensagem de boas-vindas */}
+                    <QuickActions /> {/* Usando o componente de ações rápidas */}
+                    <Badges /> {/* Usando o componente de badges */}
+                    <AthletesReportsChart /> {/* Usando o componente de gráfico */}
+                    <RecentReportsTable /> {/* Usando o componente de tabela de relatórios */}
                 </div>
             </div>
         </div>

@@ -19,8 +19,6 @@ const Auth = () => {
       // Armazenando o token e id no localStorage
       localStorage.setItem('token', response.data.token); 
       localStorage.setItem('userId', response.data.id); // Armazena o id do usuário
-      localStorage.setItem('userRole', response.data.role); // Adiciona o papel do usuário no localStorage
-
       const userRole = response.data.role; // Supondo que a role do usuário venha na resposta da API
 
       // Log para depuração

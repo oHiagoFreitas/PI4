@@ -106,18 +106,13 @@ function PartidasTable() {
     <div className="atletas-table-containerAT">
       {/* Botões de Ação */}
       <div className="actions-buttonsAT" style={{ justifyContent: 'flex-end' }}>
-        <h2 >Meus jogos Atribuidos</h2>
-
-        {/* Exibe o botão de "Criar Partida" apenas para Admins */}
-        {localStorage.getItem('userRole') === 'Admin' && (
-          <button
-            className="button-createAT"
-            onClick={handleCreatePartida} // Lógica de navegação para criação de partida
-          >
-            Criar Partida
-          </button>
-        )}
-
+      <h2 >Meus jogos Atribuidos</h2>
+        <button
+          className="button-createAT"
+          onClick={handleCreatePartida} // Lógica de navegação para criação de partida
+        >
+          Criar Partida
+        </button>
         <button className="button-exportAT" onClick={exportarMeusJogosParaPDF}>
           Exportar Meus Jogos
         </button>
@@ -125,15 +120,16 @@ function PartidasTable() {
 
       {/* Tabela com dados das partidas */}
       <TabelaJogosAtribuidos jogosAtribuidos={jogosAtribuidos} />
+      
 
       {/* Tabela com jogos atribuídos ao usuário */}
       <div className="tabela-jogos-atribuídos">
         <h2>Todos os Jogos</h2>
         <TabelaPartidas 
-          partidas={partidas}
-          handleEdit={() => {/* Lógica de edição sem modal */}}
-          handleDelete={handleDelete}
-        />
+        partidas={partidas}
+        handleEdit={() => {/* Lógica de edição sem modal */}}
+        handleDelete={handleDelete}
+      />
       </div>
     </div>
   );
