@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import CriandoESTitle from "./CriandoESTitle";
@@ -10,13 +10,11 @@ import "../../Style/EquipaSombra.css";
 
 function MostrarEquipeComJogadores() {
     const navigate = useNavigate();
+    const { id: equipeSombraId } = useParams();
     const [players, setPlayers] = useState([]);
     const [positions, setPositions] = useState({});
     const [ratings, setRatings] = useState({});
     const [loading, setLoading] = useState(false);
-
-    // Pega o ID da equipe sombra armazenado no localStorage
-    const equipeSombraId = localStorage.getItem('equipeSombraId');
 
     // Verifica se o ID foi encontrado
     useEffect(() => {

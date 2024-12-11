@@ -67,7 +67,6 @@ function ShadowTeamsTable() {
                                         <button
                                             className="action-buttonES"
                                             onClick={() => {
-                                                // Redireciona para a página de detalhes da equipe
                                                 navigate(`/MostrarequipeSombra/${team.id}`);
                                             }}
                                         >
