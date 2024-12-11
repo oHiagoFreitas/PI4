@@ -1,48 +1,85 @@
-// src/Components/RecentReportsTable.js
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Importando axios para fazer requisições HTTP
-import Pagination from './Pagination'; // Importando o componente de paginação
-import '../Style/RecentReportsTable.css'; // Importando o arquivo CSS
+import axios from 'axios';
+import Swal from 'sweetalert2'; // Importando SweetAlert
+import Pagination from './Pagination';
+import '../Style/RecentReportsTable.css';
 
 const RecentReportsTable = () => {
-    const [reports, setReports] = useState([]); // Estado para armazenar os relatórios
-    const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
-    const [currentPage, setCurrentPage] = useState(1); // Página atual
-    const reportsPerPage = 5; // Número de relatórios por página
+    const [reports, setReports] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const reportsPerPage = 5;
 
-    // Função para buscar os relatórios da API
     const fetchReports = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/relatorios'); // Ajuste o URL conforme necessário
-            setReports(response.data); // Armazenando os dados recebidos no estado
+            const response = await axios.get('http://localhost:3000/relatorios/pendentes');
+            setReports(response.data);
         } catch (error) {
             console.error('Erro ao buscar relatórios:', error);
         } finally {
-            setLoading(false); // Alterando o estado de carregamento para false
+            setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchReports(); // Chama a função ao montar o componente
+        fetchReports();
     }, []);
 
+    const handleApprove = async (id) => {
+        const result = await Swal.fire({
+            title: 'Você tem certeza?',
+            text: 'Deseja aprovar este relatório?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, aprovar!'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await axios.put(`http://localhost:3000/relatorios/${id}/aprovar`);
+                Swal.fire('Aprovado!', 'O relatório foi aprovado com sucesso.', 'success');
+                fetchReports();
+            } catch (error) {
+                console.error('Erro ao aprovar relatório:', error);
+                Swal.fire('Erro!', 'Ocorreu um erro ao aprovar o relatório.', 'error');
+            }
+        }
+    };
+
+    const handleReject = async (id) => {
+        const result = await Swal.fire({
+            title: 'Você tem certeza?',
+            text: 'Deseja rejeitar este relatório?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, rejeitar!'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await axios.put(`http://localhost:3000/relatorios/${id}/rejeitar`);
+                Swal.fire('Rejeitado!', 'O relatório foi rejeitado com sucesso.', 'success');
+                fetchReports();
+            } catch (error) {
+                console.error('Erro ao rejeitar relatório:', error);
+                Swal.fire('Erro!', 'Ocorreu um erro ao rejeitar o relatório.', 'error');
+            }
+        }
+    };
+
     if (loading) {
-        return <div className="loading-message">Carregando...</div>; // Mensagem de carregamento
+        return <div className="loading-message">Carregando...</div>;
     }
 
-    // Ordenando os relatórios pela data de criação em ordem decrescente
     const sortedReports = [...reports].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    // Calcular os relatórios a serem exibidos na página atual
     const indexOfLastReport = currentPage * reportsPerPage;
     const indexOfFirstReport = indexOfLastReport - reportsPerPage;
     const currentReports = sortedReports.slice(indexOfFirstReport, indexOfLastReport);
-
-    // Função para mudar de página
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-    // Calcular o número total de páginas
     const totalPages = Math.ceil(sortedReports.length / reportsPerPage);
 
     return (
@@ -61,20 +98,29 @@ const RecentReportsTable = () => {
                 <tbody>
                     {currentReports.map((report) => (
                         <tr key={report.id}>
-                            <td>{new Date(report.createdAt).toLocaleString()}</td>  {/* Exibe a data formatada */}
-                            <td>{report.atleta ? report.atleta.nome : 'Atleta não encontrado'}</td>  {/* Nome do Atleta */}
-                            <td>{report.utilizador ? report.utilizador.nome : 'Scout não encontrado'}</td>  {/* Nome do Scout */}
-                            <td>{report.ratingFinal}</td>  {/* Exibe o Rating Final */}
+                            <td>{new Date(report.createdAt).toLocaleString()}</td>
+                            <td>{report.atleta ? report.atleta.nome : 'Atleta não encontrado'}</td>
+                            <td>{report.utilizador ? report.utilizador.nome : 'Scout não encontrado'}</td>
+                            <td>{report.ratingFinal}</td>
                             <td className="actions-buttons">
-                                <button className="button-approve">Aprovar</button>  {/* Botão Aprovar */}
-                                <button className="button-reject">Rejeitar</button>  {/* Botão Rejeitar */}
+                                <button 
+                                    className="button-approve" 
+                                    onClick={() => handleApprove(report.id)}
+                                >
+                                    Aprovar
+                                </button>
+                                <button 
+                                    className="button-reject" 
+                                    onClick={() => handleReject(report.id)}
+                                >
+                                    Rejeitar
+                                </button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {/* Navegação de Paginação */}
             <Pagination 
                 currentPage={currentPage} 
                 totalPages={totalPages} 
