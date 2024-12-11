@@ -20,16 +20,15 @@ function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="usuarios-table-containerAAT"> {/* Contêiner da tabela */}
+    <div> {/* Contêiner da tabela */}
       {/* Tabela com dados dos usuários */}
-      <table className="usuarios-tableAAT table table-striped">
+      <table className="usuarios-tableAAT">
         <thead>
           <tr>
             <th>Data de Criação</th>
             <th>Nome</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Status</th>
             <th>Ultima Edição</th>
             <th>Ações</th>
           </tr>
@@ -42,7 +41,6 @@ function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
                 <td>{usuario.nome}</td>
                 <td>{usuario.email}</td>
                 <td>{usuario.role}</td>
-                <td>{usuario.status}</td>
                 <td>{new Date(usuario.updatedAt).toLocaleDateString()}</td>
                 <td>
                   {/* Botão para visualizar */}

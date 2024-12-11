@@ -126,3 +126,25 @@
     color: #c82333; /* Vermelho mais forte no hover */
   }
   
+  /* Style/UsuariosTable.css */
+
+/* Estilo do contêiner de filtros */
+.filters-containerAAT {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-inputAAT {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 200px;
+}
+
+.filter-selectAAT {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 150px;
+}
