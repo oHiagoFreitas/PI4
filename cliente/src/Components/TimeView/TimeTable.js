@@ -73,6 +73,7 @@ function TimesTable() {
   return (
     <div className="atletas-table-containerAT">
       {/* Componente de filtros */}
+      <div className="actions-buttonsAT">
       <TimesFilters
         filterTeamName={filterTeamName}
         filterCategory={filterCategory}
@@ -83,7 +84,7 @@ function TimesTable() {
       />
 
       {/* Botões de Ação: Criar Time */}
-      <div className="actions-buttonsAT" style={{ justifyContent: 'flex-end' }}>
+      
         <button className="button-createAT" onClick={openCreateTimeModal}>
           Criar Time
         </button>

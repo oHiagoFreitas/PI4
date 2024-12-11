@@ -154,3 +154,7 @@
   max-width: 500px;
   margin: auto;
 }
+
+.atletas-tableAT tbody .highlight {
+  background-color: #f9f9a6; /* Cor de fundo amarelada para linhas de destaque */
+}

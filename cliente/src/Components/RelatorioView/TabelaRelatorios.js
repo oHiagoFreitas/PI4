@@ -20,9 +20,9 @@ function TabelaRelatorios({ relatorios, handleEdit, handleDelete }) {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="atletas-table-containerAT"> {/* Contêiner da tabela */}
+    <div> {/* Contêiner da tabela */}
       {/* Tabela com dados dos relatórios */}
-      <table className="atletas-tableAT table table-striped">
+      <table className="atletas-tableAT">
         <thead>
           <tr>
             <th>Data de Criação</th>
@@ -36,7 +36,7 @@ function TabelaRelatorios({ relatorios, handleEdit, handleDelete }) {
         <tbody>
           {currentReports.length > 0 ? (
             currentReports.map((relatorio) => (
-              <tr key={relatorio.id}>
+              <tr key={relatorio.id} className={relatorio.ratingFinal === 5 ? 'highlight' : ''}>
                 <td>{new Date(relatorio.createdAt).toLocaleDateString()}</td>
                 <td>{relatorio.atleta.nome}</td> {/* Nome do Atleta */}
                 <td>{relatorio.utilizador.nome}</td> {/* Nome do Scout */}

@@ -25,13 +25,13 @@ const customStyles = {
 
 const CreateReportModal = ({ isOpen, onRequestClose }) => {
     const [formData, setFormData] = useState({
-        tecnica: [false, false, false, false],
-        velocidade: [false, false, false, false],
-        atitudeCompetitiva: [false, false, false, false],
-        inteligencia: [false, false, false, false],
+        tecnica: [false, false, false, false, false],
+        velocidade: [false, false, false, false, false],
+        atitudeCompetitiva: [false, false, false, false, false],
+        inteligencia: [false, false, false, false, false],
         altura: '',
         morfologia: '',
-        ratingFinal: [false, false, false, false],
+        ratingFinal: [false, false, false, false, false],
         comentario: '',
         atletaNome: ''
     });
@@ -110,13 +110,13 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
 
             // Resetar os campos do formulário
             setFormData({
-                tecnica: [false, false, false, false],
-                velocidade: [false, false, false, false],
-                atitudeCompetitiva: [false, false, false, false],
-                inteligencia: [false, false, false, false],
+                tecnica: [false, false, false, false, false],
+                velocidade: [false, false, false, false, false],
+                atitudeCompetitiva: [false, false, false, false, false],
+                inteligencia: [false, false, false, false, false],
                 altura: '',
                 morfologia: '',
-                ratingFinal: [false, false, false, false],
+                ratingFinal: [false, false, false, false, false],
                 comentario: '',
                 atletaNome: ''
             });
@@ -249,7 +249,7 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                         value={formData.comentario}
                         onChange={(e) => setFormData({ ...formData, comentario: e.target.value })}
                         className="form-input-report"
-                        rows="4"
+                        rows=""
                     />
                 </div>
                 <div className="form-group-report">
