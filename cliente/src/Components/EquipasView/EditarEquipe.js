@@ -25,9 +25,9 @@ function EditarEquipe() {
 
     // Função para carregar os jogadores de uma equipe sombra específica
     useEffect(() => {
-        if (equipeSombraId) {
+        if (id) {
             setLoading(true);
-            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}/atletas`)
+            fetch(`http://localhost:3000/equipeSombra/${id}/atletas`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -52,7 +52,7 @@ function EditarEquipe() {
                 .catch(error => console.error("Erro ao carregar jogadores da equipe:", error))
                 .finally(() => setLoading(false));
         }
-    }, [equipeSombraId, ratings]);
+    }, [id, ratings]);
 
     // Função para carregar todos os jogadores disponíveis e os ratings
     useEffect(() => {
@@ -102,7 +102,7 @@ function EditarEquipe() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    equipeSombraId: equipeSombraId,
+                    id: id,
                     jogadoresIds: [oldPlayer.id],  // Envia o ID do jogador antigo
                 }),
             })
@@ -160,7 +160,7 @@ function EditarEquipe() {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        equipeSombraId: equipeSombraId,
+                        equipeSombraId: id,
                         jogadoresIds: [player.id],  // Envia o ID do jogador
                     }),
                 })
