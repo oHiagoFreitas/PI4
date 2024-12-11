@@ -17,6 +17,8 @@ function CriarEquipeComJogadores() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
 
+    console.log(equipeSombraId)
+
     // Função para carregar os jogadores da API
     useEffect(() => {
         fetch("http://localhost:3000/atletas")

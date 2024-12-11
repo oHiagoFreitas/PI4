@@ -26,7 +26,6 @@ function MostrarEquipeComJogadores() {
                 title: 'Erro!',
                 text: 'Equipe sombra não encontrada.',
             });
-            navigate('/');  // Redireciona para a página inicial ou outra página de sua escolha
         }
     }, [equipeSombraId, navigate]);
 

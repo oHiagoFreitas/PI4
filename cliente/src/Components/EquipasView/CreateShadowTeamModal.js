@@ -1,30 +1,28 @@
-// src/Components/EquipasView/CreateShadowTeamModal.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Adicionado para gerenciar o redirecionamento
 
 function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
-    // Estado para armazenar os dados da nova equipa sombra
     const [newTeam, setNewTeam] = useState({
         nome: '',
         descricao: '',
         categoria: '',
         formacaoNome: ''
     });
+    const navigate = useNavigate(); // Hook para navegação
 
-    // Função para criar a nova equipa sombra
     const createShadowTeam = async () => {
         try {
             const response = await axios.post('http://localhost:3000/equipeSombra', newTeam);
             console.log('Nova equipa sombra criada:', response.data);
             onCreate(response.data); // Passa a nova equipa criada para o componente pai
+            navigate(`/equipeSombra/${response.data.id}`); // Redireciona para a rota com o ID da nova equipa
             onClose(); // Fecha a modal após a criação
         } catch (error) {
             console.error('Erro ao criar equipa sombra:', error);
         }
     };
 
-    // Se a modal não estiver aberta, não renderiza nada
     if (!isOpen) return null;
 
     return (
