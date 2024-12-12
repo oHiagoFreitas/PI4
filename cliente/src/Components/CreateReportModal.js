@@ -266,7 +266,7 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                 </div>
                 <div className="form-buttons">
                     <button type="submit" className="submit-button">Criar Relatório</button>
-                    <button type="button" onClick={onRequestClose} className="cancel-button">Cancelar</button>
+                    <button type="button" onClick={onRequestClose} className="submit-button" style={{marginLeft: '10px'}}>Cancelar</button>
                 </div>
             </form>
         </Modal>

@@ -1,8 +1,8 @@
 .modal-title {
     text-align: center;
-    color: #DAA520; /* Cor dourada */
-    margin-bottom: 20px; /* Espaço abaixo do título */
-    font-size: 18px; /* Tamanho da fonte do título */
+    color: #DEAF5E; /* Cor dourada */
+    font-size: 28px;
+    font-weight: bold;
 }
 
 .create-user-form {
@@ -35,19 +35,17 @@
 }
 
 .submit-button-user {
-    background-color: #DAA520; /* Botão dourado */
-    color: white; /* Texto branco */
-    padding: 10px; /* Padding do botão */
-    border: none; /* Remove a borda padrão */
-    border-radius: 4px; /* Bordas arredondadas */
-    cursor: pointer; /* Cursor pointer para o botão */
-    font-weight: bold; /* Texto em negrito */
-    font-size: 14px; /* Tamanho da fonte do botão */
-    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
-    width: 100%; /* Faz o botão ocupar toda a largura do seu container */
-    max-width: 200px; /* Largura máxima do botão */
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #DEAF5E;
+    color: white;
+    margin-right: 10px; /* Espaço entre os botões */
+    transition: background-color 0.3s ease;
 }
 
 .submit-button-user:hover {
-    background-color: #FFD700; /* Cor do botão ao passar o mouse */
+    background-color: #c79d55;
 }

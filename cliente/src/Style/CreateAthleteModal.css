@@ -29,23 +29,29 @@
     outline: none; /* Remove a borda padrão do foco */
 }
 
+.form-buttons {
+    display: flex;
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    margin-top: 20px; /* Adiciona um espaço acima do contêiner de botões */
+}
+
 .submit-button {
-    background-color: #DAA520; /* Botão dourado */
-    color: white; /* Texto branco */
-    padding: 8px 12px; /* Padding reduzido para o botão */
-    border: none; /* Remove a borda padrão */
-    border-radius: 4px; /* Bordas arredondadas menores */
-    cursor: pointer; /* Cursor pointer para o botão */
-    font-weight: bold; /* Texto em negrito */
-    font-size: 12px; /* Tamanho da fonte do botão reduzido */
-    transition: background-color 0.3s; /* Transição suave para a cor de fundo */
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #DEAF5E;
+    color: white;
+    margin-right: 10px; /* Espaço entre os botões */
+    transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-    background-color: #FFD700; /* Cor do botão ao passar o mouse */
+    background-color: #c79d55;
 }
 
-.submit-button:disabled {
-    background-color: #BDAA20; /* Cor do botão quando desativado */
-    cursor: not-allowed; /* Cursor desabilitado */
+.submit-button:nth-child(2) {
+    margin-right: 0; /* Remove o espaço extra do segundo botão */
 }
+

@@ -93,3 +93,10 @@
 .submit-button-report:hover {
     background-color: #FFC700; /* Cor do botão ao passar o mouse */
 }
+
+
+.form-buttons {
+    display: flex;
+    justify-content: center; /* Centraliza os botões horizontalmente */
+    margin-top: 20px; /* Adiciona um espaço acima do contêiner de botões */
+}

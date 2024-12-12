@@ -1,69 +1,78 @@
-/* Modal */
+/* Modal Overlay */
 .modal-overlayES {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Cor de fundo com transparência */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modal-contentES {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .modal-contentES h3 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-  }
-  
-  .input-fieldES {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-  }
-  
-  .modal-actionsES {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .modal-actionsES button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-  
-  .button-createES {
-    background-color: #DEAF5E;
-    color: white;
-  }
-  
-  .button-createES:hover {
-    background-color: #c79d55;
-    transform: scale(1.05);
-  }
-  
-  .button-cancelES {
-    background-color: #ccc;
-    color: white;
-  }
-  
-  .button-cancelES:hover {
-    background-color: #999;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6); /* Background com leve opacidade */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-contentES {
+  background-color: #ffffff;
+  padding: 15px; /* Aumentar o padding para maior conforto interno */
+  border-radius: 10px; /* Cantos arredondados mais suaves */
+  width: 450px; /* Ajustar a largura da modal */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra mais suave */
+  text-align: center; /* Alinhar texto ao centro */
+  color: #DEAF5E;
+}
+
+.modal-contentES h3 {
+  margin-bottom: 15px;
+  font-size: 1.8rem; /* Tamanho do título ajustado */
+}
+
+.input-fieldES {
+  width: 70%; /* Largura completa */
+  max-width: 400px; /* Largura máxima para os campos */
+  padding: 12px;
+  margin: 10px auto; /* Centralizar horizontalmente */
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  text-align: center; /* Centralizar texto dentro do campo */
+}
+
+.modal-actionsES {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Espacemento adicional para botões */
+  margin-left: 120px;
+  margin-right: 120px;
+}
+
+.modal-actionsES button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.button-createES {
+  background-color: #DEAF5E;
+  color: white;
+}
+
+.button-createES:hover {
+  background-color: #c79d55;
+  transform: scale(1.05);
+}
+
+.button-cancelES {
+  background-color: #bbb;
+  color: white;
+}
+
+.button-cancelES:hover {
+  background-color: #999;
+}
+
   
   /* Tabela de Equipas Sombra */
   .shadow-teams-tableES {
