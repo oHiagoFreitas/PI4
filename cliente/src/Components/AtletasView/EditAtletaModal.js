@@ -58,6 +58,7 @@ const EditAthleteModal = ({ isOpen, onRequestClose, athleteData }) => {
                 text: 'As informações do atleta foram atualizadas com sucesso.',
                 confirmButtonText: 'Ok',
             });
+            window.location.reload();
 
             onRequestClose(); // Fecha o modal
         } catch (error) {
