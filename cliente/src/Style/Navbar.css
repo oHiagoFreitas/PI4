@@ -1,7 +1,7 @@
 /* src/Style/Navbar.css */
 
 
-.navbar {
+.navbarp {
     position: fixed; /* Fixa a navbar no topo */
     top: 0; /* Fica no topo da tela */
     left: 250px; /* Deixa espaço para a sidebar */
@@ -16,17 +16,17 @@
 }
 
 
-.user-info {
+.user-infop {
     margin-left: auto; /* Coloca o conteúdo do usuário à direita */
 }
 
-.notification-icon {
+.notification-iconp {
     font-size: 24px; /* Tamanho do ícone de notificação */
     color: white; /* Cor do ícone de notificação */
     margin-right: 15px; /* Espaçamento entre o ícone de notificação e o ícone do usuário */
 }
 
-.user-icon {
+.user-iconp {
     font-size: 24px; /* Tamanho do ícone de usuário */
     color: white; /* Cor do ícone de usuário */
 }

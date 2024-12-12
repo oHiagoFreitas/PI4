@@ -1,20 +1,20 @@
 const express = require('express');
 const app = express();
-const sequelize = require('./database'); // ajuste o caminho conforme necessário
+const sequelize = require('./database'); // Ajuste o caminho conforme necessário
 
 // Importação de rotas
-const utilizadoresRoutes = require('./routes/utilizadoresRoutes'); // ajuste o caminho conforme necessário
-const timeRoutes = require('./routes/timeRoutes'); // ajuste o caminho conforme necessário
-const atletaRoutes = require('./routes/atletaRoutes'); // ajuste o caminho conforme necessário
+const utilizadoresRoutes = require('./routes/utilizadoresRoutes'); // Ajuste o caminho conforme necessário
+const timeRoutes = require('./routes/timeRoutes'); // Ajuste o caminho conforme necessário
+const atletaRoutes = require('./routes/atletaRoutes'); // Ajuste o caminho conforme necessário
 const scoutAtletaRoutes = require('./routes/scoutAtletaRoutes'); // Rota de associações entre scout e atleta
 const relatorioRoutes = require('./routes/relatorioRoutes'); // Rota de relatórios
 const authRoute = require('./routes/authRoutes'); // Rota de login
 const equipeSombraRoutes = require('./routes/equipeSombraRoutes'); // Rota de equipes sombra
 const formacaoRoutes = require('./routes/formacaoRoutes'); // Rota de formações
-const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes'); // ajuste o caminho conforme necessário
-const partidaRoutes = require('./routes/partidaRoutes'); // ajuste o caminho conforme necessário
-const PendentesRoute = require('./routes/PendentesRoute'); // ajuste o caminho conforme necessário
-
+const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes'); // Ajuste o caminho conforme necessário
+const partidaRoutes = require('./routes/partidaRoutes'); // Ajuste o caminho conforme necessário
+const PendentesRoute = require('./routes/PendentesRoute'); // Ajuste o caminho conforme necessário
+const Microsite = require('./routes/MicroSiteRoutes'); // Certifique-se de ajustar o caminho para o seu modelo
 
 // Configurações
 app.set('port', process.env.PORT || 3000);
@@ -42,10 +42,10 @@ app.use('/equipeSombra', equipeSombraRoutes); // Rota para equipes sombra
 app.use('/formacao', formacaoRoutes); // Rota para formações
 app.use('/atletasEquipeSombra', atletasEquipeSombraRoutes);
 app.use('/partidas', partidaRoutes); // Define o prefixo da rota para partidas
-app.use('/pendentes', PendentesRoute)
+app.use('/pendentes', PendentesRoute);
+app.use('/Microsite', Microsite);
 
-
-// Sincroniza os modelos com o banco de dados
+// Sincroniza os modelos com o banco de dados, incluindo o modelo Microsite
 sequelize.sync()
     .then(() => {
         console.log('Tabelas sincronizadas com o banco de dados.');

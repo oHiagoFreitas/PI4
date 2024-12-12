@@ -1,0 +1,312 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
+
+.pp-hero {
+    background-image: 
+        linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 90%, rgba(0, 0, 0, 0) 100%),  /* Gradiente */
+        url('../assets/fundo.jpg'); /* Caminho para a imagem de fundo */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white; 
+    padding: 230px 0;
+    position: relative;
+    display: flex;             /* Flexbox para alinhar os itens */
+    align-items: center;       /* Centralizar verticalmente */
+    overflow: visible; /* Garante que a imagem seja visível */
+    width: 100%; /* Permite que o conteúdo se ajuste */
+}
+
+.pp-contentor {
+    width: 100%; /* Permite que o conteúdo se ajuste */
+    margin-left: 100px;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: center; 
+    flex-wrap: wrap;
+    z-index: 1; /* Garante que o conteúdo fique acima do gradiente */
+    overflow: visible; /* Garante que a imagem seja visível */
+}
+
+.pp-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1; /* Garante que a camada fique atrás do conteúdo */
+}
+
+/* seta*/
+.pp-seta {
+    position: absolute;
+    left: 40px !important; /* Ajuste a posição da seta para ficar à esquerda da logo */
+    top: 40px !important; /* Alinha a seta verticalmente no meio da logo */
+    transform: translateY(-50%); /* Para garantir que a seta fique centralizada verticalmente */
+    height: 25px; /* Tamanho da seta */
+}
+
+/* secção texto politicas*/
+.pp-detalhes{
+    margin-top: -60px;
+    margin-left: 50px;
+    margin-right: 50px;
+    background-color: #e9e9e9;
+    color: white;
+    padding: 80px 0;
+    position: relative;
+    z-index: 2;
+}
+
+.pp-privacidade-texto {
+    color: rgb(0, 0, 0);
+    font-size: 1.1rem;
+    font-family: raleway;          
+    text-align: left;          /* Centraliza o texto de cada frase */
+    margin-left: 50px; /* Margem leve na esquerda */
+    margin-right: 50px; /* Margem leve na direita */
+}
+
+.pp-privacidade-texto h3 {
+    font-weight: 700;
+    margin-bottom: 20px; /* Ajuste conforme necessário */
+    margin-top: 50px;
+}
+
+.pp-privacidade-texto p {
+    margin-bottom: 20px; /* Ajuste conforme necessário */
+}
+
+/*botoes*/
+
+.pp-btn-dark:hover {
+    background-color: #DEAF5E;
+    color: white !important;
+}
+
+.pp-btn-dark {
+    margin: 0;
+    margin-top: 50px !important;
+    margin-bottom: 20px !important;
+    border-radius: 25px;
+    background-color: white;
+    color: #DEAF5E;
+    border: none; /* Remove o contorno/borda */
+    width: 300px; /* Define a largura do botão (ajuste conforme necessário) */
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 9px; /* Ajusta o padding para tornar o botão mais alto e largo */
+    display: block; /* Faz os botões se empilharem um em cima do outro */
+}
+
+.pp-btn-dark1 {
+    margin: 0;
+    margin-left: 0;
+    margin-top: 0 !important;
+    border-radius: 25px;
+    background-color: #DEAF5E;
+    color: #ffffff;
+    width: 300px;
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 9px; /* Ajusta o padding para tornar o botão mais alto e largo */
+}
+
+.pp-btn-dark2 {
+    margin: 0;
+    margin-left: 0;
+    border-radius: 25px;
+    background-color: white;
+    color: #DEAF5E;
+    border: none; /* Remove o contorno/borda */
+    width: 150px; /* Define a largura do botão (ajuste conforme necessário) */
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 5px; /* Ajusta o padding para tornar o botão mais alto e largo */
+}
+
+.pp-btn-dark3 {
+    margin: 0;
+    margin-left: 0;
+    border-radius: 25px;
+    background-color: #DEAF5E;
+    color: #ffffff;
+    width: 150px;
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 5px; /* Ajusta o padding para tornar o botão mais alto e largo */
+}
+
+.pp-logo {
+    margin-left: 95px;
+}
+
+.pp-info { 
+    background-color: #ffffff;
+    color: white;
+    padding: 100px 0;
+    position: relative;
+}
+
+.pp-logo-container {
+    display: flex;               /* Alinha os itens na horizontal */
+    align-items: center;         /* Alinha verticalmente ao centro */
+    justify-content: center;     /* Centraliza os itens horizontalmente */
+}
+
+.pp-logo-img {
+    max-width: 110px;             /* Ajusta o tamanho da imagem */
+    margin-right: 15px;          /* Dá um espaço entre a imagem e o texto */
+}
+
+.pp-texto-info {
+    font-size: 1.6rem; 
+    font-weight: 700;
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+    line-height: 1.5;
+}
+
+.pp-fim-esquerda {
+    margin-left: 60px; /* Adiciona uma margem à esquerda em todo o container */
+}
+
+.pp-fim-direita {
+    display: flex;                 /* Ativa o layout flexível */
+    justify-content: space-between; /* Espaça "Políticas de Privacidade" e "Redes Sociais" */
+    align-items: flex-start;       /* Alinha verticalmente ao topo */
+    padding: 10px 20px;            /* Adiciona espaçamento interno */
+    background-color: #000000;     /* Cor de fundo preta */
+    color: #ffffff;                /* Cor do texto branco */
+    margin-right: 60px;
+}
+
+.pp-fim-direita .pp-privacidade {
+    font-size: 1rem;               /* Ajusta o tamanho do texto */
+    text-align: left;              /* Alinha o texto à esquerda */
+}
+
+.pp-fim-direita .pp-redes-sociais {
+    text-align: center;            /* Centraliza internamente os elementos */
+    display: flex;
+    flex-direction: column;        /* Organiza os elementos em coluna (texto + ícones) */
+    align-items: flex-end;         /* Alinha ao lado direito */
+    margin-left: 50px;              /* Adiciona um espaço entre o texto "Redes Sociais" e os ícones */
+}
+
+.pp-fim-direita .pp-redes-sociais p {
+    font-size: 1rem;               /* Ajusta o tamanho do texto */
+}
+
+.pp-fim-direita .pp-redes-sociais .pp-icons {
+    margin-top: 2px;               /* Adiciona espaço entre o texto e os ícones */
+    display: flex;                 /* Organiza os ícones em linha (horizontalmente) */
+    gap: 10px;                     /* Espaçamento entre os ícones */
+    justify-content: flex-start;   /* Alinha os ícones à esquerda (ou use 'center' se preferir) */
+}
+
+.pp-fim-direita .pp-redes-sociais .pp-icons a {
+    text-decoration: none;         /* Remove sublinhado dos links */
+    color: #ffffff;                /* Cor dos ícones */
+}
+
+.pp-hero img {
+    max-width: 150px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/*titulo e nome - viriatos scouting*/
+.pp-nome {
+    font-size: 2rem; /* Ajuste de tamanho */
+    margin-top: -80px;
+    font-style: italic;
+    font-weight: 200;
+}
+
+.pp-titulo {
+    font-size: 3.5rem; /* Ajuste de tamanho */
+    margin-top: 0px;
+    font-weight: 700; /* Ajuste de peso */
+}
+
+.pp-corpo {
+    font-size: 1.2rem; 
+    font-weight: 100;
+    margin-top: 18px;
+    margin-bottom: 30px;
+    color: #212121;
+}
+
+.pp-text-start {
+    text-align: left;
+}
+
+.pp-text-end {
+    text-align: right;
+}
+
+.pp-hero .pp-btn {
+    margin: 20px 10px;
+}
+
+.pp-navbar-brand img {
+    transform: scale(1.5); 
+    transition: transform 0.3s ease; 
+}
+
+/* Footer */
+.pp-footer {
+    background-color: #000000;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pp-social-icon {
+    color: #ffffff;
+}
+
+.pp-social-icon:hover {
+    color: #DEAF5E;
+}
+
+/* Carrossel */
+.pp-middle-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 160px 0;
+}
+
+.pp-carousel-inner {
+    background: linear-gradient(to right, transparent 50%, #f0f0f0 50%);
+}
+
+.pp-mobile-image {
+    width: 50%;
+    max-width: 300px; 
+    margin-right: 0px; /* Espaço entre a imagem e o texto */
+    margin-left: 170px;
+}
+
+.pp-login-info {
+    width: 50%;
+    text-align: left;
+    margin-left: 500px; /* Move o texto para a direita sem afetar a imagem */
+    flex-grow: 1; /* Faz com que o texto ocupe o restante do espaço disponível */
+}
+
+.pp-login-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 40px; /* Aumenta o espaço abaixo do título */
+    color: #DEAF5E;
+}
+
+.pp-login-info p {
+    font-size: 1rem;
+    margin: 20px 0 0 0px; /* Ajusta a margem superior e a margem à esquerda do parágrafo */
+    text-align: justify; /* Justifica o texto */  
+    margin-right: 150px;
+}

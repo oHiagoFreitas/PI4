@@ -56,17 +56,22 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
                             <i className="bi bi-person-circle"></i>
                             <Link to="/utilizadores">Utilizadores</Link> {/* Link para a página de Utilizadores */}
                         </li>
-                        <li onClick={toggleAdminDropdown} className="dropdown-toggle">
+                        <li onClick={toggleAdminDropdown} className="Sdropdown-toggle">
                             <i className="bi bi-tools"></i>
                             Administração
                             <span className="arrow">{isAdminOpen ? '▲' : '▼'}</span>
                         </li>
                         {isAdminOpen && (
-                            <ul className="dropdown-menu">
+                            <ul className="Sdropdown-menu">
                                 <li>
                                     <i className="bi bi-check-circle"></i>
                                     <Link to="/validacoes">Validações</Link> {/* Link para Validações */}
                                 </li>
+                                <li>
+                                    <i className="bi bi-window"></i>
+                                    <Link to="/WebPage">Web Page</Link> {/* Link para Validações */}
+                                </li>
+                                
                             </ul>
                         )}
                     </>

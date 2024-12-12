@@ -25,6 +25,9 @@ import CriarEquipeComJogadores from './Components/EquipasView/CriarEquipeComJoga
 import MostrarEquipeComJogadores from './Components/EquipasView/MostrarEquipeComJogadores';
 import EditarEquipeComJogadores from "./Components/EquipasView/EditarEquipe";
 import EditarPartida from './Components/PartidasPage/EditarPartida'; // Página de edição de partida
+import MicroSite from './View/MicroSite';
+import PoliticasPrivacidade from './View/PoliticasPrivacidade';
+import WebPage from './View/WebPage';
 
 const App = () => {
   return (
@@ -47,11 +50,14 @@ const App = () => {
         <Route path="/partidas" element={<PartidasPage />} /> {/* Página de Partidas */}
         <Route path="/criar-partida" element={<CriarPartida />} />
         <Route path="/criar-partida/:id" element={<EditarPartida />} /> {/* Página de edição de partida */}
-        <Route path="/times" element={<Time />} />´
+        <Route path="/times" element={<Time />} />
         <Route path="/Validacoes" element={<Validacoes />} />
         <Route path="/utilizadores/detalhes/:id" element={<UtilizadorDetalhe />} />
         <Route path="/times/detalhes/:id" element={<DetalhesTime />} />
-        <Route path="/Equipas" element={<Equipas />} />´
+        <Route path="/Equipas" element={<Equipas />} />
+        <Route path="/MicroSite" element={<MicroSite />} />
+        <Route path="/WebPage" element={<WebPage />} />
+        <Route path="/PoliticasPrivacidade" element={<PoliticasPrivacidade />} />
         <Route path="/equipeSombra/:id" element={<CriarEquipeComJogadores />} />
         <Route path="/MostrarequipeSombra/:id" element={<MostrarEquipeComJogadores />} />
         <Route path="/editar-equipe/:id" element={<EditarEquipeComJogadores />} />

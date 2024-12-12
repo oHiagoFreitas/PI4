@@ -1,0 +1,328 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap');
+
+.ms-hero {
+    background-image: 
+        linear-gradient(to left, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.5) 90%, rgba(0, 0, 0, 0) 100%),  /* Gradiente */
+        url('../assets/fundo.jpg'); /* Caminho para a imagem de fundo */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white; 
+    padding: 140px 0;
+    position: relative;
+    display: flex;             /* Flexbox para alinhar os itens */
+    align-items: center;       /* Centralizar verticalmente */
+    overflow: visible; /* Garante que a imagem seja visível */
+    width: 100%; /* Permite que o conteúdo se ajuste */
+}
+
+.ms-contentor {
+    width: 100%; /* Permite que o conteúdo se ajuste */
+    margin-left: 100px;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: center; 
+    flex-wrap: wrap;
+    z-index: 1; /* Garante que o conteúdo fique acima do gradiente */
+    overflow: visible; /* Garante que a imagem seja visível */
+}
+
+.ms-hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1; /* Garante que a camada fique atrás do conteúdo */
+}
+
+.ms-inicio-img {
+    width: auto !important;        /* Calcula automaticamente com base na altura */
+    height: auto !important;          /* Mantém a proporção */
+    max-width: 700px !important;      /* Aumenta 4 vezes (ou ajuste conforme necessário) */
+    max-height: 700px !important;      /* Aumenta 4 vezes (ou ajuste conforme necessário) */
+    position: relative;
+    margin-left: 830px;      
+    margin-top: 120px;
+    z-index: 1;              /* Garante que a imagem fique acima do fundo */
+}
+
+/*botoes*/
+
+.ms-btn-dark:hover {
+    background-color: #DEAF5E;
+    color: white !important;
+}
+
+.ms-btn-dark {
+    margin: 0;
+    margin-top: 50px !important;
+    margin-bottom: 20px !important;
+    border-radius: 25px;
+    background-color: white;
+    color: #DEAF5E;
+    border: none; /* Remove o contorno/borda */
+    width: 300px; /* Define a largura do botão (ajuste conforme necessário) */
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 9px; /* Ajusta o padding para tornar o botão mais alto e largo */
+    display: block; /* Faz os botões se empilharem um em cima do outro */
+}
+
+.ms-btn-dark1 {
+    margin: 0;
+    margin-left: 0;
+    margin-top: 0 !important;
+    border-radius: 25px;
+    background-color: #DEAF5E;
+    color: #ffffff;
+    width: 300px;
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 9px; /* Ajusta o padding para tornar o botão mais alto e largo */
+}
+
+.ms-btn-dark2 {
+    margin: 0;
+    margin-left: 0;
+    border-radius: 25px;
+    background-color: white;
+    color: #DEAF5E;
+    border: none; /* Remove o contorno/borda */
+    width: 150px; /* Define a largura do botão (ajuste conforme necessário) */
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 5px; /* Ajusta o padding para tornar o botão mais alto e largo */
+}
+
+.ms-btn-dark3 {
+    margin: 0;
+    margin-left: 0;
+    border-radius: 25px;
+    background-color: #DEAF5E;
+    color: #ffffff;
+    width: 150px;
+    text-align: center; /* Garante que o texto fique centralizado */
+    padding: 5px; /* Ajusta o padding para tornar o botão mais alto e largo */
+}
+
+.ms-logo {
+    margin-left: 95px;
+}
+
+/* barra preta com 3 frases*/
+.ms-detalhes{
+    background-color: #000000;
+    color: white;
+    padding: 12px 0;
+    position: relative;
+}
+
+.ms-detalhes .desc0 {
+    display: flex;               /* Ativa o layout flexível */
+    justify-content: space-between; /* Distribui o espaço uniformemente */
+    align-items: center;         /* Alinha verticalmente ao centro */
+    text-align: center;          /* Garante alinhamento interno */
+    color: white;                /* Ajuste da cor do texto para branco */
+}
+
+.ms-detalhes .desc0 .frase {
+    font-size: 1.2rem;
+    flex: 0 0 auto;              /* Impede redimensionamento das frases */
+    font-style: italic;          /* Aplica o estilo itálico */
+    text-align: center;          /* Centraliza o texto de cada frase */
+    margin-left: 100px; /* Margem leve na esquerda */
+    margin-right: 100px; /* Margem leve na direita */
+}
+
+.ms-info {
+    background-color: #ffffff;
+    color: white;
+    padding: 100px 0;
+    position: relative;
+}
+
+.ms-logo-container {
+    display: flex;               /* Alinha os itens na horizontal */
+    align-items: center;         /* Alinha verticalmente ao centro */
+    justify-content: center;     /* Centraliza os itens horizontalmente */
+}
+
+.ms-logo-img {
+    max-width: 110px;             /* Ajusta o tamanho da imagem */
+    margin-right: 15px;          /* Dá um espaço entre a imagem e o texto */
+}
+
+.ms-texto-info {
+    font-size: 1.6rem; 
+    font-weight: 700;
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+    line-height: 1.5;
+}
+
+.ms-fim-esquerda {
+    margin-left: 60px; /* Adiciona uma margem à esquerda em todo o container */
+}
+
+.ms-fim-direita {
+    display: flex;                 /* Ativa o layout flexível */
+    justify-content: space-between; /* Espaça "Políticas de Privacidade" e "Redes Sociais" */
+    align-items: flex-start;       /* Alinha verticalmente ao topo */
+    padding: 10px 20px;            /* Adiciona espaçamento interno */
+    background-color: #000000;     /* Cor de fundo preta */
+    color: #ffffff;                /* Cor do texto branco */
+    margin-right: 60px;
+}
+
+.ms-fim-direita .privacidade {
+    font-size: 1rem;               /* Ajusta o tamanho do texto */
+    text-align: left;              /* Alinha o texto à esquerda */
+}
+
+.ms-fim-direita .redes-sociais {
+    text-align: center;            /* Centraliza internamente os elementos */
+    display: flex;
+    flex-direction: column;        /* Organiza os elementos em coluna (texto + ícones) */
+    align-items: flex-end;         /* Alinha ao lado direito */
+    margin-left: 50px;              /* Adiciona um espaço entre o texto "Redes Sociais" e os ícones */
+}
+
+.ms-fim-direita .redes-sociais p {
+    font-size: 1rem;               /* Ajusta o tamanho do texto */
+}
+
+.ms-fim-direita .redes-sociais .icons {
+    margin-top: 2px;               /* Adiciona espaço entre o texto e os ícones */
+    display: flex;                 /* Organiza os ícones em linha (horizontalmente) */
+    gap: 10px;                     /* Espaçamento entre os ícones */
+    justify-content: flex-start;   /* Alinha os ícones à esquerda (ou use 'center' se preferir) */
+}
+
+.ms-fim-direita .redes-sociais .icons a {
+    text-decoration: none;         /* Remove sublinhado dos links */
+    color: #ffffff;                /* Cor dos ícones */
+}
+
+.ms-hero img {
+    max-width: 150px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/*titulo e nome - viriatos scouting*/
+.ms-nome {
+    font-size: 2rem; /* Ajuste de tamanho */
+    margin-top: -30px;
+    font-style: italic;
+    font-weight: 200;
+}
+
+.ms-titulo {
+    font-size: 3.5rem; /* Ajuste de tamanho */
+    margin-top: 0px;
+    font-weight: 700; /* Ajuste de peso */
+}
+
+.ms-desc1 {
+    font-size: 1.6rem; /* Ajuste de tamanho */
+    font-weight: 600;
+    margin-top: 20px;
+    color: #39639C;
+}
+
+.ms-desc2 {
+    font-size: 1.6rem; /* Ajuste de tamanho */
+    font-weight: 600;
+    margin-top: 20px;
+    color: #19BBE2;
+}
+
+.ms-corpo {
+    font-size: 1.2rem; 
+    font-weight: 100;
+    margin-top: 18px;
+    margin-bottom: 30px;
+    color: #212121;
+}
+
+.ms-desc1, .ms-desc2, .ms-corpo {
+    max-width: 500px; /* Exemplo de largura máxima */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ms-text-start {
+    text-align: left;
+}
+
+.ms-text-end {
+    text-align: right;
+}
+
+.ms-hero .btn {
+    margin: 20px 10px;
+}
+
+.ms-navbar-brand img {
+    transform: scale(1.5); 
+    transition: transform 0.3s ease; 
+}
+
+/* Footer */
+.ms-footer {
+    background-color: #000000;
+    color: white;
+    padding: 30px 0;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ms-social-icon {
+    color: #ffffff;
+}
+
+.ms-social-icon:hover {
+    color: #DEAF5E;
+}
+
+/* Carrossel */
+.ms-middle-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 160px 0;
+}
+
+.ms-carousel-inner {
+    background: linear-gradient(to right, transparent 50%, #f0f0f0 50%);
+}
+
+.ms-mobile-image {
+    width: 50%;
+    max-width: 300px; 
+    margin-right: 0px; /* Espaço entre a imagem e o texto */
+    margin-left: 170px;
+}
+
+.ms-login-info {
+    width: 50%;
+    text-align: left;
+    margin-left: 500px; /* Move o texto para a direita sem afetar a imagem */
+    flex-grow: 1; /* Faz com que o texto ocupe o restante do espaço disponível */
+}
+
+.ms-login-info h3 {
+    font-size: 1.8rem;
+    margin-bottom: 40px; /* Aumenta o espaço abaixo do título */
+    color: #DEAF5E;
+}
+
+.ms-login-info p {
+    font-size: 1rem;
+    margin: 20px 0 0 0px; /* Ajusta a margem superior e a margem à esquerda do parágrafo */
+    text-align: justify; /* Justifica o texto */  
+    margin-right: 150px;
+}
