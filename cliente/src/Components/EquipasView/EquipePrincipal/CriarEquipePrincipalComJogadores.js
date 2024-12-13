@@ -1,5 +1,3 @@
-// src/Components/EquipasView/CriarEquipeComJogadores.js
-
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
@@ -86,6 +84,53 @@ function CriarEquipeComJogadores() {
         });
     };
 
+    // Função para remover jogadores da equipe principal
+    const removePlayersFromEquipePrincipal = () => {
+        if (!equipePrincipalId) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'ID da equipe principal não encontrado.',
+            });
+            return;
+        }
+
+        const playerIdsToRemove = Object.values(positions).map(player => player.id);
+
+        fetch("http://localhost:3000/equipePrincipal/remover-jogadores", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ equipePrincipalId: equipePrincipalId.toString(), jogadoresIds: playerIdsToRemove }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Jogadores removidos com sucesso!") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Jogadores removidos da equipe com sucesso!',
+                    });
+                    setPositions({}); // Limpar as posições no estado após remoção
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Erro ao remover jogadores.',
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao remover jogadores:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Erro ao remover jogadores.',
+                });
+            });
+    };
+
     // Função para salvar a equipe
     const salvarEquipe = () => {
         if (!equipePrincipalId) {
@@ -96,9 +141,9 @@ function CriarEquipeComJogadores() {
             });
             return;
         }
-    
+
         console.log("Equipe Principal ID:", equipePrincipalId);
-    
+
         // Estrutura de jogadores e suas posições
         const requestData = {
             equipePrincipalId: equipePrincipalId.toString(),  // Garantir que seja uma string como no exemplo
@@ -108,9 +153,9 @@ function CriarEquipeComJogadores() {
                 return acc;
             }, {})
         };
-    
+
         console.log("Dados enviados:", requestData);
-    
+
         fetch("http://localhost:3000/equipePrincipal/jogadores", {
             method: "POST",
             headers: {
@@ -158,8 +203,11 @@ function CriarEquipeComJogadores() {
                             openModal={openModal}
                         />
                         <div className="actions-buttonsAT" style={{marginTop: "10px"}}>
-                            <button onClick={salvarEquipe} className="button-createAT ">
+                            <button onClick={salvarEquipe} className="button-createAT">
                                 Salvar Equipe
+                            </button>
+                            <button onClick={removePlayersFromEquipePrincipal} className="button-createAT">
+                                Remover Jogadores
                             </button>
                         </div>
 

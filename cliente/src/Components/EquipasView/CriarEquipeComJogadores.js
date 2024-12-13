@@ -77,11 +77,96 @@ function CriarEquipeComJogadores() {
 
     // Função para remover um jogador de uma posição
     const onRemovePlayer = (positionId) => {
-        setPositions((prevPositions) => {
-            const newPositions = { ...prevPositions };
-            delete newPositions[positionId]; // Remove o jogador da posição
-            return newPositions;
+        if (!positions[positionId]) return; // Se não houver jogador na posição, não faz nada
+
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você deseja remover esse jogador da equipe?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sim, remover',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Remove o jogador da posição no estado
+                setPositions((prevPositions) => {
+                    const newPositions = { ...prevPositions };
+                    delete newPositions[positionId]; // Remove o jogador da posição
+                    return newPositions;
+                });
+
+                // Remove o jogador da API
+                fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        equipeSombraId: equipeSombraId.toString(),
+                        jogadoresIds: [positions[positionId].id], // ID do jogador a ser removido
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === "Jogadores removidos com sucesso!") {
+                        Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
+                    } else {
+                        Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error("Erro ao remover jogador:", error);
+                    Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
+                });
+            }
         });
+    };
+
+    // Função para remover jogadores da equipe sombra
+    const removePlayersFromEquipeSombra = () => {
+        if (!equipeSombraId) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'ID da equipe sombra não encontrado.',
+            });
+            return;
+        }
+
+        const playerIdsToRemove = Object.values(positions).map(player => player.id);
+
+        fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ equipeSombraId: equipeSombraId.toString(), jogadoresIds: playerIdsToRemove }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Jogadores removidos com sucesso!") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Jogadores removidos da equipe com sucesso!',
+                    });
+                    setPositions({}); // Limpar as posições no estado após remoção
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Erro ao remover jogadores.',
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao remover jogadores:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro!',
+                    text: 'Erro ao remover jogadores.',
+                });
+            });
     };
 
     // Função para salvar a equipe
@@ -94,9 +179,9 @@ function CriarEquipeComJogadores() {
             });
             return;
         }
-    
+
         console.log("Equipe Sombra ID:", equipeSombraId);
-    
+
         // Estrutura de jogadores e suas posições
         const requestData = {
             equipeSombraId: equipeSombraId.toString(),  // Garantir que seja uma string como no exemplo
@@ -106,9 +191,9 @@ function CriarEquipeComJogadores() {
                 return acc;
             }, {})
         };
-    
+
         console.log("Dados enviados:", requestData);
-    
+
         fetch("http://localhost:3000/equipeSombra/jogadores", {
             method: "POST",
             headers: {
@@ -141,7 +226,6 @@ function CriarEquipeComJogadores() {
                 });
             });
     };
-    
 
     return (
         <div className="backoffice-container">
@@ -157,8 +241,11 @@ function CriarEquipeComJogadores() {
                             openModal={openModal}
                         />
                         <div className="actions-buttonsAT" style={{marginTop: "10px"}}>
-                            <button onClick={salvarEquipe} className="button-createAT ">
+                            <button onClick={salvarEquipe} className="button-createAT">
                                 Salvar Equipe
+                            </button>
+                            <button onClick={removePlayersFromEquipeSombra} className="button-createAT">
+                                Remover Jogadores
                             </button>
                         </div>
 
