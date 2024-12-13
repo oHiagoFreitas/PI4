@@ -106,8 +106,11 @@ function EditarEquipe() {
 
     const getAvailablePlayers = (selectedPosition) => {
         return players.filter(player => {
+            // Verifica se o jogador já foi alocado em alguma posição
             const isAlreadyAssigned = Object.values(positions).some(p => p.id === player.id);
-            return !isAlreadyAssigned && player.posicao === selectedPosition;
+    
+            // Permite jogadores cuja posição é igual à selecionada ou que sejam "universais"
+            return !isAlreadyAssigned && (player.posicao === selectedPosition || player.posicao === "Universal");
         });
     };
 

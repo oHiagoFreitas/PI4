@@ -22,6 +22,8 @@ function CriarEquipeComJogadores() {
 
     // Carregar os jogadores e a formação da equipe principal
     useEffect(() => {
+        if (!equipePrincipalId) return; // Se não houver ID, não faz nada.
+
         console.log("Carregando jogadores...");
         fetch("http://localhost:3000/atletas")
             .then(response => response.json())
@@ -83,10 +85,12 @@ function CriarEquipeComJogadores() {
     };
 
     const getAvailablePlayers = (selectedPosition) => {
-        console.log("Obtendo jogadores disponíveis para a posição:", selectedPosition);
         return players.filter(player => {
+            // Verifica se o jogador já foi alocado em alguma posição
             const isAlreadyAssigned = Object.values(positions).some(p => p.id === player.id);
-            return !isAlreadyAssigned && player.posicao === selectedPosition;
+
+            // Permite jogadores cuja posição é igual à selecionada ou que sejam "universais"
+            return !isAlreadyAssigned && (player.posicao === selectedPosition || player.posicao === "Universal");
         });
     };
 
@@ -241,6 +245,7 @@ function CriarEquipeComJogadores() {
                 closeModal={closeModal}
                 players={getAvailablePlayers(selectedPlayer ? selectedPlayer.playerPosition : "")}
                 assignPlayerToPosition={assignPlayerToPosition}
+                ratings={ratings} // Passa os ratings para a modal
             />
             <EquipePrincipalForm setEquipePrincipalId={setEquipePrincipalId} />
         </div>

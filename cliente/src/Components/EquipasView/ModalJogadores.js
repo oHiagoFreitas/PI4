@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../../Style/Modal.css"; // Estilos da modal
 
-const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPlayerToPosition, positionId }) => {
+const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPlayerToPosition, positionId, fetchRatingById }) => {
     const [filterName, setFilterName] = useState('');
     const [filterPosition, setFilterPosition] = useState('');
+    
+
+    
 
     if (!isOpen) return null; // Não renderiza a modal se não estiver aberta
 
@@ -14,6 +17,8 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
         return player.nome.toLowerCase().includes(filterName.toLowerCase()) &&
             (filterPosition === '' || player.posicao === filterPosition);
     });
+
+    console.log("Dados dos jogadores recebidos:", players);
 
     return (
         <div className="modal-overlay-MJ">
@@ -49,7 +54,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                         <tr>
                             <th>Nome</th>
                             <th>Posição</th>
-                            <th>Rating</th>
+                            
                             <th>Ação</th>
                         </tr>
                     </thead>
@@ -59,7 +64,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                                 <tr key={player.id}>
                                     <td>{player.nome}</td>
                                     <td>{player.posicao}</td>
-                                    <td>{player.ratingFinal}</td>
+                                    
                                     <td>
                                         <button
                                             onClick={() => assignPlayerToPosition(player, positionId)} // Atribui jogador à posição
@@ -71,7 +76,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="3">Nenhum jogador encontrado</td>
+                                <td colSpan="4">Nenhum jogador encontrado</td>
                             </tr>
                         )}
                     </tbody>
