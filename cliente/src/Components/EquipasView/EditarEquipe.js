@@ -3,11 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
-import EditarCampoFutebol from "./EditarCampoFutebol";
+import EditarCampoFutebol from "./CampoFutebol";
 import TabelaJogadores from "./EditarTabelaJogadores";
 import Modal from "./ModalJogadores";
 import "../../Style/EquipaSombra.css";
-import "./EquipasEditarTime"
+import "./EquipasEditarTime";
 import EquipasEditarTime from "./EquipasEditarTime";
 
 function EditarEquipe() {
@@ -20,6 +20,7 @@ function EditarEquipe() {
     const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [loading, setLoading] = useState(false);
 
+    const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
@@ -30,21 +31,30 @@ function EditarEquipe() {
 
         setUserRole(role); // Atualiza o estado
     }, []);
-    
-    // Armazena o ID da equipe sombra no localStorage
+
     useEffect(() => {
         if (id) {
             localStorage.setItem('equipeSombraId', id);
         }
     }, [id]);
 
-    // Pega o ID da equipe sombra armazenado no localStorage
     const equipeSombraId = localStorage.getItem('equipeSombraId');
 
-    // Função para carregar os jogadores de uma equipe sombra específica
+    // Função para carregar a formação da equipe sombra específica
     useEffect(() => {
         if (equipeSombraId) {
             setLoading(true);
+            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.formacao) {
+                        setFormacao(data.formacao.nome); // Definir a formação no estado
+                    } else {
+                        console.error("Formação não encontrada para a equipe:", equipeSombraId);
+                    }
+                })
+                .catch(error => console.error("Erro ao carregar formação:", error));
+
             fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
@@ -55,7 +65,6 @@ function EditarEquipe() {
                             text: 'Erro ao carregar jogadores da equipe.',
                         });
                     } else {
-                        // Atualiza as posições com os jogadores da equipe, usando o nome da posição
                         const initialPositions = {};
                         data.forEach(jogador => {
                             initialPositions[jogador.posicao] = {
@@ -72,7 +81,6 @@ function EditarEquipe() {
         }
     }, [equipeSombraId, ratings]);
 
-    // Função para carregar todos os jogadores disponíveis e os ratings
     useEffect(() => {
         fetch("http://localhost:3000/atletas")
             .then(response => response.json())
@@ -111,9 +119,7 @@ function EditarEquipe() {
     const assignPlayerToPosition = (newPlayer, positionId) => {
         const oldPlayer = positions[positionId];
 
-        // Se houver um jogador antigo, removê-lo antes de adicionar o novo jogador
         if (oldPlayer) {
-            // Realiza a chamada para remover o jogador antigo sem notificação ao usuário
             fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
                 method: "POST",
                 headers: {
@@ -121,13 +127,12 @@ function EditarEquipe() {
                 },
                 body: JSON.stringify({
                     id: equipeSombraId,
-                    jogadoresIds: [oldPlayer.id],  // Envia o ID do jogador antigo
+                    jogadoresIds: [oldPlayer.id],
                 }),
             })
                 .then(response => response.json())
                 .then(data => {
                     if (data.message === "Jogadores removidos com sucesso!") {
-                        // Agora, adiciona o novo jogador à posição
                         setPositions(prevPositions => ({
                             ...prevPositions,
                             [positionId]: {
@@ -141,7 +146,6 @@ function EditarEquipe() {
                     console.error("Erro ao remover jogador:", error);
                 });
         } else {
-            // Se não houver jogador anterior, apenas atribui o novo jogador
             setPositions(prevPositions => ({
                 ...prevPositions,
                 [positionId]: {
@@ -151,16 +155,14 @@ function EditarEquipe() {
             }));
         }
 
-        closeModal();  // Fecha o modal após a substituição
+        closeModal();
     };
 
     const onRemovePlayer = (positionId) => {
         const player = positions[positionId];
 
-        // Se não houver jogador na posição, não faz nada
         if (!player) return;
 
-        // Confirmação antes de remover
         Swal.fire({
             title: 'Tem certeza?',
             text: "Você deseja remover esse jogador da equipe?",
@@ -170,7 +172,6 @@ function EditarEquipe() {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Realiza a chamada para remover o jogador
                 fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
                     method: "POST",
                     headers: {
@@ -178,16 +179,15 @@ function EditarEquipe() {
                     },
                     body: JSON.stringify({
                         equipeSombraId: equipeSombraId,
-                        jogadoresIds: [player.id],  // Envia o ID do jogador
+                        jogadoresIds: [player.id],
                     }),
                 })
                     .then(response => response.json())
                     .then(data => {
                         if (data.message === "Jogadores removidos com sucesso!") {
-                            // Atualiza a UI após a remoção
                             setPositions(prevPositions => {
                                 const newPositions = { ...prevPositions };
-                                delete newPositions[positionId];  // Remove o jogador da posição
+                                delete newPositions[positionId];
                                 return newPositions;
                             });
                             Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
@@ -255,6 +255,7 @@ function EditarEquipe() {
 
                         <EditarCampoFutebol
                             positions={positions}
+                            formacao={formacao} // Passa a formação como uma prop
                             openModal={openModal}
                         />
 

@@ -16,31 +16,46 @@ function CriarEquipeComJogadores() {
     const [ratings, setRatings] = useState({}); // Novo estado para armazenar ratings dos jogadores
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
 
     console.log(equipeSombraId)
 
-    // Função para carregar os jogadores da API
     useEffect(() => {
+        console.log("Carregando jogadores...");
         fetch("http://localhost:3000/atletas")
             .then(response => response.json())
-            .then(data => setPlayers(data))
+            .then(data => {
+                setPlayers(data);
+                console.log("Jogadores carregados:", data);
+            })
             .catch(error => console.error("Erro ao carregar jogadores:", error));
-    }, []);
 
-    // Função para carregar os ratings dos jogadores
-    useEffect(() => {
+        console.log("Carregando relatórios...");
         fetch("http://localhost:3000/relatorios")
             .then(response => response.json())
             .then(data => {
-                // Mapeia os ratings para o id do atleta
                 const ratingsMap = data.reduce((acc, report) => {
                     acc[report.atletaId] = report.ratingFinal;
                     return acc;
                 }, {});
                 setRatings(ratingsMap);
+                console.log("Relatórios carregados:", ratingsMap);
             })
             .catch(error => console.error("Erro ao carregar relatórios:", error));
-    }, []);
+
+        console.log("Carregando formação da equipe principal...");
+        fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.formacao) {
+                    setFormacao(data.formacao.nome); // Definir a formação no estado
+                    console.log("Formação carregada:", data.formacao.nome);
+                } else {
+                    console.error("Formação não encontrada para a equipe:", equipeSombraId);
+                }
+            })
+            .catch(error => console.error("Erro ao carregar formação:", error));
+    }, [equipeSombraId]);
 
     // Função para abrir a modal com as informações do jogador
     const openModal = (playerPosition, positionId) => {
@@ -239,6 +254,7 @@ function CriarEquipeComJogadores() {
                         <CampoFutebol
                             positions={positions}
                             openModal={openModal}
+                            formacao={formacao}
                         />
                         <div className="actions-buttonsAT" style={{marginTop: "10px"}}>
                             <button onClick={salvarEquipe} className="button-createAT">

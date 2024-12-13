@@ -15,7 +15,7 @@ function MostrarEquipeComJogadores() {
     const [positions, setPositions] = useState({});
     const [ratings, setRatings] = useState({});
     const [loading, setLoading] = useState(false);
-
+    const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
@@ -27,7 +27,6 @@ function MostrarEquipeComJogadores() {
         setUserRole(role); // Atualiza o estado
     }, []);
 
-    // Verifica se o ID foi encontrado
     useEffect(() => {
         if (!equipeSombraId) {
             Swal.fire({
@@ -38,10 +37,21 @@ function MostrarEquipeComJogadores() {
         }
     }, [equipeSombraId, navigate]);
 
-    // Função para carregar os jogadores de uma equipe sombra específica
+    // Função para carregar a formação da equipe sombra específica
     useEffect(() => {
         if (equipeSombraId) {
             setLoading(true);
+            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.formacao) {
+                        setFormacao(data.formacao.nome); // Definir a formação no estado
+                    } else {
+                        console.error("Formação não encontrada para a equipe:", equipeSombraId);
+                    }
+                })
+                .catch(error => console.error("Erro ao carregar formação:", error));
+
             fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
@@ -114,11 +124,10 @@ function MostrarEquipeComJogadores() {
                     <div className="criar-equipe-container">
                         <MostrarEquipeSombra />
 
-
                         {loading ? (
                             <div className="loading-spinner">Carregando...</div>
                         ) : (
-                            <CampoFutebol positions={positions} />
+                            <CampoFutebol positions={positions} formacao={formacao} />
                         )}
 
                         <div className="actions-buttonsAT" style={{ justifyContent: "start", marginTop: 20 }}>
@@ -130,7 +139,6 @@ function MostrarEquipeComJogadores() {
                             </button>
 
                             <button onClick={() => navigate(-1)} className="button-createAT">Voltar</button>
-
                         </div>
 
                         <TabelaJogadores
