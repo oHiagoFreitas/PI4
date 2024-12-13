@@ -15,6 +15,7 @@ const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes');
 const partidaRoutes = require('./routes/partidaRoutes'); // Ajuste o caminho conforme necessário
 const PendentesRoute = require('./routes/PendentesRoute'); // Ajuste o caminho conforme necessário
 const Microsite = require('./routes/MicroSiteRoutes'); // Certifique-se de ajustar o caminho para o seu modelo
+const equipePrincipalRoutes = require('./routes/equipePrincipalRoutes'); // Rota de equipes Principal
 
 // Configurações
 app.set('port', process.env.PORT || 3000);
@@ -39,6 +40,7 @@ app.use('/scoutsAtletas', scoutAtletaRoutes); // Rota para associações entre s
 app.use('/relatorios', relatorioRoutes); // Adicione isso para usar as rotas de relatório
 app.use('/auth', authRoute); // Rota de login
 app.use('/equipeSombra', equipeSombraRoutes); // Rota para equipes sombra
+app.use('/equipePrincipal', equipePrincipalRoutes); // Rota para equipes sombra
 app.use('/formacao', formacaoRoutes); // Rota para formações
 app.use('/atletasEquipeSombra', atletasEquipeSombraRoutes);
 app.use('/partidas', partidaRoutes); // Define o prefixo da rota para partidas
