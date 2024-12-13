@@ -22,8 +22,11 @@ import UtilizadorDetalhe from "./Components/ValidacoesView/DetalhesUtilizador";
 import DetalhesTime from "./Components/TimeView/DetalhesTime";
 import Equipas from './View/Equipas';
 import CriarEquipeComJogadores from './Components/EquipasView/CriarEquipeComJogadores';
+import CriarEquipePrincipalComJogadores from './Components/EquipasView/EquipePrincipal/CriarEquipePrincipalComJogadores';
 import MostrarEquipeComJogadores from './Components/EquipasView/MostrarEquipeComJogadores';
+import MostrarEquipePrincipalComJogadores from './Components/EquipasView/EquipePrincipal/MostrarEquipePrincipalComJogadores';
 import EditarEquipeComJogadores from "./Components/EquipasView/EditarEquipe";
+import EditarEquipePrincipal from './Components/EquipasView/EquipePrincipal/EditarEquipePrincipal';
 import EditarPartida from './Components/PartidasPage/EditarPartida'; // Página de edição de partida
 import MicroSite from './View/MicroSite';
 import PoliticasPrivacidade from './View/PoliticasPrivacidade';
@@ -59,8 +62,11 @@ const App = () => {
         <Route path="/WebPage" element={<WebPage />} />
         <Route path="/PoliticasPrivacidade" element={<PoliticasPrivacidade />} />
         <Route path="/equipeSombra/:id" element={<CriarEquipeComJogadores />} />
+        <Route path="/equipePrincipal/:id" element={<CriarEquipePrincipalComJogadores />} />
         <Route path="/MostrarequipeSombra/:id" element={<MostrarEquipeComJogadores />} />
+        <Route path="/MostrarequipePrincipal/:id" element={<MostrarEquipePrincipalComJogadores />} />
         <Route path="/editar-equipe/:id" element={<EditarEquipeComJogadores />} />
+        <Route path="/editar-equipePrincipal/:id" element={<EditarEquipePrincipal />} />
       </Routes>
     </Router>
   );

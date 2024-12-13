@@ -1,6 +1,5 @@
-// src/Components/EquipasView/EquipasSelector.js
-
 import React, { useState } from 'react';
+import MainTeamList from './EquipePrincipal/MainTeamList'; // Importando a tabela de equipas principais
 import ShadowTeamsTable from './ShadowTeamsTable'; // Importando a tabela de equipas sombras
 import '../../Style/Backoffice.css'; // Importando o arquivo CSS com as classes já existentes
 
@@ -36,6 +35,8 @@ function EquipasSelector() {
                 </button>
             </div>
 
+            {/* Exibe a tabela de equipas principais se 'Equipa Principal' for selecionada */}
+            {!showShadowTeams && selectedTeam === 'Equipa Principal' && <MainTeamList />}
             {/* Exibe a tabela de equipas sombras se 'Equipa Sombra' for selecionada */}
             {showShadowTeams && <ShadowTeamsTable />}
         </div>
