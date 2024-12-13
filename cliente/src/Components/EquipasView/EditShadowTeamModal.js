@@ -11,7 +11,7 @@ function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
         formacaoNome: ''
     });
 
-    const formations = ["4-3-3", "4-4-2"]; // Lista de opções de formação
+    const formations = ["4-3-3", "4-4-2", "4-2-3-1"]; // Lista de opções de formação
 
     // Função para buscar os dados da equipe sombra por ID
     useEffect(() => {

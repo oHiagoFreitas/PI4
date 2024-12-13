@@ -137,6 +137,7 @@ const EditAthleteModal = ({ isOpen, onRequestClose, athleteData }) => {
                         <option value="Defesa Direita">Defesa Direita</option>
                         <option value="Meio Campista">Meio Campista</option>
                         <option value="Atacante">Atacante</option>
+                        <option value="Universal">Universal</option>
                     </select>
                 </div>
                 <div className="form-group">
