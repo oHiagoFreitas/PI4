@@ -11,6 +11,9 @@ router.post('/jogadores', equipeSombraController.addJogadoresToEquipeSombra);
 // Rota para remover jogadores de uma equipe sombra
 router.post('/remover-jogadores', equipeSombraController.removeJogadoresFromEquipeSombra);
 
+// Rota para remover uma equipe sombra
+router.delete('/:id', equipeSombraController.deleteEquipeSombra);
+
 router.put('/:id', equipeSombraController.updateEquipeSombra);
 
 router.get('/:id', equipeSombraController.getEquipeSombraById);
@@ -18,8 +21,5 @@ router.get('/:id', equipeSombraController.getEquipeSombraById);
 router.get('/:id/atletas', equipeSombraController.getAtletasByEquipeSombra);
 
 router.put('/:id/nome', equipeSombraController.updateEquipeSombraNome);
-
-
-
 
 module.exports = router;

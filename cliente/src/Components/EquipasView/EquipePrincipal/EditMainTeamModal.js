@@ -1,7 +1,6 @@
-// src/Components/EquipasView/EditMainTeamModal.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Importando SweetAlert
 
 function EditMainTeamModal({ isOpen, onClose, teamId, onUpdate }) {
     // Estado para armazenar os dados da equipe principal sendo editada
@@ -38,10 +37,27 @@ function EditMainTeamModal({ isOpen, onClose, teamId, onUpdate }) {
         try {
             const response = await axios.put(`http://localhost:3000/equipePrincipal/${teamId}/Nome`, teamData);
             console.log('Equipe principal editada:', response.data);
+
+            // Exibir SweetAlert de sucesso
+            Swal.fire({
+                title: 'Sucesso',
+                text: 'Equipe principal editada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+
             onUpdate(response.data); // Passa os dados atualizados para o componente pai
             onClose(); // Fecha a modal após a edição
         } catch (error) {
             console.error('Erro ao editar equipe principal:', error);
+
+            // Exibir SweetAlert de erro
+            Swal.fire({
+                title: 'Erro',
+                text: 'Houve um problema ao editar a equipe principal',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     };
 

@@ -4,6 +4,7 @@ import EditShadowTeamModal from './EditShadowTeamModal'; // Importando a modal d
 import CreateShadowTeamModal from './CreateShadowTeamModal'; // Importando a modal de criação
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import { useNavigate } from 'react-router-dom'; // Importando o hook de navegação
+import Swal from 'sweetalert2'; // Importando o SweetAlert
 
 function ShadowTeamsTable() {
     const [allShadowTeams, setAllShadowTeams] = useState([]);
@@ -39,6 +40,78 @@ function ShadowTeamsTable() {
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            // Exibe a SweetAlert de confirmação antes de deletar
+            const result = await Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você não poderá recuperar esta equipe sombra após deletá-la!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, delete-a!',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                await axios.delete(`http://localhost:3000/equipeSombra/${id}`);
+                setAllShadowTeams(allShadowTeams.filter(team => team.id !== id));
+
+                Swal.fire(
+                    'Deletado!',
+                    'A equipe sombra foi deletada com sucesso.',
+                    'success'
+                );
+            }
+        } catch (error) {
+            console.error('Erro ao deletar a equipe sombra:', error);
+            Swal.fire(
+                'Erro!',
+                'Ocorreu um erro ao tentar deletar a equipe sombra.',
+                'error'
+            );
+        }
+    };
+
+    const handleUpdate = async (id, updatedData) => {
+        try {
+            // Exibe a SweetAlert de confirmação antes de atualizar
+            const result = await Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você deseja salvar as alterações feitas nesta equipe sombra?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, salvar!',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                const response = await axios.put(`http://localhost:3000/equipeSombra/${id}`, updatedData);
+                setAllShadowTeams(prevTeams =>
+                    prevTeams.map(team =>
+                        team.id === id ? response.data : team
+                    )
+                );
+
+                Swal.fire(
+                    'Atualizado!',
+                    'A equipe sombra foi atualizada com sucesso.',
+                    'success'
+                );
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar a equipe sombra:', error);
+            Swal.fire(
+                'Erro!',
+                'Ocorreu um erro ao tentar atualizar a equipe sombra.',
+                'error'
+            );
+        }
     };
 
     return (
@@ -84,6 +157,15 @@ function ShadowTeamsTable() {
                                                 Editar Time
                                             </button>
                                         </div>
+
+                                        <div style={{marginLeft: "10px", display: "inline"}}>
+                                            <button
+                                                className="action-buttonES"
+                                                onClick={() => handleDelete(team.id)} // Função para deletar a equipe sombra
+                                            >
+                                                Deletar
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))
@@ -118,13 +200,7 @@ function ShadowTeamsTable() {
                 isOpen={isEditModalOpen}
                 onClose={() => setIsEditModalOpen(false)}
                 teamId={editingTeamId}
-                onUpdate={(updatedTeam) => {
-                    setAllShadowTeams(prevTeams =>
-                        prevTeams.map(team =>
-                            team.id === updatedTeam.id ? updatedTeam : team
-                        )
-                    );
-                }}
+                onUpdate={(updatedTeam) => handleUpdate(editingTeamId, updatedTeam)} // Usando a função de atualização com SweetAlert
             />
         </div>
     );

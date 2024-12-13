@@ -269,3 +269,23 @@ exports.updateEquipePrincipalNome = async (req, res) => {
         res.status(500).json({ error: 'Erro ao atualizar equipe sombra' });
     }
 };
+
+exports.deleteEquipePrincipal = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Encontrar e excluir a equipe principal pelo ID
+        const equipePrincipal = await EquipePrincipal.findByPk(id);
+
+        if (!equipePrincipal) {
+            return res.status(404).json({ message: 'Equipe principal não encontrada' });
+        }
+
+        await equipePrincipal.destroy();
+
+        res.status(200).json({ message: 'Equipe principal excluída com sucesso' });
+    } catch (error) {
+        console.error("Erro ao excluir equipe principal:", error);
+        res.status(500).json({ message: 'Erro ao excluir equipe principal', error });
+    }
+};

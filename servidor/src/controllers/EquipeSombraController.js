@@ -269,3 +269,26 @@ exports.updateEquipeSombraNome = async (req, res) => {
         res.status(500).json({ error: 'Erro ao atualizar equipe sombra' });
     }
 };
+
+exports.deleteEquipeSombra = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const equipeSombra = await EquipeSombra.findByPk(id);
+
+        if (!equipeSombra) {
+            return res.status(404).json({ error: 'Equipe Sombra não encontrada' });
+        }
+
+        // Remover todos os jogadores associados à equipe sombra
+        await equipeSombra.removeAtletas();
+
+        // Deletar a equipe sombra
+        await equipeSombra.destroy();
+
+        res.status(200).json({ message: 'Equipe Sombra removida com sucesso!' });
+    } catch (error) {
+        console.error("Erro ao remover equipe sombra:", error);
+        res.status(500).json({ error: 'Erro ao remover equipe sombra' });
+    }
+};

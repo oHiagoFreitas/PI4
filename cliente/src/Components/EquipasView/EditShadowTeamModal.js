@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2'; // Importando o SweetAlert
 
 function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
     // Estado para armazenar os dados da equipe sombra sendo editada
@@ -36,12 +37,37 @@ function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
     // Função para editar a equipe sombra
     const editShadowTeam = async () => {
         try {
-            const response = await axios.put(`http://localhost:3000/equipeSombra/${teamId}/Nome`, teamData);
-            console.log('Equipe sombra editada:', response.data);
-            onUpdate(response.data); // Passa os dados atualizados para o componente pai
-            onClose(); // Fecha a modal após a edição
+            // Exibe a SweetAlert de confirmação antes de editar
+            const result = await Swal.fire({
+                title: 'Tem certeza?',
+                text: "Você deseja salvar as alterações feitas nesta equipe sombra?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sim, salvar!',
+                cancelButtonText: 'Cancelar'
+            });
+
+            if (result.isConfirmed) {
+                const response = await axios.put(`http://localhost:3000/equipeSombra/${teamId}/Nome`, teamData);
+                console.log('Equipe sombra editada:', response.data);
+                onUpdate(response.data); // Passa os dados atualizados para o componente pai
+                onClose(); // Fecha a modal após a edição
+
+                Swal.fire(
+                    'Atualizado!',
+                    'A equipe sombra foi atualizada com sucesso.',
+                    'success'
+                );
+            }
         } catch (error) {
             console.error('Erro ao editar equipe sombra:', error);
+            Swal.fire(
+                'Erro!',
+                'Ocorreu um erro ao tentar editar a equipe sombra.',
+                'error'
+            );
         }
     };
 

@@ -4,6 +4,7 @@ import EditMainTeamModal from './EditMainTeamModal'; // Importando a modal de ed
 import CreateMainTeamModal from './CreateMainTeamModal'; // Importando a modal de criação
 import Pagination from '../../Pagination'; // Importando o componente de paginação
 import { useNavigate } from 'react-router-dom'; // Importando o hook de navegação
+import Swal from 'sweetalert2'; // Importando SweetAlert
 
 function MainTeamList() {
     const [allMainTeams, setAllMainTeams] = useState([]);
@@ -39,6 +40,17 @@ function MainTeamList() {
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
+    };
+
+    const deleteTeam = async (teamId) => {
+        try {
+            await axios.delete(`http://localhost:3000/equipePrincipal/${teamId}`);
+            Swal.fire('Sucesso', 'Equipe principal excluída com sucesso', 'success');
+            setAllMainTeams(allMainTeams.filter(team => team.id !== teamId));
+        } catch (error) {
+            console.error('Erro ao excluir equipe principal:', error);
+            Swal.fire('Erro', 'Houve um problema ao excluir a equipe principal', 'error');
+        }
     };
 
     return (
@@ -82,6 +94,28 @@ function MainTeamList() {
                                                 }}
                                             >
                                                 Editar Time
+                                            </button>
+                                        </div>
+
+                                        <div style={{marginLeft: "10px", display: "inline"}}>
+                                            <button
+                                                className="action-buttonES"
+                                                onClick={() => {
+                                                    Swal.fire({
+                                                        title: 'Você tem certeza?',
+                                                        text: "Esta ação não pode ser desfeita!",
+                                                        icon: 'warning',
+                                                        showCancelButton: true,
+                                                        confirmButtonText: 'Sim, excluir!',
+                                                        cancelButtonText: 'Cancelar'
+                                                    }).then((result) => {
+                                                        if (result.isConfirmed) {
+                                                            deleteTeam(team.id);
+                                                        }
+                                                    });
+                                                }}
+                                            >
+                                                Excluir
                                             </button>
                                         </div>
                                     </td>

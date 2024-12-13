@@ -14,6 +14,9 @@ router.post('/jogadores', equipePrincipalController.addJogadoresToEquipePrincipa
 // Rota para remover jogadores de uma equipe principal
 router.post('/remover-jogadores', equipePrincipalController.removeJogadoresFromEquipePrincipal);
 
+// Rota para deletar uma equipe principal
+router.delete('/:id', equipePrincipalController.deleteEquipePrincipal);
+
 // Rota para atualizar uma equipe principal
 router.put('/:id', equipePrincipalController.updateEquipePrincipal);
 
