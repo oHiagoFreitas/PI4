@@ -13,78 +13,92 @@ function CriarEquipeComJogadores() {
     const [equipePrincipalId, setEquipePrincipalId] = useState(null);
     const [players, setPlayers] = useState([]);
     const [positions, setPositions] = useState({});
-    const [ratings, setRatings] = useState({}); // Novo estado para armazenar ratings dos jogadores
+    const [ratings, setRatings] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
 
-    console.log(equipePrincipalId)
+    console.log("ID da equipe principal:", equipePrincipalId, "Formação:", formacao);
 
-    // Função para carregar os jogadores da API
+    // Carregar os jogadores e a formação da equipe principal
     useEffect(() => {
+        console.log("Carregando jogadores...");
         fetch("http://localhost:3000/atletas")
             .then(response => response.json())
-            .then(data => setPlayers(data))
+            .then(data => {
+                setPlayers(data);
+                console.log("Jogadores carregados:", data);
+            })
             .catch(error => console.error("Erro ao carregar jogadores:", error));
-    }, []);
 
-    // Função para carregar os ratings dos jogadores
-    useEffect(() => {
+        console.log("Carregando relatórios...");
         fetch("http://localhost:3000/relatorios")
             .then(response => response.json())
             .then(data => {
-                // Mapeia os ratings para o id do atleta
                 const ratingsMap = data.reduce((acc, report) => {
                     acc[report.atletaId] = report.ratingFinal;
                     return acc;
                 }, {});
                 setRatings(ratingsMap);
+                console.log("Relatórios carregados:", ratingsMap);
             })
             .catch(error => console.error("Erro ao carregar relatórios:", error));
-    }, []);
 
-    // Função para abrir a modal com as informações do jogador
+        console.log("Carregando formação da equipe principal...");
+        fetch(`http://localhost:3000/equipePrincipal/${equipePrincipalId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.formacao) {
+                    setFormacao(data.formacao.nome); // Definir a formação no estado
+                    console.log("Formação carregada:", data.formacao.nome);
+                } else {
+                    console.error("Formação não encontrada para a equipe:", equipePrincipalId);
+                }
+            })
+            .catch(error => console.error("Erro ao carregar formação:", error));
+    }, [equipePrincipalId]);
+
     const openModal = (playerPosition, positionId) => {
+        console.log("Abrindo modal para posição:", playerPosition, "ID da posição:", positionId);
         setSelectedPlayer({ playerPosition, positionId });
         setIsModalOpen(true);
     };
 
-    // Função para fechar a modal
     const closeModal = () => {
+        console.log("Fechando modal.");
         setIsModalOpen(false);
         setSelectedPlayer(null);
     };
 
-    // Função para alocar jogador na posição
     const assignPlayerToPosition = (player, positionId) => {
+        console.log(`Atribuindo jogador ${player.nome} à posição ${positionId}.`);
         setPositions((prevPositions) => ({
             ...prevPositions,
             [positionId]: {
                 id: player.id,
-                nome: player.nome, // Aqui estamos armazenando o nome do jogador junto com o id
+                nome: player.nome,
             },
         }));
-        closeModal(); // Fecha a modal após a seleção
+        closeModal();
     };
 
-    // Função para filtrar jogadores já selecionados
     const getAvailablePlayers = (selectedPosition) => {
+        console.log("Obtendo jogadores disponíveis para a posição:", selectedPosition);
         return players.filter(player => {
-            // Verifica se o jogador não está alocado em nenhuma posição
             const isAlreadyAssigned = Object.values(positions).some(p => p.id === player.id);
             return !isAlreadyAssigned && player.posicao === selectedPosition;
         });
     };
 
-    // Função para remover um jogador de uma posição
     const onRemovePlayer = (positionId) => {
+        console.log("Removendo jogador da posição:", positionId);
         setPositions((prevPositions) => {
             const newPositions = { ...prevPositions };
-            delete newPositions[positionId]; // Remove o jogador da posição
+            delete newPositions[positionId];
             return newPositions;
         });
     };
 
-    // Função para remover jogadores da equipe principal
     const removePlayersFromEquipePrincipal = () => {
         if (!equipePrincipalId) {
             Swal.fire({
@@ -92,11 +106,13 @@ function CriarEquipeComJogadores() {
                 title: 'Erro!',
                 text: 'ID da equipe principal não encontrado.',
             });
+            console.error("ID da equipe principal não encontrado.");
             return;
         }
 
         const playerIdsToRemove = Object.values(positions).map(player => player.id);
 
+        console.log("Removendo jogadores da equipe principal:", playerIdsToRemove);
         fetch("http://localhost:3000/equipePrincipal/remover-jogadores", {
             method: "POST",
             headers: {
@@ -112,13 +128,15 @@ function CriarEquipeComJogadores() {
                         title: 'Sucesso!',
                         text: 'Jogadores removidos da equipe com sucesso!',
                     });
-                    setPositions({}); // Limpar as posições no estado após remoção
+                    console.log("Jogadores removidos com sucesso:", playerIdsToRemove);
+                    setPositions({});
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Erro!',
                         text: 'Erro ao remover jogadores.',
                     });
+                    console.error("Erro ao remover jogadores:", data.message);
                 }
             })
             .catch(error => {
@@ -131,7 +149,6 @@ function CriarEquipeComJogadores() {
             });
     };
 
-    // Função para salvar a equipe
     const salvarEquipe = () => {
         if (!equipePrincipalId) {
             Swal.fire({
@@ -139,23 +156,21 @@ function CriarEquipeComJogadores() {
                 title: 'Erro!',
                 text: 'ID da equipe principal não encontrado.',
             });
+            console.error("ID da equipe principal não encontrado.");
             return;
         }
 
-        console.log("Equipe Principal ID:", equipePrincipalId);
-
-        // Estrutura de jogadores e suas posições
         const requestData = {
-            equipePrincipalId: equipePrincipalId.toString(),  // Garantir que seja uma string como no exemplo
-            jogadoresIds: Object.values(positions).map(player => player.id),  // Mapeia os IDs dos jogadores para um array
+            equipePrincipalId: equipePrincipalId.toString(),
+            jogadoresIds: Object.values(positions).map(player => player.id),
             positions: Object.entries(positions).reduce((acc, [positionId, player]) => {
-                acc[player.id] = positionId;  // Agora estamos mapeando o ID do jogador para a posição (ID -> posição)
+                acc[player.id] = positionId;
                 return acc;
-            }, {})
+            }, {}),
+            formacao: formacao // Passa a formação para a requisição
         };
 
-        console.log("Dados enviados:", requestData);
-
+        console.log("Salvando equipe com os seguintes dados:", requestData);
         fetch("http://localhost:3000/equipePrincipal/jogadores", {
             method: "POST",
             headers: {
@@ -171,12 +186,14 @@ function CriarEquipeComJogadores() {
                         title: 'Sucesso!',
                         text: 'Equipe salva com sucesso!',
                     });
+                    console.log("Equipe salva com sucesso:", requestData);
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Erro!',
                         text: 'Erro ao salvar equipe.',
                     });
+                    console.error("Erro ao salvar equipe:", data.message);
                 }
             })
             .catch(error => {
@@ -201,8 +218,9 @@ function CriarEquipeComJogadores() {
                         <CampoFutebol
                             positions={positions}
                             openModal={openModal}
+                            formacao={formacao} // Passa a formação para o componente CampoFutebol
                         />
-                        <div className="actions-buttonsAT" style={{marginTop: "10px"}}>
+                        <div className="actions-buttonsAT" style={{ marginTop: "10px" }}>
                             <button onClick={salvarEquipe} className="button-createAT">
                                 Salvar Equipe
                             </button>
@@ -211,13 +229,11 @@ function CriarEquipeComJogadores() {
                             </button>
                         </div>
 
-                        {/* Tabela de Jogadores */}
                         <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} />
                     </div>
                 </div>
             </div>
 
-            {/* Modal */}
             <Modal
                 isOpen={isModalOpen}
                 playerPosition={selectedPlayer ? selectedPlayer.playerPosition : ""}

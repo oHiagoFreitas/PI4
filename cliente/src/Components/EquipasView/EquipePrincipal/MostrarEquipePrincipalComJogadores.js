@@ -1,12 +1,10 @@
-// src/Components/EquipasView/MostrarEquipeComJogadores.js
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
-import MostrarEquipePrincipal from "./TitleMostrarEquipePrincipal"; // Mudança no nome do componente
+import MostrarEquipePrincipal from "./TitleMostrarEquipePrincipal";
 import CampoFutebol from "../MostrarCampoFutebol";
-import TabelaJogadores from "../MostrarTabelaJogadores"; // Mudança no nome do componente
+import TabelaJogadores from "../MostrarTabelaJogadores";
 import Swal from 'sweetalert2';
 import "../../../Style/EquipaSombra.css";
 
@@ -17,7 +15,7 @@ function MostrarEquipeComJogadores() {
     const [positions, setPositions] = useState({});
     const [ratings, setRatings] = useState({});
     const [loading, setLoading] = useState(false);
-
+    const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
@@ -29,7 +27,6 @@ function MostrarEquipeComJogadores() {
         setUserRole(role); // Atualiza o estado
     }, []);
 
-    // Verifica se o ID foi encontrado
     useEffect(() => {
         if (!equipePrincipalId) {
             Swal.fire({
@@ -40,10 +37,21 @@ function MostrarEquipeComJogadores() {
         }
     }, [equipePrincipalId, navigate]);
 
-    // Função para carregar os jogadores de uma equipe principal específica
     useEffect(() => {
         if (equipePrincipalId) {
             setLoading(true);
+            // Carregar a formação da equipe principal
+            fetch(`http://localhost:3000/equipePrincipal/${equipePrincipalId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.formacao) {
+                        setFormacao(data.formacao.nome); // Definir a formação no estado
+                    } else {
+                        console.error("Formação não encontrada para a equipe:", equipePrincipalId);
+                    }
+                })
+                .catch(error => console.error("Erro ao carregar formação:", error));
+
             fetch(`http://localhost:3000/equipePrincipal/${equipePrincipalId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
@@ -71,7 +79,6 @@ function MostrarEquipeComJogadores() {
         }
     }, [equipePrincipalId, ratings]);
 
-    // Função para carregar todos os jogadores disponíveis e os ratings
     useEffect(() => {
         fetch("http://localhost:3000/atletas")
             .then(response => response.json())
@@ -90,7 +97,6 @@ function MostrarEquipeComJogadores() {
             .catch(error => console.error("Erro ao carregar relatórios:", error));
     }, []);
 
-    // Função para exibir o ID da equipe principal
     const showEquipePrincipalId = () => {
         if (equipePrincipalId) {
             Swal.fire({
@@ -116,11 +122,10 @@ function MostrarEquipeComJogadores() {
                     <div className="criar-equipe-container">
                         <MostrarEquipePrincipal />
 
-
                         {loading ? (
                             <div className="loading-spinner">Carregando...</div>
                         ) : (
-                            <CampoFutebol positions={positions} />
+                            <CampoFutebol positions={positions} formacao={formacao} /> // Passa a formação como uma nova prop para o CampoFutebol
                         )}
 
                         <div className="actions-buttonsAT" style={{ justifyContent: "start", marginTop: 20 }}>
@@ -132,7 +137,6 @@ function MostrarEquipeComJogadores() {
                             </button>
 
                             <button onClick={() => navigate(-1)} className="button-createAT">Voltar</button>
-
                         </div>
 
                         <TabelaJogadores

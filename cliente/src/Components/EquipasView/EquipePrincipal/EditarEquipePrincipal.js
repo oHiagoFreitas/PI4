@@ -1,11 +1,9 @@
-// src/Components/EquipasView/EditarEquipe.js
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Sidebar from "../../Sidebar";
 import Navbar from "../../Navbar";
-import EditarCampoFutebol from "../EditarCampoFutebol"; // Nome atualizado para refletir a ação de edição
+import EditarCampoFutebol from "../CampoFutebol"; // Nome atualizado para refletir a ação de edição
 import TabelaJogadores from "../EditarTabelaJogadores"; // Nome atualizado para refletir a edição de jogadores
 import Modal from "../ModalJogadores";
 import "../../../Style/EquipaSombra.css";
@@ -21,7 +19,7 @@ function EditarEquipePrincipal() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [loading, setLoading] = useState(false);
-
+    const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
     const [userRole, setUserRole] = useState(null);
 
     useEffect(() => {
@@ -47,6 +45,18 @@ function EditarEquipePrincipal() {
     useEffect(() => {
         if (equipePrincipalId) {
             setLoading(true);
+            // Carregar a formação da equipe principal
+            fetch(`http://localhost:3000/equipePrincipal/${equipePrincipalId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.formacao) {
+                        setFormacao(data.formacao.nome); // Definir a formação no estado
+                    } else {
+                        console.error("Formação não encontrada para a equipe:", equipePrincipalId);
+                    }
+                })
+                .catch(error => console.error("Erro ao carregar formação:", error));
+
             fetch(`http://localhost:3000/equipePrincipal/${equipePrincipalId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
@@ -258,6 +268,7 @@ function EditarEquipePrincipal() {
                         <EditarCampoFutebol
                             positions={positions}
                             openModal={openModal}
+                            formacao={formacao} 
                         />
 
                         <div className="actions-buttonsAT" style={{ marginTop: "20px", justifyContent: "start" }}>
