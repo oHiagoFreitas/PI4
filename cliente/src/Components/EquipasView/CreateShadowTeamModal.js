@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Adicionado para gerenciar o redirecionamento
+import Swal from 'sweetalert2'; // Importando o SweetAlert
 
 function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
     const [newTeam, setNewTeam] = useState({
@@ -11,6 +12,8 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
     });
     const navigate = useNavigate(); // Hook para navegação
 
+    const formations = ["4-3-3", "4-4-2"]; // Lista de opções de formação
+
     const createShadowTeam = async () => {
         try {
             const response = await axios.post('http://localhost:3000/equipeSombra', newTeam);
@@ -18,8 +21,24 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
             onCreate(response.data); // Passa a nova equipa criada para o componente pai
             navigate(`/equipeSombra/${response.data.id}`); // Redireciona para a rota com o ID da nova equipa
             onClose(); // Fecha a modal após a criação
+
+            // Exibe SweetAlert de sucesso
+            Swal.fire({
+                title: 'Sucesso',
+                text: 'Equipe sombra criada com sucesso!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
         } catch (error) {
             console.error('Erro ao criar equipa sombra:', error);
+
+            // Exibe SweetAlert de erro
+            Swal.fire({
+                title: 'Erro',
+                text: 'Houve um problema ao criar a equipe sombra.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     };
 
@@ -50,13 +69,16 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
                     onChange={(e) => setNewTeam({ ...newTeam, categoria: e.target.value })} 
                     className="input-fieldES"
                 />
-                <input 
-                    type="text" 
-                    placeholder="Formação" 
+                <select 
                     value={newTeam.formacaoNome} 
-                    onChange={(e) => setNewTeam({ ...newTeam, formacaoNome: e.target.value })} 
+                    onChange={(e) => setNewTeam({ ...newTeam, formacaoNome: e.target.value })}
                     className="input-fieldES"
-                />
+                >
+                    <option value="" disabled>Selecione uma formação</option>
+                    {formations.map((formation, index) => (
+                        <option key={index} value={formation}>{formation}</option>
+                    ))}
+                </select>
                 <div className="modal-actionsES">
                     <button className="button-createAT button-createES" onClick={createShadowTeam}>Criar</button>
                     <button className="button-cancelES" onClick={onClose}>Cancelar</button>

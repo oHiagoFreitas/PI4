@@ -1,5 +1,3 @@
-// src/Components/EquipasView/EditShadowTeamModal.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Importando o SweetAlert
@@ -12,6 +10,8 @@ function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
         categoria: '',
         formacaoNome: ''
     });
+
+    const formations = ["4-3-3", "4-4-2"]; // Lista de opções de formação
 
     // Função para buscar os dados da equipe sombra por ID
     useEffect(() => {
@@ -99,13 +99,16 @@ function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
                     onChange={(e) => setTeamData({ ...teamData, categoria: e.target.value })}
                     className="input-fieldES"
                 />
-                <input
-                    type="text"
-                    placeholder="Formação"
-                    value={teamData.formacaoNome}
+                <select 
+                    value={teamData.formacaoNome} 
                     onChange={(e) => setTeamData({ ...teamData, formacaoNome: e.target.value })}
                     className="input-fieldES"
-                />
+                >
+                    <option value="" disabled>Selecione uma formação</option>
+                    {formations.map((formation, index) => (
+                        <option key={index} value={formation}>{formation}</option>
+                    ))}
+                </select>
                 <div className="modal-actionsES">
                     <button className="button-createAT button-createES" onClick={editShadowTeam}>Salvar</button>
                     <button className="button-cancelES" onClick={onClose}>Cancelar</button>
