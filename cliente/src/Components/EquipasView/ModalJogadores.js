@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "../../Style/Modal.css"; // Estilos da modal
 
-const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPlayerToPosition, positionId, fetchRatingById }) => {
+const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPlayerToPosition, positionId, ratings }) => {
     const [filterName, setFilterName] = useState('');
     const [filterPosition, setFilterPosition] = useState('');
-    
-
     
 
     if (!isOpen) return null; // Não renderiza a modal se não estiver aberta
@@ -54,7 +52,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                         <tr>
                             <th>Nome</th>
                             <th>Posição</th>
-                            
+                            <th>Classificação</th> {/* Adiciona coluna de classificação */}
                             <th>Ação</th>
                         </tr>
                     </thead>
@@ -64,7 +62,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                                 <tr key={player.id}>
                                     <td>{player.nome}</td>
                                     <td>{player.posicao}</td>
-                                    
+                                    <td>{ratings[player.id] ? ratings[player.id] : 'N/A'}</td> {/* Utiliza os ratings da prop */}
                                     <td>
                                         <button
                                             onClick={() => assignPlayerToPosition(player, positionId)} // Atribui jogador à posição

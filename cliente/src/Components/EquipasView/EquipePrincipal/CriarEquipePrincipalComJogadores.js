@@ -13,7 +13,7 @@ function CriarEquipeComJogadores() {
     const [equipePrincipalId, setEquipePrincipalId] = useState(null);
     const [players, setPlayers] = useState([]);
     const [positions, setPositions] = useState({});
-    const [ratings, setRatings] = useState({});
+    const [ratings, setRatings] = useState({}); // Adiciona o estado para ratings
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
@@ -73,7 +73,24 @@ function CriarEquipeComJogadores() {
     };
 
     const assignPlayerToPosition = (player, positionId) => {
-        console.log(`Atribuindo jogador ${player.nome} à posição ${positionId}.`);
+        // Verifica se já existe um jogador alocado nesta posição
+        const oldPlayerId = positions[positionId]?.id;
+    
+        if (oldPlayerId) {
+            // Remove o jogador antigo da base de dados
+            fetch(`http://localhost:3000/equipePrincipal/remover-jogador/${oldPlayerId}`, {
+                method: "DELETE",
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Jogador removido da posição:", data.message);
+            })
+            .catch(error => {
+                console.error("Erro ao remover jogador:", error);
+            });
+        }
+    
+        // Adiciona o novo jogador à posição
         setPositions((prevPositions) => ({
             ...prevPositions,
             [positionId]: {
@@ -81,6 +98,7 @@ function CriarEquipeComJogadores() {
                 nome: player.nome,
             },
         }));
+    
         closeModal();
     };
 
@@ -163,7 +181,7 @@ function CriarEquipeComJogadores() {
             console.error("ID da equipe principal não encontrado.");
             return;
         }
-
+    
         const requestData = {
             equipePrincipalId: equipePrincipalId.toString(),
             jogadoresIds: Object.values(positions).map(player => player.id),
@@ -171,9 +189,9 @@ function CriarEquipeComJogadores() {
                 acc[player.id] = positionId;
                 return acc;
             }, {}),
-            formacao: formacao // Passa a formação para a requisição
+            formacao: formacao
         };
-
+    
         console.log("Salvando equipe com os seguintes dados:", requestData);
         fetch("http://localhost:3000/equipePrincipal/jogadores", {
             method: "POST",
@@ -182,32 +200,32 @@ function CriarEquipeComJogadores() {
             },
             body: JSON.stringify(requestData),
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === "Jogadores adicionados com sucesso!") {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Sucesso!',
-                        text: 'Equipe salva com sucesso!',
-                    });
-                    console.log("Equipe salva com sucesso:", requestData);
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Erro!',
-                        text: 'Erro ao salvar equipe.',
-                    });
-                    console.error("Erro ao salvar equipe:", data.message);
-                }
-            })
-            .catch(error => {
-                console.error("Erro ao salvar equipe:", error);
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Jogadores adicionados com sucesso!") {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Equipe salva com sucesso!',
+                });
+                console.log("Equipe salva com sucesso:", requestData);
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro!',
                     text: 'Erro ao salvar equipe.',
                 });
+                console.error("Erro ao salvar equipe:", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Erro ao salvar equipe:", error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: 'Erro ao salvar equipe.',
             });
+        });
     };
 
     return (

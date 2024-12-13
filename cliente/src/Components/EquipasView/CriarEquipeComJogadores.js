@@ -71,14 +71,33 @@ function CriarEquipeComJogadores() {
 
     // Função para alocar jogador na posição
     const assignPlayerToPosition = (player, positionId) => {
+        // Verifica se já existe um jogador alocado nesta posição
+        const oldPlayerId = positions[positionId]?.id;
+    
+        if (oldPlayerId) {
+            // Remove o jogador antigo da base de dados
+            fetch(`http://localhost:3000/equipePrincipal/remover-jogador/${oldPlayerId}`, {
+                method: "DELETE",
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Jogador removido da posição:", data.message);
+            })
+            .catch(error => {
+                console.error("Erro ao remover jogador:", error);
+            });
+        }
+    
+        // Adiciona o novo jogador à posição
         setPositions((prevPositions) => ({
             ...prevPositions,
             [positionId]: {
                 id: player.id,
-                nome: player.nome, // Aqui estamos armazenando o nome do jogador junto com o id
+                nome: player.nome,
             },
         }));
-        closeModal(); // Fecha a modal após a seleção
+    
+        closeModal();
     };
 
     // Função para filtrar jogadores já selecionados
@@ -86,7 +105,7 @@ function CriarEquipeComJogadores() {
         return players.filter(player => {
             // Verifica se o jogador já foi alocado em alguma posição
             const isAlreadyAssigned = Object.values(positions).some(p => p.id === player.id);
-    
+
             // Permite jogadores cuja posição é igual à selecionada ou que sejam "universais"
             return !isAlreadyAssigned && (player.posicao === selectedPosition || player.posicao === "Universal");
         });
@@ -123,18 +142,18 @@ function CriarEquipeComJogadores() {
                         jogadoresIds: [positions[positionId].id], // ID do jogador a ser removido
                     }),
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message === "Jogadores removidos com sucesso!") {
-                        Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
-                    } else {
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message === "Jogadores removidos com sucesso!") {
+                            Swal.fire('Removido!', 'O jogador foi removido com sucesso.', 'success');
+                        } else {
+                            Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erro ao remover jogador:", error);
                         Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error("Erro ao remover jogador:", error);
-                    Swal.fire('Erro!', 'Erro ao remover o jogador.', 'error');
-                });
+                    });
             }
         });
     };
@@ -258,7 +277,7 @@ function CriarEquipeComJogadores() {
                             openModal={openModal}
                             formacao={formacao}
                         />
-                        <div className="actions-buttonsAT" style={{marginTop: "10px"}}>
+                        <div className="actions-buttonsAT" style={{ marginTop: "10px" }}>
                             <button onClick={salvarEquipe} className="button-createAT">
                                 Salvar Equipe
                             </button>
@@ -281,6 +300,7 @@ function CriarEquipeComJogadores() {
                 closeModal={closeModal}
                 players={getAvailablePlayers(selectedPlayer ? selectedPlayer.playerPosition : "")}
                 assignPlayerToPosition={assignPlayerToPosition}
+                ratings={ratings}
             />
             <EquipeSombraForm setEquipeSombraId={setEquipeSombraId} />
         </div>

@@ -284,6 +284,7 @@ function EditarEquipe() {
                 closeModal={closeModal}
                 players={getAvailablePlayers(selectedPlayer ? selectedPlayer.playerPosition : "")}
                 assignPlayerToPosition={assignPlayerToPosition}
+                ratings={ratings}
             />
         </div>
     );
