@@ -134,7 +134,8 @@ exports.getRelatoriosPendentes = async (req, res) => {
         const relatoriosPendentes = await Relatorio.findAll({
             where: { status: 'pendente' }, // Filtra relatórios com status 'Pendente'
             include: [
-                { model: Atleta, as: 'atleta' }, // Inclui os dados do Atleta
+                { model: Atleta, as: 'atleta' },
+                { model: Utilizador, as: 'utilizador' },  // Inclui os dados do Atleta
             ],
         });
 
