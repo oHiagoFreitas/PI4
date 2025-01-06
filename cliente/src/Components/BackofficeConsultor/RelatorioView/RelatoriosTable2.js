@@ -4,14 +4,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import '../../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
-
+import CreateReportModal from '../../CreateReportModal'; // Modal de criação de relatório
 import TabelaRelatorios from './TabelaRelatorios2'; // Componente da Tabela de Relatórios
+import RelatoriosFilters from '../../RelatorioView/RelatoriosFilters'; // Componente de filtros de relatórios
 
 function RelatoriosTable() {
   const [relatorios, setRelatorios] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedRelatorio, setSelectedRelatorio] = useState(null); // Relatório selecionado para edição
+  const [filterDate, setFilterDate] = useState('');
+  const [filterAthleteName, setFilterAthleteName] = useState('');
+  const [filterScoutName, setFilterScoutName] = useState('');
+  const [filterRating, setFilterRating] = useState('');
 
   useEffect(() => {
     axios
@@ -20,18 +25,7 @@ function RelatoriosTable() {
       .catch((error) => console.error('Erro ao carregar relatórios:', error));
   }, []);
 
-  const openCreateRelatorioModal = () => setIsCreateModalOpen(true);
-  const closeCreateRelatorioModal = () => setIsCreateModalOpen(false);
 
-  const openEditRelatorioModal = (relatorio) => {
-    setSelectedRelatorio(relatorio); // Define o relatório selecionado
-    setIsEditModalOpen(true);
-  };
-
-  const closeEditRelatorioModal = () => {
-    setSelectedRelatorio(null); // Reseta o relatório selecionado
-    setIsEditModalOpen(false);
-  };
 
   const handleDelete = (relatorioId) => {
     Swal.fire({
@@ -57,24 +51,45 @@ function RelatoriosTable() {
     });
   };
 
+  // Filtros de relatórios
+  const filteredRelatorios = relatorios.filter((relatorio) => {
+    const dateMatch = filterDate ? new Date(relatorio.createdAt).toISOString().includes(filterDate) : true;
+    const athleteNameMatch = filterAthleteName ? relatorio.atleta.nome.toLowerCase().includes(filterAthleteName.toLowerCase()) : true;
+    const scoutNameMatch = filterScoutName ? relatorio.utilizador.nome.toLowerCase().includes(filterScoutName.toLowerCase()) : true;
+    const ratingMatch = filterRating ? relatorio.ratingFinal.toString() === filterRating : true;
+
+    return dateMatch && athleteNameMatch && scoutNameMatch && ratingMatch;
+  });
+
   return (
     <div className="atletas-table-containerAT">
-      {/* Botões de Ação: Criar Relatório */}
-      <div className="actions-buttonsAT" style={{justifyContent: 'flex-end'}}>
+      {/* Componente de filtros */}
+      <div className="actions-buttonsAT" >
+      <RelatoriosFilters
+        filterDate={filterDate}
+        filterAthleteName={filterAthleteName}
+        filterScoutName={filterScoutName}
+        filterRating={filterRating}
+        onFilterDateChange={(value) => setFilterDate(value)}
+        onFilterAthleteNameChange={(value) => setFilterAthleteName(value)}
+        onFilterScoutNameChange={(value) => setFilterScoutName(value)}
+        onFilterRatingChange={(value) => setFilterRating(value)}
+      />
 
-        {/* Você pode adicionar outros botões, como o de exportação, aqui */}
+      {/* Botões de Ação: Criar Relatório */}
+      
         <button className="button-exportAT">
           Exportar Relatórios
         </button>
       </div>
 
       {/* Tabela com dados dos relatórios */}
-      <TabelaRelatorios 
-        relatorios={relatorios}
-      
+      <TabelaRelatorios
+        relatorios={filteredRelatorios}
+        handleDelete={handleDelete}
       />
 
-
+  
     </div>
   );
 }

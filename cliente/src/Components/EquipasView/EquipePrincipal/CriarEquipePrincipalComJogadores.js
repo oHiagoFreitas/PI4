@@ -8,8 +8,10 @@ import EquipePrincipalForm from "./EquipePrincipalForm"; // Mudança no nome do 
 import TabelaJogadores from "../TabelaJogadores"; // Importa o componente TabelaJogadores
 import Swal from 'sweetalert2'; // Importando SweetAlert2
 import "../../../Style/EquipaSombra.css";
+import { useNavigate } from 'react-router-dom';
 
 function CriarEquipeComJogadores() {
+    const navigate = useNavigate();
     const [equipePrincipalId, setEquipePrincipalId] = useState(null);
     const [players, setPlayers] = useState([]);
     const [positions, setPositions] = useState({});
@@ -19,6 +21,18 @@ function CriarEquipeComJogadores() {
     const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
 
     console.log("ID da equipe principal:", equipePrincipalId, "Formação:", formacao);
+    
+
+    const [userRole, setUserRole] = useState(null);
+
+    useEffect(() => {
+        const scoutId = localStorage.getItem('userId');
+        const role = localStorage.getItem('userRole');
+        console.log('Scout ID no localStorage:', scoutId);
+        console.log('Role do utilizador no localStorage:', role);
+
+        setUserRole(role); // Atualiza o estado
+    }, []);
 
     // Carregar os jogadores e a formação da equipe principal
     useEffect(() => {
@@ -75,21 +89,21 @@ function CriarEquipeComJogadores() {
     const assignPlayerToPosition = (player, positionId) => {
         // Verifica se já existe um jogador alocado nesta posição
         const oldPlayerId = positions[positionId]?.id;
-    
+
         if (oldPlayerId) {
             // Remove o jogador antigo da base de dados
             fetch(`http://localhost:3000/equipePrincipal/remover-jogador/${oldPlayerId}`, {
                 method: "DELETE",
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Jogador removido da posição:", data.message);
-            })
-            .catch(error => {
-                console.error("Erro ao remover jogador:", error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Jogador removido da posição:", data.message);
+                })
+                .catch(error => {
+                    console.error("Erro ao remover jogador:", error);
+                });
         }
-    
+
         // Adiciona o novo jogador à posição
         setPositions((prevPositions) => ({
             ...prevPositions,
@@ -98,7 +112,7 @@ function CriarEquipeComJogadores() {
                 nome: player.nome,
             },
         }));
-    
+
         closeModal();
     };
 
@@ -181,7 +195,7 @@ function CriarEquipeComJogadores() {
             console.error("ID da equipe principal não encontrado.");
             return;
         }
-    
+
         const requestData = {
             equipePrincipalId: equipePrincipalId.toString(),
             jogadoresIds: Object.values(positions).map(player => player.id),
@@ -191,7 +205,7 @@ function CriarEquipeComJogadores() {
             }, {}),
             formacao: formacao
         };
-    
+
         console.log("Salvando equipe com os seguintes dados:", requestData);
         fetch("http://localhost:3000/equipePrincipal/jogadores", {
             method: "POST",
@@ -200,37 +214,41 @@ function CriarEquipeComJogadores() {
             },
             body: JSON.stringify(requestData),
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message === "Jogadores adicionados com sucesso!") {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
-                    text: 'Equipe salva com sucesso!',
-                });
-                console.log("Equipe salva com sucesso:", requestData);
-            } else {
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Jogadores adicionados com sucesso!") {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Sucesso!',
+                        text: 'Equipe salva com sucesso!',
+                        
+                    }).then(() => {
+                        // Após o usuário fechar a mensagem de sucesso, redireciona para a página /Equipas
+                        navigate('/Equipas');
+                    });
+
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erro!',
+                        text: 'Erro ao salvar equipe.',
+                    });
+                    console.error("Erro ao salvar equipe:", data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao salvar equipe:", error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Erro!',
                     text: 'Erro ao salvar equipe.',
                 });
-                console.error("Erro ao salvar equipe:", data.message);
-            }
-        })
-        .catch(error => {
-            console.error("Erro ao salvar equipe:", error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Erro!',
-                text: 'Erro ao salvar equipe.',
             });
-        });
     };
 
     return (
         <div className="backoffice-container">
-            <Sidebar />
+            <Sidebar userRole={userRole} />
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
@@ -243,7 +261,13 @@ function CriarEquipeComJogadores() {
                             formacao={formacao} // Passa a formação para o componente CampoFutebol
                         />
                         <div className="actions-buttonsAT" style={{ marginTop: "10px" }}>
-                            <button onClick={salvarEquipe} className="button-createAT">
+                            <button
+                                onClick={() => {
+                                    salvarEquipe();
+                                    window.history.back();
+                                }}
+                                className="button-createAT"
+                            >
                                 Salvar Equipe
                             </button>
                             <button onClick={removePlayersFromEquipePrincipal} className="button-createAT">

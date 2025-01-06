@@ -8,8 +8,10 @@ import EquipeSombraForm from "./EquipeSombraForm";
 import TabelaJogadores from "./TabelaJogadores"; // Importa o componente TabelaJogadores
 import Swal from 'sweetalert2'; // Importando SweetAlert2
 import "../../Style/EquipaSombra.css";
+import { useNavigate } from 'react-router-dom';
 
 function CriarEquipeComJogadores() {
+    const navigate = useNavigate();
     const [equipeSombraId, setEquipeSombraId] = useState(null);
     const [players, setPlayers] = useState([]);
     const [positions, setPositions] = useState({});
@@ -19,6 +21,17 @@ function CriarEquipeComJogadores() {
     const [formacao, setFormacao] = useState(""); // Novo estado para armazenar a formação
 
     console.log(equipeSombraId)
+
+    const [userRole, setUserRole] = useState(null);
+    
+        useEffect(() => {
+            const scoutId = localStorage.getItem('userId');
+            const role = localStorage.getItem('userRole');
+            console.log('Scout ID no localStorage:', scoutId);
+            console.log('Role do utilizador no localStorage:', role);
+    
+            setUserRole(role); // Atualiza o estado
+        }, []);
 
     useEffect(() => {
         console.log("Carregando jogadores...");
@@ -244,6 +257,9 @@ function CriarEquipeComJogadores() {
                         icon: 'success',
                         title: 'Sucesso!',
                         text: 'Equipe salva com sucesso!',
+                    }).then(() => {
+                        // Após o usuário fechar a mensagem de sucesso, redireciona para a página /Equipas
+                        navigate('/Equipas');
                     });
                 } else {
                     Swal.fire({
@@ -265,7 +281,7 @@ function CriarEquipeComJogadores() {
 
     return (
         <div className="backoffice-container">
-            <Sidebar />
+            <Sidebar userRole={userRole} />
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
