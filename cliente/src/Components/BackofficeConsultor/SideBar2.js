@@ -32,10 +32,6 @@ function Sidebar() {
                     <i className="bi bi-file-earmark-text"></i>
                     <a href="/RelatorioConsultor">Relatórios</a>
                 </li>
-                <li>
-                    <i className="bi bi-person-circle"></i>
-                    <a href="#">Utilizadores</a>
-                </li>
             </ul>
             <div className="footer">
                 <a href="#">
