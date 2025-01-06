@@ -7,12 +7,13 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
     const [newTeam, setNewTeam] = useState({
         nome: '',
         descricao: '',
-        categoria: '',
+        categoria: '', // Estado para armazenar a categoria
         formacaoNome: ''
     });
     const navigate = useNavigate(); // Hook para navegação
 
     const formations = ["4-3-3", "4-4-2", "4-2-3-1"]; // Lista de opções de formação
+    const categories = ["Sub-20", "Sub-21", "Sub-21", "Sub-23", "Seniors"]; // Opções de categorias
 
     const createShadowTeam = async () => {
         try {
@@ -62,13 +63,20 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
                     onChange={(e) => setNewTeam({ ...newTeam, descricao: e.target.value })} 
                     className="input-fieldES"
                 />
-                <input 
-                    type="text" 
-                    placeholder="Categoria" 
+                
+                {/* Campo de categoria */}
+                <select 
                     value={newTeam.categoria} 
-                    onChange={(e) => setNewTeam({ ...newTeam, categoria: e.target.value })} 
+                    onChange={(e) => setNewTeam({ ...newTeam, categoria: e.target.value })}
                     className="input-fieldES"
-                />
+                >
+                    <option value="" disabled>Selecione uma categoria</option>
+                    {categories.map((category, index) => (
+                        <option key={index} value={category}>{category}</option>
+                    ))}
+                </select>
+
+                {/* Campo de formação */}
                 <select 
                     value={newTeam.formacaoNome} 
                     onChange={(e) => setNewTeam({ ...newTeam, formacaoNome: e.target.value })}
@@ -79,6 +87,7 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
                         <option key={index} value={formation}>{formation}</option>
                     ))}
                 </select>
+
                 <div className="modal-actionsES">
                     <button className="button-createAT button-createES" onClick={createShadowTeam}>Criar</button>
                     <button className="button-cancelES" onClick={onClose}>Cancelar</button>

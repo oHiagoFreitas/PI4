@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -21,7 +21,7 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
     const [formData, setFormData] = useState({
         nome: '',
         dataNascimento: '',
-        ano: '',
+        ano: '',  // O ano será atualizado automaticamente com base na data de nascimento
         nacionalidade: '',
         posicao: '',
         clube: '',
@@ -30,6 +30,17 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
         contactoAgente: '',
     });
     const [isSubmitting, setIsSubmitting] = useState(false); // Estado para controlar a submissão do formulário
+
+    // Atualiza o campo 'ano' com o ano extraído da 'dataNascimento'
+    useEffect(() => {
+        if (formData.dataNascimento) {
+            const anoNascimento = new Date(formData.dataNascimento).getFullYear();
+            setFormData((prevData) => ({
+                ...prevData,
+                ano: anoNascimento,
+            }));
+        }
+    }, [formData.dataNascimento]);
 
     const handleChange = (e) => {
         setFormData({
@@ -42,7 +53,7 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
         e.preventDefault();
         setIsSubmitting(true); // Inicia o estado de submissão
         try {
-            const response = await axios.post('http://localhost:3000/atletas', formData);
+            const response = await axios.post('http://localhost:3000/atletas/createAtletaAprovado', formData);
             console.log('Atleta criado:', response.data);
 
             // Alerta de sucesso
@@ -144,18 +155,6 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
                         <option value="Atacante">Atacante</option>
                         <option value="Universal">Universal</option>
                     </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="ano">Ano:</label>
-                    <input
-                        type="number"
-                        id="ano"
-                        name="ano"
-                        value={formData.ano}
-                        onChange={handleChange}
-                        required
-                        className="form-input"
-                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="clube">Clube:</label>

@@ -7,6 +7,7 @@ router.get('/', timesController.getAllTimes);
 
 // Rota para criar um novo time
 router.post('/', timesController.createTime);
+router.post('/createTimeAprovado', timesController.createTimeAprovado);
 
 // Rota para mostrar um time pelo ID
 router.get('/:id', timesController.getTimeById);

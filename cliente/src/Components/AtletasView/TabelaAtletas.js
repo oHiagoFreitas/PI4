@@ -23,7 +23,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   // Função para atualizar os atletas após a edição de um time
   const updateAtletas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/atletas'); // Requisição para obter os atletas novamente
+      const response = await axios.get('http://localhost:3000/atletas/getAllAtletasAprovados'); // Requisição para obter os atletas novamente
       setAtletasData(response.data); // Atualiza o estado com os atletas atualizados
     } catch (error) {
       console.error('Erro ao atualizar os atletas:', error);
@@ -45,7 +45,6 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
             <th>Nacionalidade</th>
             <th>Posição</th>
             <th>Time</th>
-            <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -57,7 +56,6 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
               <td>{atleta.nacionalidade}</td>
               <td>{atleta.posicao}</td>
               <td>{atleta.time ? atleta.time.nome : atleta.clube}</td> {/* Nome do time aqui */}
-              <td>{atleta.status}</td>
               <td>
                 {/* Botão para visualizar */}
                 <Link to={`/atletas/detalhes/${atleta.id}`} className="action-buttonAT dashboard-link">

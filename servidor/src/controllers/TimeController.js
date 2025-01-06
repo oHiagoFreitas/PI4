@@ -22,6 +22,34 @@ exports.createTime = async (req, res) => {
     }
 };
 
+exports.createTimeAprovado = async (req, res) => {
+    const { nome, pais, categoria, descricao } = req.body;
+    try {
+        // Verifica se já existe um time com o mesmo nome
+        const timeExistente = await Time.findOne({ where: { nome } });
+        if (timeExistente) {
+            return res.status(400).json({ error: 'Já existe um time com esse nome.' });
+        }
+
+        // Cria o novo time se o nome for único, com o status como 'Aprovado'
+        const novoTime = await Time.create({
+            nome,
+            pais,
+            categoria,
+            descricao,
+            status: 'aprovado'  // Definindo o status como 'Aprovado'
+        });
+
+        res.status(201).json({
+            message: 'Time criado com sucesso!',
+            data: novoTime
+        });
+    } catch (error) {
+        res.status(500).json({ error: `Erro ao criar time: ${error.message}` });
+    }
+};
+
+
 // Mostrar todos os times
 exports.getAllTimes = async (req, res) => {
     try {

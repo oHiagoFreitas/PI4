@@ -21,7 +21,7 @@ function AtletasTable() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/atletas')
+      .get('http://localhost:3000/atletas/getAllAtletasAprovados')
       .then((response) => setAtletas(response.data))
       .catch((error) => console.error('Erro ao carregar atletas:', error));
   }, []);
