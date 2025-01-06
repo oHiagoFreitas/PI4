@@ -82,7 +82,7 @@ function EditarEquipe() {
     }, [equipeSombraId, ratings]);
 
     useEffect(() => {
-        fetch("http://localhost:3000/atletas")
+        fetch("http://localhost:3000/atletas/getAllAtletasAprovados")
             .then(response => response.json())
             .then(data => setPlayers(data))
             .catch(error => console.error("Erro ao carregar jogadores:", error));

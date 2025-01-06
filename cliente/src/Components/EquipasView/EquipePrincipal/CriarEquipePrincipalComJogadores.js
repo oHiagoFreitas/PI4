@@ -39,7 +39,7 @@ function CriarEquipeComJogadores() {
         if (!equipePrincipalId) return; // Se não houver ID, não faz nada.
 
         console.log("Carregando jogadores...");
-        fetch("http://localhost:3000/atletas")
+        fetch("http://localhost:3000/atletas/getAllAtletasAprovados")
             .then(response => response.json())
             .then(data => {
                 setPlayers(data);

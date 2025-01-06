@@ -28,7 +28,7 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
             (filterAgeRange === 'sub-21' && playerAge <= 21) ||
             (filterAgeRange === 'sub-22' && playerAge <= 22) ||
             (filterAgeRange === 'sub-23' && playerAge <= 23) ||
-            (filterAgeRange === 'Seniors' && playerAge >= 24 && playerAge <= 40);
+            (filterAgeRange === 'Seniors' && playerAge <= 24 && playerAge <= 40);
 
         return player.nome.toLowerCase().includes(filterName.toLowerCase()) &&
             (filterPosition === '' || player.posicao === filterPosition) &&
