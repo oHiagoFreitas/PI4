@@ -42,6 +42,7 @@ exports.createNotificacao = async (req, res) => {
 };
 
 
+
 // Mostrar todas as notificações
 exports.getAllNotificacoes = async (req, res) => {
     try {

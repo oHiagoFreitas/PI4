@@ -128,30 +128,30 @@ function CriarPartida() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         if (!data || !hora || !local || !timeMandanteNome || !jogadoresNomes.length) {
             Swal.fire('Erro!', 'Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
         }
-
+    
         const timeMandanteId = getTimeIdByNome(timeMandanteNome);
         const timeVisitanteId = timeVisitanteNome ? getTimeIdByNome(timeVisitanteNome) : null;
-
+    
         if (!timeMandanteId) {
             Swal.fire('Erro!', 'Time mandante não encontrado. Verifique o nome digitado.', 'error');
             return;
         }
-
+    
         const jogadoresIds = jogadoresNomes.map(nome => getJogadorIdByNome(nome)).filter(id => id !== null);
         const scoutsIds = scoutsNomes.map(nome => getScoutIdByNome(nome)).filter(id => id !== null);
-
+    
         if (jogadoresIds.length === 0) {
             Swal.fire('Erro!', 'Nenhum jogador encontrado. Verifique os nomes digitados.', 'error');
             return;
         }
-
+    
         setLoading(true);
-
+    
         axios
             .post('http://localhost:3000/partidas', {
                 data,
@@ -164,13 +164,41 @@ function CriarPartida() {
             })
             .then((response) => {
                 console.log('Partida criada com sucesso!', response);
+    
+                // Criar notificação para cada scout atribuído
+                scoutsIds.forEach(scoutId => {
+                    const remetenteId = userRole === 'admin' ? localStorage.getItem('adminId') : localStorage.getItem('userId');
+                    
+                    // Log para verificar se os IDs estão sendo passados corretamente
+                    console.log("Remetente ID:", remetenteId);
+                    console.log("Destinatário ID (Scout ID):", scoutId);
+                
+                    axios.post('http://localhost:3000/Notificacao', {
+                        conteudo: `Você foi atribuído como scout para a partida entre ${timeMandanteNome} e ${timeVisitanteNome || 'time visitante'}.`,
+                        tipo: 'Atribuição',
+                        destinatarioId: scoutId,
+                        remetenteId: remetenteId, // Garantir que estamos passando o remetenteId corretamente
+                    })
+                    .then((notificacaoResponse) => {
+                        console.log('Notificação criada com sucesso!', notificacaoResponse);
+                    })
+                    .catch((error) => {
+                        console.error('Erro ao criar a notificação', error.response ? error.response.data : error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro!',
+                            text: error.response ? error.response.data.error : 'Não foi possível criar a notificação.',
+                        });
+                    });
+                });
+    
                 Swal.fire('Sucesso!', 'A partida foi criada com sucesso!', 'success');
                 navigate('/partidas');
             })
             .catch((error) => {
                 setLoading(false);
                 setError('Erro ao criar a partida.');
-
+    
                 if (error.response && error.response.status === 400) {
                     Swal.fire({
                         icon: 'error',
@@ -186,6 +214,7 @@ function CriarPartida() {
                 }
             });
     };
+    
 
     return (
         <div className="criar-partidaPJ">

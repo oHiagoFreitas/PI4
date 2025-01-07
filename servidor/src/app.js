@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors'); // Importa o pacote CORS
 const app = express();
 const sequelize = require('./database'); // Ajuste o caminho conforme necessário
 
@@ -16,35 +17,44 @@ const partidaRoutes = require('./routes/partidaRoutes'); // Ajuste o caminho con
 const PendentesRoute = require('./routes/PendentesRoute'); // Ajuste o caminho conforme necessário
 const Microsite = require('./routes/MicroSiteRoutes'); // Certifique-se de ajustar o caminho para o seu modelo
 const equipePrincipalRoutes = require('./routes/equipePrincipalRoutes'); // Rota de equipes Principal
-const Notificacoes = require('./routes/NotificacoesRoute'); // Rota de equipes Principal
+const Notificacoes = require('./routes/NotificacoesRoute'); // Rota de notificações
 
 // Configurações
 app.set('port', process.env.PORT || 3000);
 
 // Middlewares
-app.use(express.json());
+app.use(express.json()); // Habilita o middleware para processar JSON
 
-// Configurar CORS
+// Configuração do CORS
+const corsOptions = {
+    origin: 'http://localhost:3001', // Permite apenas o frontend da porta 3001
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Permite os métodos HTTP necessários
+    allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Access-Control-Allow-Request-Method'],
+};
+
+// Habilita o CORS com as opções definidas
+app.use(cors(corsOptions));
+
+// Responder a requisições de preflight (OPTIONS)
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
-    next();
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end(); // Responde com status 200 para requisições OPTIONS
+    }
+    next(); // Continua com o processamento da requisição para outros métodos
 });
 
 // Usar as rotas
-app.use('/utilizadores', utilizadoresRoutes); // Define o prefixo da rota para utilizadores
-app.use('/times', timeRoutes); // Define o prefixo da rota para times
-app.use('/atletas', atletaRoutes); // Define o prefixo da rota para atletas
-app.use('/scoutsAtletas', scoutAtletaRoutes); // Rota para associações entre scout e atleta
-app.use('/relatorios', relatorioRoutes); // Adicione isso para usar as rotas de relatório
-app.use('/auth', authRoute); // Rota de login
-app.use('/equipeSombra', equipeSombraRoutes); // Rota para equipes sombra
-app.use('/equipePrincipal', equipePrincipalRoutes); // Rota para equipes sombra
-app.use('/formacao', formacaoRoutes); // Rota para formações
+app.use('/utilizadores', utilizadoresRoutes);
+app.use('/times', timeRoutes);
+app.use('/atletas', atletaRoutes);
+app.use('/scoutsAtletas', scoutAtletaRoutes);
+app.use('/relatorios', relatorioRoutes);
+app.use('/auth', authRoute);
+app.use('/equipeSombra', equipeSombraRoutes);
+app.use('/equipePrincipal', equipePrincipalRoutes);
+app.use('/formacao', formacaoRoutes);
 app.use('/atletasEquipeSombra', atletasEquipeSombraRoutes);
-app.use('/partidas', partidaRoutes); // Define o prefixo da rota para partidas
+app.use('/partidas', partidaRoutes);
 app.use('/pendentes', PendentesRoute);
 app.use('/Microsite', Microsite);
 app.use('/Notificacao', Notificacoes);
@@ -60,5 +70,5 @@ sequelize.sync()
 
 // Iniciar o servidor
 app.listen(app.get('port'), () => {
-    console.log("Start server on port " + app.get('port'));
+    console.log("Servidor iniciado na porta " + app.get('port'));
 });
