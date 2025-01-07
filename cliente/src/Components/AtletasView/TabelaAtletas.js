@@ -7,7 +7,17 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1); // Página atual
   const [atletasData, setAtletasData] = useState(atletas); // Estado para armazenar os atletas
   const atletasPerPage = 5; // Quantidade de atletas por página
-  
+
+  const [userRole, setUserRole] = useState(null);
+    
+  useEffect(() => {
+    const scoutId = localStorage.getItem('userId');
+    const role = localStorage.getItem('userRole');
+    console.log('Scout ID no localStorage:', scoutId);
+    console.log('Role do utilizador no localStorage:', role);
+
+    setUserRole(role); // Atualiza o estado
+  }, []);
 
   // Lógica para determinar os atletas da página atual
   const indexOfLastAtleta = currentPage * atletasPerPage;
@@ -61,14 +71,21 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
                 <Link to={`/atletas/detalhes/${atleta.id}`} className="action-buttonAT dashboard-link">
                   <i className="bi bi-eye" title="Ver"></i>
                 </Link>
-                {/* Botão para editar */}
-                <button className="action-buttonAT" onClick={() => handleEdit(atleta, updateAtletas)}>
-                  <i className="bi bi-pencil" title="Editar"></i>
-                </button>
-                {/* Botão para apagar */}
-                <button className="action-buttonAT" onClick={() => handleDelete(atleta.id)}>
-                  <i className="bi bi-trash" title="Apagar"></i>
-                </button>
+
+                {/* Botões de edição e exclusão apenas para Admins */}
+                {userRole === 'Admin' && (
+                  <>
+                    {/* Botão para editar */}
+                    <button className="action-buttonAT" onClick={() => handleEdit(atleta, updateAtletas)}>
+                      <i className="bi bi-pencil" title="Editar"></i>
+                    </button>
+
+                    {/* Botão para apagar */}
+                    <button className="action-buttonAT" onClick={() => handleDelete(atleta.id)}>
+                      <i className="bi bi-trash" title="Apagar"></i>
+                    </button>
+                  </>
+                )}
               </td>
             </tr>
           ))}

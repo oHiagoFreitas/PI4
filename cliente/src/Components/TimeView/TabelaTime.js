@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Para criar links de navegação
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
@@ -9,6 +9,7 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [userRole, setUserRole] = useState(null); // Estado para armazenar a role do usuário
 
   const timesPerPage = 5; // Número de times por página
 
@@ -38,10 +39,16 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
     }
   };
 
+  // Carregar a role do usuário do localStorage
+  useEffect(() => {
+    const role = localStorage.getItem('userRole');
+    setUserRole(role); // Atualiza o estado
+  }, []);
+
   return (
-    <div > {/* Contêiner da tabela */}
+    <div> {/* Contêiner da tabela */}
       {/* Tabela com dados dos times */}
-      <table  className="atletas-tableAT" style={{marginTop: 20}}>
+      <table className="atletas-tableAT" style={{ marginTop: 20 }}>
         <thead>
           <tr>
             <th>Nome do Time</th>
@@ -65,21 +72,26 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
                     <i className="bi bi-eye" title="Ver"></i>
                   </Link>
 
-                  {/* Botão para editar */}
-                  <button
-                    className="action-buttonAT"
-                    onClick={() => openEditModal(time)} // Abrir modal ao clicar
-                  >
-                    <i className="bi bi-pencil" title="Editar"></i>
-                  </button>
+                  {/* Botões de edição e exclusão apenas para Admins */}
+                  {userRole === 'Admin' && (
+                    <>
+                      {/* Botão para editar */}
+                      <button
+                        className="action-buttonAT"
+                        onClick={() => openEditModal(time)} // Abrir modal ao clicar
+                      >
+                        <i className="bi bi-pencil" title="Editar"></i>
+                      </button>
 
-                  {/* Botão para apagar */}
-                  <button
-                    className="action-buttonAT"
-                    onClick={() => handleDelete(time.id)}
-                  >
-                    <i className="bi bi-trash" title="Apagar"></i>
-                  </button>
+                      {/* Botão para apagar */}
+                      <button
+                        className="action-buttonAT"
+                        onClick={() => handleDelete(time.id)}
+                      >
+                        <i className="bi bi-trash" title="Apagar"></i>
+                      </button>
+                    </>
+                  )}
                 </td>
               </tr>
             ))
