@@ -1,0 +1,38 @@
+
+.badgees-container {
+    display: flex; /* Alinha os badges em linha */
+    gap: 25px; /* Espaço entre os badges */
+    margin-top: 15px; /* Espaço acima dos badges */
+}
+
+.badgee {
+    display: flex; /* Para alinhar o ícone e o texto */
+    flex-direction: column; /* Organiza os elementos na coluna */
+    align-items: center; /* Centraliza os itens */
+    background-color: white; /* Fundo branco */
+    border-top: 4px solid orange; /* Borda laranja à esquerda */
+    border-left: 4px solid orange; /* Borda laranja à esquerda */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 20px; /* Preenchimento interno */
+    width: 160px;
+    height: 70px; /* Ajuste a altura para acomodar o conteúdo */
+    transition: background-color 0.3s; /* Transição suave para hover */
+}
+
+.badgee-header {
+    font-size: 18px; /* Tamanho do título */
+    font-weight: bold; /* Negrito para o título */
+    margin-bottom: 10px; /* Espaço entre o título e o número */
+}
+
+.badgee-number {
+    font-size: 24px; /* Tamanho do número */
+    font-weight: bold; /* Negrito para o número */
+    color: orange; /* Cor laranja para o número */
+}
+
+.badgee-icon {
+    font-size: 20px; /* Tamanho do ícone */
+    margin-right: 8px; /* Espaço entre o ícone e o texto */
+    color: orange; /* Cor do ícone */
+}

@@ -206,3 +206,13 @@ exports.deleteAtleta = async (req, res) => {
         res.status(500).json({ error: 'Erro ao apagar atleta' });
     }
 };
+
+exports.getTotalAtletas = async (req, res) => {
+    try {
+        // Conta o número total de atletas
+        const totalAtletas = await Atleta.count();
+        res.json({ totalAtletas });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao contar o total de atletas' });
+    }
+};

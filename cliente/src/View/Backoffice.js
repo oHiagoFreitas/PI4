@@ -3,7 +3,9 @@ import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
 import WelcomeMessage from '../Components/WelcomeMessage';
 import QuickActions from '../Components/QuickActions';
+
 import Badges from '../Components/Badges';
+
 import AthletesReportsChart from '../Components/AthletesReportsChart';
 import RecentReportsTable from '../Components/RecentReportsTable';
 
@@ -29,7 +31,7 @@ function Backoffice() {
                 <div className="sub-main-content">
                     <WelcomeMessage />
                     <QuickActions />
-                    <Badges />
+                    <Badges />                    
                     <AthletesReportsChart />
                     <RecentReportsTable />
                 </div>

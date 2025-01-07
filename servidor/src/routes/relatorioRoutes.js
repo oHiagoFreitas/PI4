@@ -12,6 +12,11 @@ router.get('/', relatorioController.getAllRelatorios);
 
 router.get('/pendentes', relatorioController.getRelatoriosPendentes);
 
+router.get('/total-relatorios', relatorioController.getTotalRelatorios);
+
+// Rota para retornar o total de relatórios com rating 5
+router.get('/total-relatorios-rating5', relatorioController.getTotalRelatoriosRating5);
+
 router.get('/atleta/:atletaId', relatorioController.getRelatoriosByAtletaId);
 
 // Obter um relatório por ID

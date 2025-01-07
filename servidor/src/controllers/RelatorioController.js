@@ -211,3 +211,28 @@ exports.rejeitarRelatorio = async (req, res) => {
         res.status(500).json({ error: 'Erro ao rejeitar relatório.' });
     }
 };
+
+exports.getTotalRelatorios = async (req, res) => {
+    try {
+        // Conta o número total de relatórios
+        const totalRelatorios = await Relatorio.count();
+        res.json({ totalRelatorios });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao contar o total de relatórios' });
+    }
+};
+
+// Mostrar o total de relatórios com ratingFinal igual a 5
+exports.getTotalRelatoriosRating5 = async (req, res) => {
+    try {
+        // Conta os relatórios com ratingFinal igual a 5
+        const totalRelatoriosRating5 = await Relatorio.count({
+            where: {
+                ratingFinal: 5  // Filtro para contar apenas os relatórios com ratingFinal igual a 5
+            }
+        });
+        res.json({ totalRelatoriosRating5 });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao contar o total de relatórios com rating 5' });
+    }
+};

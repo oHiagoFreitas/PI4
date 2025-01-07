@@ -203,3 +203,12 @@ exports.getJogadoresByTimeId = async (req, res) => {
 };
 
 
+exports.getTotalTimes = async (req, res) => {
+    try {
+        // Conta o número total de times
+        const totalTimes = await Time.count();
+        res.json({ totalTimes });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao contar o total de times' });
+    }
+};
