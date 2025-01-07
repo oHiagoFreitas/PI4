@@ -6,24 +6,54 @@ function Navbar() {
     const [notificacoes, setNotificacoes] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
+    const [userId, setUserId] = useState(null); // Para armazenar o ID do utilizador logado
+    const [userRole, setUserRole] = useState(null); // Para armazenar o papel do utilizador
 
-    
-
-    // Carregar notificações não lidas
+    // Carregar ID e papel do utilizador logado do localStorage
     useEffect(() => {
-        const fetchNotificacoes = async () => {
-            try {
-                const response = await axios.get('http://localhost:3000/Notificacao/Criacao');
-                const notificacoesNaoLidas = response.data.filter(not => !not.lida);
-                setNotificacoes(notificacoesNaoLidas);
-                setUnreadCount(notificacoesNaoLidas.length);
-            } catch (error) {
-                console.error('Erro ao buscar notificações', error);
-            }
-        };
-
-        fetchNotificacoes();
+        const id = localStorage.getItem('userId');  // Supondo que o ID do usuário está armazenado no localStorage
+        const role = localStorage.getItem('userRole');  // Supondo que o papel do usuário está armazenado no localStorage
+        setUserId(id);
+        setUserRole(role);
     }, []);
+
+    console.log(userId, userRole); // Verifique se o ID e o papel do usuário estão corretos
+
+    // Carregar notificações de criação apenas para usuários com papel 'admin'
+    useEffect(() => {
+        if (userRole === 'Admin') {
+            const fetchNotificacoesCriacao = async () => {
+                try {
+                    const response = await axios.get('http://localhost:3000/Notificacao/Criacao');
+                    const notificacoesNaoLidas = response.data.filter(not => !not.lida);
+                    setNotificacoes(prevNotificacoes => [...prevNotificacoes, ...notificacoesNaoLidas]);
+                    setUnreadCount(prevCount => prevCount + notificacoesNaoLidas.length);
+                } catch (error) {
+                    console.error('Erro ao buscar notificações de criação', error);
+                }
+            };
+
+            fetchNotificacoesCriacao();
+        }
+    }, [userRole]); // Recarrega quando o userRole mudar
+
+    // Carregar notificações do utilizador logado apenas para o papel 'Scout'
+    useEffect(() => {
+        if (userRole === 'Scout' && userId) {  // Verifica se o papel é 'Scout'
+            const fetchNotificacoesUsuario = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:3000/Notificacao/utilizador/${userId}`);
+                    const notificacoesNaoLidas = response.data.filter(not => !not.lida);
+                    setNotificacoes(prevNotificacoes => [...prevNotificacoes, ...notificacoesNaoLidas]);
+                    setUnreadCount(prevCount => prevCount + notificacoesNaoLidas.length);
+                } catch (error) {
+                    console.error('Erro ao buscar notificações do utilizador', error);
+                }
+            };
+
+            fetchNotificacoesUsuario();
+        }
+    }, [userRole, userId]); // Recarrega quando o userRole ou userId mudar
 
     // Função para marcar notificação como lida
     const markAsRead = async (id) => {
