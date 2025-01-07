@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import EditarCampoFutebol from "./CampoFutebol";
-import TabelaJogadores from "./EditarTabelaJogadores";
+import TabelaJogadores from "./TabelaJogadores";
 import Modal from "./ModalJogadores";
 import "../../Style/EquipaSombra.css";
 import "./EquipasEditarTime";
@@ -273,6 +273,7 @@ function EditarEquipe() {
                             positions={positions}
                             ratings={ratings}
                             onRemovePlayer={onRemovePlayer}
+                            formacao={formacao}
                         />
                     </div>
                 </div>

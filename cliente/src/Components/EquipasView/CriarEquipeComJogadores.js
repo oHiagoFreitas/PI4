@@ -303,7 +303,7 @@ function CriarEquipeComJogadores() {
                         </div>
 
                         {/* Tabela de Jogadores */}
-                        <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} />
+                        <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} formacao={formacao}/>
                     </div>
                 </div>
             </div>

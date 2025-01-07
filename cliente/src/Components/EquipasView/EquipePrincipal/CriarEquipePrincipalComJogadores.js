@@ -275,7 +275,7 @@ function CriarEquipeComJogadores() {
                             </button>
                         </div>
 
-                        <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} />
+                        <TabelaJogadores positions={positions} ratings={ratings} onRemovePlayer={onRemovePlayer} formacao={formacao}/>
                     </div>
                 </div>
             </div>

@@ -1,28 +1,68 @@
 import React from "react";
-import { X } from 'react-bootstrap-icons';  // Importando o ícone 'x' do Bootstrap
+import { X } from "react-bootstrap-icons"; // Importando o ícone 'x' do Bootstrap
 
-function TabelaJogadores({ positions, ratings, onRemovePlayer }) {
-    // Organiza as posições em uma tabela (titulares e reservas)
-    const positionList = [
-        { id: "pos1", label: "Guarda Redes" },
-        { id: "pos2", label: "Defesa Esquerda" },
-        { id: "pos3", label: "Defesa Central" },
-        { id: "pos4", label: "Defesa Central" },
-        { id: "pos5", label: "Defesa Direita" },
-        { id: "pos6", label: "Meio Campista" },
-        { id: "pos7", label: "Meio Campista" },
-        { id: "pos8", label: "Meio Campista" },
-        { id: "pos9", label: "Atacante" },
-        { id: "pos10", label: "Atacante" },
-        { id: "pos11", label: "Atacante" },
-        // Adicionando as posições de reserva
-        { id: "pos12", label: "Guarda Redes (Reserva)" },
-        { id: "pos13", label: "Defesa Esquerda (Reserva)" },
-        { id: "pos14", label: "Defesa Central (Reserva)" },
-        { id: "pos15", label: "Defesa Direita (Reserva)" },
-        { id: "pos16", label: "Meio Campista (Reserva)" },
-        { id: "pos17", label: "Atacante (Reserva)" }
-    ];
+function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
+    const formationData = {
+        "4-3-3": [
+            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos2", title: "Defesa Esquerda" },
+            { pos: "pos3", title: "Defesa Central" },
+            { pos: "pos4", title: "Defesa Central" },
+            { pos: "pos5", title: "Defesa Direita" },
+            { pos: "pos6", title: "Meio Campista" },
+            { pos: "pos7", title: "Meio Campista" },
+            { pos: "pos8", title: "Meio Campista" },
+            { pos: "pos9", title: "Atacante" },
+            { pos: "pos10", title: "Atacante" },
+            { pos: "pos11", title: "Atacante" },
+            { pos: "pos12", title: "Guarda Redes (Reserva)" },
+            { pos: "pos13", title: "Defesa Esquerda (Reserva)" },
+            { pos: "pos14", title: "Defesa Central (Reserva)" },
+            { pos: "pos15", title: "Defesa Direita (Reserva)" },
+            { pos: "pos16", title: "Meio Campista (Reserva)" },
+            { pos: "pos17", title: "Atacante (Reserva)" },
+        ],
+        "4-4-2": [
+            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos2", title: "Defesa Esquerda" },
+            { pos: "pos3", title: "Defesa Central" },
+            { pos: "pos4", title: "Defesa Central" },
+            { pos: "pos5", title: "Defesa Direita" },
+            { pos: "pos6", title: "Meio Campista" },
+            { pos: "pos7", title: "Meio Campista" },
+            { pos: "pos8", title: "Meio Campista" },
+            { pos: "pos9", title: "Meio Campista" },
+            { pos: "pos10", title: "Atacante" },
+            { pos: "pos11", title: "Atacante" },
+            { pos: "pos12", title: "Guarda Redes (Reserva)" },
+            { pos: "pos13", title: "Defesa Esquerda (Reserva)" },
+            { pos: "pos14", title: "Defesa Central (Reserva)" },
+            { pos: "pos15", title: "Defesa Direita (Reserva)" },
+            { pos: "pos16", title: "Meio Campista (Reserva)" },
+            { pos: "pos17", title: "Atacante (Reserva)" },
+        ],
+        "4-2-3-1": [
+            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos2", title: "Defesa Esquerda" },
+            { pos: "pos3", title: "Defesa Central" },
+            { pos: "pos4", title: "Defesa Central" },
+            { pos: "pos5", title: "Defesa Direita" },
+            { pos: "pos6", title: "Meio Campista" },
+            { pos: "pos7", title: "Meio Campista" },
+            { pos: "pos8", title: "Meio Campista" },
+            { pos: "pos9", title: "Meio Campista" },
+            { pos: "pos10", title: "Meio Campista" },
+            { pos: "pos11", title: "Atacante" },
+            { pos: "pos12", title: "Guarda Redes (Reserva)" },
+            { pos: "pos13", title: "Defesa Esquerda (Reserva)" },
+            { pos: "pos14", title: "Defesa Central (Reserva)" },
+            { pos: "pos15", title: "Defesa Direita (Reserva)" },
+            { pos: "pos16", title: "Meio Campista (Reserva)" },
+            { pos: "pos17", title: "Atacante (Reserva)" },
+        ],
+    };
+
+    const currentFormation = formationData[formacao] || [];
 
     return (
         <div className="table-container">
@@ -36,27 +76,27 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer }) {
                     </tr>
                 </thead>
                 <tbody>
-                    {positionList.slice(0, 11).map((position) => (
-                        <tr key={position.id}>
-                            <td>{position.label}</td>
+                    {currentFormation.slice(0, 11).map((position) => (
+                        <tr key={position.pos}>
+                            <td>{position.title}</td>
                             <td>
-                                {positions[position.id] ? (
-                                    <span>{positions[position.id].nome}</span>
+                                {positions[position.pos] ? (
+                                    <span>{positions[position.pos].nome}</span>
                                 ) : (
                                     "Vaga Livre"
                                 )}
                             </td>
                             <td>
-                                {positions[position.id] && ratings[positions[position.id].id] ? (
-                                    <span className="rating">{ratings[positions[position.id].id]}</span>
+                                {positions[position.pos] && ratings[positions[position.pos].id] ? (
+                                    <span className="rating">{ratings[positions[position.pos].id]}</span>
                                 ) : (
                                     "N/A"
                                 )}
                             </td>
                             <td>
-                                {positions[position.id] && (
+                                {positions[position.pos] && (
                                     <X
-                                        onClick={() => onRemovePlayer(position.id)}
+                                        onClick={() => onRemovePlayer(position.pos)}
                                         className="remove-icon"
                                     />
                                 )}
@@ -73,29 +113,28 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer }) {
                         </th>
                     </tr>
                 </thead>
-
                 <tbody>
-                    {positionList.slice(11).map((position) => (
-                        <tr key={position.id}>
-                            <td>{position.label}</td>
+                    {currentFormation.slice(11).map((position) => (
+                        <tr key={position.pos}>
+                            <td>{position.title}</td>
                             <td>
-                                {positions[position.id] ? (
-                                    <span>{positions[position.id].nome}</span>
+                                {positions[position.pos] ? (
+                                    <span>{positions[position.pos].nome}</span>
                                 ) : (
                                     "Vaga Livre"
                                 )}
                             </td>
                             <td>
-                                {positions[position.id] && ratings[positions[position.id].id] ? (
-                                    <span className="rating">{ratings[positions[position.id].id]}</span>
+                                {positions[position.pos] && ratings[positions[position.pos].id] ? (
+                                    <span className="rating">{ratings[positions[position.pos].id]}</span>
                                 ) : (
                                     "N/A"
                                 )}
                             </td>
                             <td>
-                                {positions[position.id] && (
+                                {positions[position.pos] && (
                                     <X
-                                        onClick={() => onRemovePlayer(position.id)}
+                                        onClick={() => onRemovePlayer(position.pos)}
                                         className="remove-icon"
                                     />
                                 )}

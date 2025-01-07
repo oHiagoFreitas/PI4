@@ -142,12 +142,8 @@ function MostrarEquipeComJogadores() {
                         <TabelaJogadores
                             positions={positions}
                             ratings={ratings}
+                            formacao={formacao}
                         />
-
-                        {/* Botão para exibir o ID da equipe principal */}
-                        <button onClick={showEquipePrincipalId} className="btn-show-id">
-                            Mostrar ID da Equipe Principal
-                        </button>
                     </div>
                 </div>
             </div>
