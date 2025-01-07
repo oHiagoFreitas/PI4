@@ -16,6 +16,7 @@ const partidaRoutes = require('./routes/partidaRoutes'); // Ajuste o caminho con
 const PendentesRoute = require('./routes/PendentesRoute'); // Ajuste o caminho conforme necessário
 const Microsite = require('./routes/MicroSiteRoutes'); // Certifique-se de ajustar o caminho para o seu modelo
 const equipePrincipalRoutes = require('./routes/equipePrincipalRoutes'); // Rota de equipes Principal
+const Notificacoes = require('./routes/NotificacoesRoute'); // Rota de equipes Principal
 
 // Configurações
 app.set('port', process.env.PORT || 3000);
@@ -46,6 +47,7 @@ app.use('/atletasEquipeSombra', atletasEquipeSombraRoutes);
 app.use('/partidas', partidaRoutes); // Define o prefixo da rota para partidas
 app.use('/pendentes', PendentesRoute);
 app.use('/Microsite', Microsite);
+app.use('/Notificacao', Notificacoes);
 
 // Sincroniza os modelos com o banco de dados, incluindo o modelo Microsite
 sequelize.sync()

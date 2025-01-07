@@ -1,33 +1,110 @@
 /* src/Style/Navbar.css */
 
-
+/* Navbar com fundo escuro */
 .navbarp {
-    position: fixed; /* Fixa a navbar no topo */
-    top: 0; /* Fica no topo da tela */
-    left: 250px; /* Deixa espaço para a sidebar */
-    right: 0; /* Ocupa até o lado direito */
-    height: 30px; /* Altura fixa da navbar */
-    background-color: #000000; /* Cor de fundo da navbar */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para destaque */
-    z-index: 999; /* Z-index para sobreposição */
-    display: flex; /* Flexbox para conteúdo da navbar */
-    align-items: center; /* Alinha verticalmente */
-    padding: 0 20px; /* Preenchimento lateral */
+    position: fixed;
+    top: 0;
+    left: 250px;
+    right: 0;
+    height: 40px; /* Aumentei a altura para garantir que o dropdown caiba e fique confortável */
+    background-color: #000000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    padding: 0 20px; /* Ajustei o padding para um espaçamento melhor */
 }
 
-
+/* Container do ícone de notificações */
 .user-infop {
-    margin-left: auto; /* Coloca o conteúdo do usuário à direita */
+    margin-left: auto;
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
+/* Ícone de notificação */
 .notification-iconp {
-    font-size: 24px; /* Tamanho do ícone de notificação */
-    color: white; /* Cor do ícone de notificação */
-    margin-right: 15px; /* Espaçamento entre o ícone de notificação e o ícone do usuário */
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    position: relative;
 }
 
-.user-iconp {
-    font-size: 24px; /* Tamanho do ícone de usuário */
-    color: white; /* Cor do ícone de usuário */
+/* Círculo vermelho indicando notificações não lidas */
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 12px;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
- 
+
+/* Dropdown de notificações */
+.dropdown-menu {
+    position: absolute;
+    top: 60px; /* Ajustei o valor para garantir que fique abaixo da navbar */
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    width: 300px; /* Aumentei a largura para acomodar melhor os itens */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Itens do dropdown */
+.dropdown-item {
+    padding: 10px;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Garante que o conteúdo fique alinhado */
+}
+
+/* Efeito de hover nos itens do dropdown */
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+.dropdown-item p {
+    margin-left: 10px; /* Adiciona espaço entre o ícone de olho e a mensagem */
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Ícone de olho */
+.eye-icon {
+    cursor: pointer;
+    margin-right: 15px; /* Espaço à direita do ícone de olho */
+    color: #007bff; /* Cor azul para o ícone */
+    font-size: 18px;
+}
+
+/* Efeito de hover no ícone de olho */
+.eye-icon:hover {
+    color: #0056b3;
+}
+
+/* Ajuste de estilo para a navbar quando a tela for muito pequena */
+@media (max-width: 768px) {
+    .navbarp {
+        left: 0; /* Permite que a navbar ocupe a largura total em telas pequenas */
+        padding: 0 10px;
+    }
+
+    .dropdown-menu {
+        width: 100%; /* O menu de notificações vai ocupar a largura total da tela */
+    }
+}
