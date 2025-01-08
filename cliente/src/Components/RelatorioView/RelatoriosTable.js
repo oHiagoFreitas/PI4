@@ -1,8 +1,7 @@
-// src/View/RelatoriosTable.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { jsPDF } from 'jspdf'; // Importando a biblioteca jsPDF
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import CreateReportModal from '../CreateReportModal'; // Modal de criação de relatório
 import TabelaRelatorios from './TabelaRelatorios'; // Componente da Tabela de Relatórios
@@ -72,28 +71,57 @@ function RelatoriosTable() {
     return dateMatch && athleteNameMatch && scoutNameMatch && ratingMatch;
   });
 
+  // Função de exportação para PDF
+  const exportRelatoriosToPDF = () => {
+    const doc = new jsPDF();
+
+    // Adicionando título
+    doc.setFontSize(18);
+    doc.text('Relatórios', 20, 20);
+
+    // Definindo o formato da tabela
+    const tableColumn = ['Data de Criação', 'Nome do Atleta', 'Nome do Scout', 'Rating', 'Comentário'];
+    const tableRows = filteredRelatorios.map((relatorio) => [
+      new Date(relatorio.createdAt).toLocaleDateString(),
+      relatorio.atleta.nome,
+      relatorio.utilizador.nome,
+      relatorio.ratingFinal,
+      relatorio.comentario,
+    ]);
+
+    // Adicionando a tabela ao PDF
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30, // Onde começa a tabela
+      theme: 'grid', // Tema da tabela
+    });
+
+    // Gerando o PDF
+    doc.save('relatorios.pdf');
+  };
+
   return (
     <div className="atletas-table-containerAT">
       {/* Componente de filtros */}
-      <div className="actions-buttonsAT" >
-      <RelatoriosFilters
-        filterDate={filterDate}
-        filterAthleteName={filterAthleteName}
-        filterScoutName={filterScoutName}
-        filterRating={filterRating}
-        onFilterDateChange={(value) => setFilterDate(value)}
-        onFilterAthleteNameChange={(value) => setFilterAthleteName(value)}
-        onFilterScoutNameChange={(value) => setFilterScoutName(value)}
-        onFilterRatingChange={(value) => setFilterRating(value)}
-      />
+      <div className="actions-buttonsAT">
+        <RelatoriosFilters
+          filterDate={filterDate}
+          filterAthleteName={filterAthleteName}
+          filterScoutName={filterScoutName}
+          filterRating={filterRating}
+          onFilterDateChange={(value) => setFilterDate(value)}
+          onFilterAthleteNameChange={(value) => setFilterAthleteName(value)}
+          onFilterScoutNameChange={(value) => setFilterScoutName(value)}
+          onFilterRatingChange={(value) => setFilterRating(value)}
+        />
 
-      {/* Botões de Ação: Criar Relatório */}
-      
+        {/* Botões de Ação: Criar Relatório e Exportar Relatórios */}
         <button className="button-createAT" onClick={openCreateRelatorioModal}>
           Criar Relatório
         </button>
-        <button className="button-exportAT">
-          Exportar Relatórios
+        <button className="button-exportAT" onClick={exportRelatoriosToPDF}>
+          Exportar Relatórios em PDF
         </button>
       </div>
 

@@ -1,8 +1,7 @@
-// src/View/TimesTable.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { jsPDF } from 'jspdf'; // Importando a biblioteca jsPDF
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import CreateTeamModal from '../CreateTeamModal'; // Modal de criação de time
 import TabelaTime from './TabelaTime'; // Componente da Tabela de Times
@@ -70,26 +69,53 @@ function TimesTable() {
     return nameMatch && categoryMatch && countryMatch;
   });
 
+  // Função para exportar times para PDF
+  const exportTimesToPDF = () => {
+    const doc = new jsPDF();
+
+    // Adicionando título
+    doc.setFontSize(18);
+    doc.text('Lista de Times', 20, 20);
+
+    // Definindo o formato da tabela
+    const tableColumn = ['Nome do Time', 'Categoria', 'País'];
+    const tableRows = filteredTimes.map((time) => [
+      time.nome,
+      time.categoria,
+      time.pais,
+    ]);
+
+    // Adicionando a tabela ao PDF
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+      startY: 30, // Onde começa a tabela
+      theme: 'grid', // Tema da tabela
+    });
+
+    // Gerando o PDF
+    doc.save('times.pdf');
+  };
+
   return (
     <div className="atletas-table-containerAT">
       {/* Componente de filtros */}
       <div className="actions-buttonsAT">
-      <TimesFilters
-        filterTeamName={filterTeamName}
-        filterCategory={filterCategory}
-        filterCountry={filterCountry}
-        onFilterTeamNameChange={(value) => setFilterTeamName(value)}
-        onFilterCategoryChange={(value) => setFilterCategory(value)}
-        onFilterCountryChange={(value) => setFilterCountry(value)}
-      />
+        <TimesFilters
+          filterTeamName={filterTeamName}
+          filterCategory={filterCategory}
+          filterCountry={filterCountry}
+          onFilterTeamNameChange={(value) => setFilterTeamName(value)}
+          onFilterCategoryChange={(value) => setFilterCategory(value)}
+          onFilterCountryChange={(value) => setFilterCountry(value)}
+        />
 
-      {/* Botões de Ação: Criar Time */}
-      
+        {/* Botões de Ação: Criar Time e Exportar Times */}
         <button className="button-createAT" onClick={openCreateTimeModal}>
           Criar Time
         </button>
-        <button className="button-exportAT">
-          Exportar Times
+        <button className="button-exportAT" onClick={exportTimesToPDF}>
+          Exportar Times em PDF
         </button>
       </div>
 

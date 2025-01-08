@@ -99,3 +99,16 @@
     background-color: #aa8649;
 }
 
+.export-pdf-buttonAD {
+    background-color: black;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .export-pdf-buttonAD:hover {
+    background-color: gray;
+  }
+  
