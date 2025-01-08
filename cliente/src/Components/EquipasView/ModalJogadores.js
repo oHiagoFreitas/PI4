@@ -4,49 +4,52 @@ import "../../Style/Modal.css"; // Estilos da modal
 const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPlayerToPosition, positionId, ratings }) => {
     const [filterName, setFilterName] = useState('');
     const [filterPosition, setFilterPosition] = useState('');
-    const [filterAgeRange, setFilterAgeRange] = useState('');  // Novo estado para faixa etária
+    const [filterAgeRange, setFilterAgeRange] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const playersPerPage = 10;
 
-    if (!isOpen) return null; // Não renderiza a modal se não estiver aberta
+    if (!isOpen) return null;
 
-    // Extrai as posições únicas dos jogadores
     const uniquePositions = [...new Set(players.map(player => player.posicao))];
 
-    // Função para calcular a idade de um jogador
-    const calculateAge = (birthYear) => {
-        const currentYear = new Date().getFullYear();
-        return currentYear - birthYear;
-    };
+    const calculateAge = (birthYear) => new Date().getFullYear() - birthYear;
 
-    // Filtra os jogadores
     const filteredPlayers = players.filter(player => {
-        // Calcula a idade do jogador
         const playerAge = calculateAge(player.ano);
-        
-        // Aplica os filtros
-        const isAgeMatch = filterAgeRange === '' || 
+        const isAgeMatch = filterAgeRange === '' ||
             (filterAgeRange === 'sub-20' && playerAge < 20) ||
             (filterAgeRange === 'sub-21' && playerAge <= 21) ||
             (filterAgeRange === 'sub-22' && playerAge <= 22) ||
             (filterAgeRange === 'sub-23' && playerAge <= 23) ||
-            (filterAgeRange === 'Seniors' && playerAge <= 24 && playerAge <= 40);
+            (filterAgeRange === 'Seniors' && playerAge <= 40);
 
         return player.nome.toLowerCase().includes(filterName.toLowerCase()) &&
             (filterPosition === '' || player.posicao === filterPosition) &&
-            isAgeMatch;  // Verifica o filtro de idade
+            isAgeMatch;
     });
 
-    // Ordena os jogadores por ano de nascimento de forma decrescente
     const sortedPlayers = filteredPlayers.sort((a, b) => a.ano - b.ano);
 
-    console.log("Dados dos jogadores recebidos:", players);
+    const indexOfLastPlayer = currentPage * playersPerPage;
+    const indexOfFirstPlayer = indexOfLastPlayer - playersPerPage;
+    const currentPlayers = sortedPlayers.slice(indexOfFirstPlayer, indexOfLastPlayer);
+
+    const totalPages = Math.ceil(sortedPlayers.length / playersPerPage);
+
+    const handlePageChange = (newPage) => {
+        if (newPage > 0 && newPage <= totalPages) {
+            setCurrentPage(newPage);
+        }
+    };
 
     return (
         <div className="modal-overlay-MJ">
             <div className="modal-content-MJ">
-                <h2>Escolha um Jogador para a Posição: {playerPosition}</h2>
+                {/* Ícone de Fechar no canto superior direito */}
+                <span className="close-icon" onClick={closeModal}>&times;</span>
+                <h2 style={{ color: "#DEAF5E" }}>Escolha um Jogador para a Posição: {playerPosition}</h2>
 
                 <div className="filters-containerAT">
-                    {/* Filtro de Nome */}
                     <input
                         type="text"
                         placeholder="Filtrar por nome"
@@ -55,7 +58,6 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                         className="filter-inputAT"
                     />
 
-                    {/* Dropdown de Posição */}
                     <select
                         value={filterPosition}
                         onChange={e => setFilterPosition(e.target.value)}
@@ -67,7 +69,6 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                         ))}
                     </select>
 
-                    {/* Dropdown de Faixa Etária */}
                     <select
                         value={filterAgeRange}
                         onChange={e => setFilterAgeRange(e.target.value)}
@@ -82,29 +83,26 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                     </select>
                 </div>
 
-                {/* Tabela de jogadores */}
-                <table className="players-table-MJ atletas-tableAT" style={{marginTop: "10px"}}>
+                <table className="players-table-MJ atletas-tableAT" style={{ marginTop: "10px" }}>
                     <thead>
                         <tr>
                             <th>Nome</th>
                             <th>Ano</th>
                             <th>Posição</th>
-                            <th>Classificação</th> {/* Adiciona coluna de classificação */}
+                            <th>Classificação</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {sortedPlayers.length > 0 ? (
-                            sortedPlayers.map((player) => (
+                        {currentPlayers.length > 0 ? (
+                            currentPlayers.map((player) => (
                                 <tr key={player.id}>
                                     <td>{player.nome}</td>
-                                    <td>{player.ano}</td> {/* Exibe o ano de nascimento */}
+                                    <td>{player.ano}</td>
                                     <td>{player.posicao}</td>
-                                    <td>{ratings[player.id] ? ratings[player.id] : 'N/A'}</td> {/* Utiliza os ratings da prop */}
+                                    <td>{ratings[player.id] || 'N/A'}</td>
                                     <td>
-                                        <button
-                                            onClick={() => assignPlayerToPosition(player, positionId)} // Atribui jogador à posição
-                                        >
+                                        <button onClick={() => assignPlayerToPosition(player, positionId)}>
                                             Selecionar
                                         </button>
                                     </td>
@@ -118,9 +116,13 @@ const ModalJogadores = ({ isOpen, playerPosition, closeModal, players, assignPla
                     </tbody>
                 </table>
 
-                <div className="actions-buttonsAT">
-                    <button className='button-createAT' onClick={closeModal}>Fechar</button>
+                <div className="pagination">
+                    <button onClick={() => handlePageChange(currentPage - 1)}>Anterior</button>
+                    <span>{currentPage} de {totalPages}</span>
+                    <button onClick={() => handlePageChange(currentPage + 1)}>Próxima</button>
                 </div>
+
+            
             </div>
         </div>
     );
