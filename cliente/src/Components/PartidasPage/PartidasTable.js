@@ -103,24 +103,29 @@ function PartidasTable() {
   };
 
   return (
-    <div className="atletas-table-containerAT">
+    <div className="atletas-table-containerAT" style={{ display: "flex" }}>
       {/* Botões de Ação */}
-      <div className="actions-buttonsAT" style={{ justifyContent: 'flex-end' }}>
-        <h2 >Meus jogos Atribuidos</h2>
 
-        {/* Exibe o botão de "Criar Partida" apenas para Admins */}
-        {localStorage.getItem('userRole') === 'Admin' && (
-          <button
-            className="button-createAT"
-            onClick={handleCreatePartida} // Lógica de navegação para criação de partida
-          >
-            Criar Partida
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+
+        <div > <h2 style={{ color: "#DEAF5E" }}>Meus jogos</h2> </div>
+        <div className="actions-buttonsAT">
+
+
+          {/* Exibe o botão de "Criar Partida" apenas para Admins */}
+          {localStorage.getItem('userRole') === 'Admin' && (
+            <button
+              className="button-createAT"
+              onClick={handleCreatePartida} // Lógica de navegação para criação de partida
+            >
+              Criar Partida
+            </button>
+          )}
+
+          <button className="button-exportAT" onClick={exportarMeusJogosParaPDF}>
+            Exportar Meus Jogos
           </button>
-        )}
-
-        <button className="button-exportAT" onClick={exportarMeusJogosParaPDF}>
-          Exportar Meus Jogos
-        </button>
+        </div>
       </div>
 
       {/* Tabela com dados das partidas */}
@@ -128,13 +133,18 @@ function PartidasTable() {
 
       {/* Tabela com jogos atribuídos ao usuário */}
       <div className="tabela-jogos-atribuídos">
-        <h2>Todos os Jogos</h2>
-        <TabelaPartidas 
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h2 style={{ color: '#DEAF5E', margin: 0 }}>Todos os Jogos</h2>
+          <hr style={{ flex: 1, border: '0.5px dashed #DEAF5E', margin: 0, borderWidth: '1px', borderStyle: 'dashed', borderSpacing: '10px' }} />
+
+        </div>
+        <TabelaPartidas
           partidas={partidas}
-          handleEdit={() => {/* Lógica de edição sem modal */}}
+          handleEdit={() => { /* Lógica de edição sem modal */ }}
           handleDelete={handleDelete}
         />
       </div>
+
     </div>
   );
 }

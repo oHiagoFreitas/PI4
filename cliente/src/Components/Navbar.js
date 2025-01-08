@@ -117,16 +117,19 @@ function Navbar() {
                                         key={notificacao.id}
                                     >
                                         <div className="notification-content">
+
+                                        {notificacao.mensagem}
+                                            
                                             {!notificacao.lida && (
                                                 <i 
-                                                    className="bi bi-eye eye-icon" 
+                                                    className="bi bi-check-circle" style={{marginLeft: "5px", color: "#DEAF5E"}}
                                                     onClick={(e) => { 
                                                         e.stopPropagation();  
                                                         markAsRead(notificacao.id); 
                                                     }} 
                                                 />
                                             )}
-                                            <p>{notificacao.mensagem}</p>
+                                            
                                         </div>
                                     </div>
                                 ))}

@@ -1,33 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../Style/AtletasView/TabelaJogosAtribuidos.css'; // Importando o arquivo de estilo
 import axios from 'axios'; // Importando o axios para fazer a requisição HTTP
 import Swal from 'sweetalert2'; // SweetAlert para exibir mensagens amigáveis
+import Pagination from '../Pagination'; // Importando o componente de paginação
 
-function TabelaJogosAtribuidos({ jogosAtribuidos, atualizarJogos }) {
+function TabelaJogosAtribuidos({ jogosAtribuidos }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // Número de itens por página
+
+  // Calcular as partidas a serem exibidas na página atual
+  const indexOfLastMatch = currentPage * itemsPerPage;
+  const indexOfFirstMatch = indexOfLastMatch - itemsPerPage;
+  const currentMatches = jogosAtribuidos.slice(indexOfFirstMatch, indexOfLastMatch);
+
+  // Calcular o número total de páginas
+  const totalPages = Math.ceil(jogosAtribuidos.length / itemsPerPage);
+
+  // Função para mudar de página
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   // Função para remover o scout de uma partida
   const removerScout = async (partidaId, scoutId) => {
     try {
-      // Realiza a requisição DELETE para remover o scout da partida
       const response = await axios.delete(`http://localhost:3000/partidas/${partidaId}/scouts/${scoutId}`);
 
-      // Verificar se a resposta foi bem-sucedida
       if (response.status === 200) {
-        // Exibe um alerta de sucesso
         Swal.fire({
           icon: 'success',
           title: 'Partida Removida',
           text: 'Você não é mais o Scout dessa partida',
         });
 
-        // Forçar a atualização da página após a remoção
         setTimeout(() => {
           window.location.reload();
         }, 1000);
       }
     } catch (error) {
-      console.error('Erro ao remover scout:', error);
-      // Exibe um alerta de erro se algo der errado
       Swal.fire({
         icon: 'error',
         title: 'Erro!',
@@ -41,60 +49,67 @@ function TabelaJogosAtribuidos({ jogosAtribuidos, atualizarJogos }) {
   }
 
   return (
-    <table className="tabela-jogos-atribuidos">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Hora</th>
-          <th>Local</th>
-          <th>Time Mandante</th>
-          <th>Time Visitante</th>
-          <th>Jogadores</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {jogosAtribuidos.map((jogo) => (
-          <tr key={jogo.id}>
-            <td>{new Date(jogo.data).toLocaleDateString()}</td>
-            <td>{new Date(`1970-01-01T${jogo.hora}Z`).toLocaleTimeString()}</td>
-            <td>{jogo.local}</td>
-            <td>{jogo.timeMandante?.nome}</td>
-            <td>{jogo.timeVisitante?.nome || 'N/A'}</td>
-
-            {/* Exibe os nomes dos jogadores */}
-            <td>
-              {jogo.jogadores?.map((jogador) => (
-                <div key={jogador.id} className="nome-jogador">{jogador.nome}</div>
-              ))}
-            </td>
-
-            {/* Coluna de Ações */}
-            <td style={{ textAlign: 'center' }}>
-              {jogo.scouts?.map((scout) => (
-                <button
-                  key={scout.id}
-                  onClick={() => removerScout(jogo.id, scout.id)} // Chama a função para remover o scout
-                  style={{
-                    background: 'transparent', 
-                    border: 'none', 
-                    padding: '5px 10px', 
-                    cursor: 'pointer', 
-                    fontSize: '20px', 
-                    color: 'red', 
-                    display: 'inline-block', 
-                    verticalAlign: 'middle',
-                  }}
-                  title="Remover Scout"
-                >
-                  <i className="bi bi-x"></i> {/* Ícone de "X" */}
-                </button>
-              ))}
-            </td>
+    <div>
+      <table className="tabela-jogos-atribuidos">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Local</th>
+            <th>Time Mandante</th>
+            <th>Time Visitante</th>
+            <th>Jogadores</th>
+            <th>Ações</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {currentMatches.map((jogo) => (
+            <tr key={jogo.id}>
+              <td>{new Date(jogo.data).toLocaleDateString()}</td>
+              <td>{new Date(`1970-01-01T${jogo.hora}Z`).toLocaleTimeString()}</td>
+              <td>{jogo.local}</td>
+              <td>{jogo.timeMandante?.nome}</td>
+              <td>{jogo.timeVisitante?.nome || 'N/A'}</td>
+              <td>
+                {jogo.jogadores?.map((jogador) => (
+                  <div key={jogador.id} className="nome-jogador">{jogador.nome}</div>
+                ))}
+              </td>
+              <td style={{ textAlign: 'center' }}>
+                {jogo.scouts?.map((scout) => (
+                  <button
+                    key={scout.id}
+                    onClick={() => removerScout(jogo.id, scout.id)}
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      padding: '5px 10px',
+                      cursor: 'pointer',
+                      fontSize: '20px',
+                      color: 'red',
+                      display: 'inline-block',
+                      verticalAlign: 'middle',
+                    }}
+                    title="Remover Scout"
+                  >
+                    <i className="bi bi-x"></i>
+                  </button>
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Paginação */}
+      <div className="pagination-container">
+        <Pagination
+          totalPages={totalPages}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+      </div>
+    </div>
   );
 }
 
