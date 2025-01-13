@@ -15,7 +15,7 @@ function Navbar() {
         const role = localStorage.getItem('userRole');  // Supondo que o papel do usuário está armazenado no localStorage
         setUserId(id);
         setUserRole(role);
-    }, []);
+    }, []); // Não depende de variáveis externas
 
     console.log(userId, userRole); // Verifique se o ID e o papel do usuário estão corretos
 
@@ -26,6 +26,10 @@ function Navbar() {
                 try {
                     const response = await axios.get('http://localhost:3000/Notificacao/Criacao');
                     const notificacoesNaoLidas = response.data.filter(not => !not.lida);
+                    
+                    // Ordenar notificações mais recentes primeiro
+                    notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Supondo que 'dataCriacao' seja o campo da data
+
                     setNotificacoes(prevNotificacoes => [...prevNotificacoes, ...notificacoesNaoLidas]);
                     setUnreadCount(prevCount => prevCount + notificacoesNaoLidas.length);
                 } catch (error) {
@@ -44,6 +48,10 @@ function Navbar() {
                 try {
                     const response = await axios.get(`http://localhost:3000/Notificacao/utilizador/${userId}`);
                     const notificacoesNaoLidas = response.data.filter(not => !not.lida);
+
+                    // Ordenar notificações mais recentes primeiro
+                    notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Supondo que 'dataCriacao' seja o campo da data
+
                     setNotificacoes(prevNotificacoes => [...prevNotificacoes, ...notificacoesNaoLidas]);
                     setUnreadCount(prevCount => prevCount + notificacoesNaoLidas.length);
                 } catch (error) {
@@ -93,7 +101,7 @@ function Navbar() {
         return () => {
             document.removeEventListener('click', handleOutsideClick);
         };
-    }, []);
+    }, []); // Executa uma vez ao montar o componente
 
     return (
         <nav className="navbarp">
@@ -117,8 +125,7 @@ function Navbar() {
                                         key={notificacao.id}
                                     >
                                         <div className="notification-content">
-
-                                        {notificacao.mensagem}
+                                            {notificacao.mensagem}
                                             
                                             {!notificacao.lida && (
                                                 <i 
@@ -129,7 +136,6 @@ function Navbar() {
                                                     }} 
                                                 />
                                             )}
-                                            
                                         </div>
                                     </div>
                                 ))}

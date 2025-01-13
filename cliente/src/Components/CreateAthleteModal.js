@@ -56,6 +56,20 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
             const response = await axios.post('http://localhost:3000/atletas/createAtletaAprovado', formData);
             console.log('Atleta criado:', response.data);
 
+            // Enviar notificação após a criação do atleta
+            const userId = localStorage.getItem('userId'); // Aqui você acessa o ID do usuário logado (pode ser o responsável pela criação)
+            
+            if (!userId) {
+                throw new Error('Usuário não encontrado');
+            }
+
+            await axios.post('http://localhost:3000/Notificacao', {
+                conteudo: `Um novo atleta foi criado: ${formData.nome}.`,
+                tipo: 'Criação',
+                remetenteId: userId,  // O ID do remetente pode ser o ID do usuário logado
+                destinatarioId: 1,  // Este valor deve ser o ID do destinatário (ex: administrador ou responsável pela gestão de atletas)
+            });
+
             // Alerta de sucesso
             Swal.fire({
                 icon: 'success',

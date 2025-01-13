@@ -94,13 +94,21 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
         };
 
         try {
-            // Enviando a requisição para o backend
+            // Enviando a requisição para o backend para criar o relatório
             const response = await axios.post('http://localhost:3000/relatorios', newReportData);
             console.log('Relatório criado:', response.data);
 
+            // Após criar o relatório, enviar uma notificação que um relatório está aguardando aprovação
+            await axios.post('http://localhost:3000/Notificacao', {
+                conteudo: `Um novo relatório foi submetido para aprovação. Atleta: ${atletaNome}.`,
+                tipo: "Criação",
+                remetenteId: userId,  // ID do scout que criou o relatório
+                destinatarioId: 1  // Este valor deve ser o ID do destinatário (ex: Administrador ou responsável)
+            });
+
             Swal.fire({
                 title: 'Sucesso!',
-                text: 'Relatório criado com sucesso.',
+                text: 'Relatório criado com sucesso. Está aguardando aprovação.',
                 icon: 'success',
                 confirmButtonText: 'OK',
             });

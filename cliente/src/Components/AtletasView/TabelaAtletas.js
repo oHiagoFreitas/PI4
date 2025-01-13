@@ -6,7 +6,7 @@ import axios from 'axios'; // Para realizar requisições HTTP
 function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1); // Página atual
   const [atletasData, setAtletasData] = useState(atletas); // Estado para armazenar os atletas
-  const atletasPerPage = 5; // Quantidade de atletas por página
+  const atletasPerPage = 10; // Quantidade de atletas por página
 
   const [userRole, setUserRole] = useState(null);
     

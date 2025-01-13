@@ -7,7 +7,7 @@ import Pagination from '../Pagination'; // Importando o componente de paginaçã
 function TabelaRelatorios({ relatorios, handleEdit, handleDelete }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [userRole, setUserRole] = useState(null); // Estado para armazenar a role do usuário
-  const reportsPerPage = 5; // Número de relatórios por página
+  const reportsPerPage = 10; // Número de relatórios por página
 
   // Função para calcular os relatórios da página atual
   const indexOfLastReport = currentPage * reportsPerPage;

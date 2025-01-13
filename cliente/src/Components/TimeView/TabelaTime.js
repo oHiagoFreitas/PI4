@@ -11,7 +11,7 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [userRole, setUserRole] = useState(null); // Estado para armazenar a role do usuário
 
-  const timesPerPage = 5; // Número de times por página
+  const timesPerPage = 10; // Número de times por página
 
   // Função para calcular os times da página atual
   const indexOfLastTime = currentPage * timesPerPage;
