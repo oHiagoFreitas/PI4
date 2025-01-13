@@ -138,7 +138,7 @@ function TabelaPendentes() {
           <tr>
             <th>Categoria</th>
             <th>Nome/Rating Final</th>
-            <th>Status</th>
+            <th>Descrição</th>
             <th>Data de Solicitação</th>
             <th>Ações</th>
           </tr>
@@ -149,8 +149,8 @@ function TabelaPendentes() {
               <tr key={atleta.id}>
                 <td>Atleta</td>
                 <td>{atleta.nome}</td>
-                <td>{atleta.status}</td>
-                <td>{new Date(atleta.createdAt).toLocaleDateString()}</td>
+                <td>Solicitação de Aprovação de novo atleta</td>
+                <td>{new Date(atleta.updatedAt).toLocaleDateString()}</td>
                 <td>
                   <i
                     className="bi bi-check-circle"
@@ -176,8 +176,8 @@ function TabelaPendentes() {
               <tr key={relatorio.id}>
                 <td>Relatório</td>
                 <td>{relatorio.ratingFinal}</td>
-                <td>{relatorio.status}</td>
-                <td>{new Date(relatorio.createdAt).toLocaleDateString()}</td>
+                <td>Solicitação de Aprovação de novo Relatório</td>
+                <td>{new Date(relatorio.updatedAt).toLocaleDateString()}</td>
                 <td>
                   <i
                     className="bi bi-check-circle"
@@ -201,10 +201,10 @@ function TabelaPendentes() {
           {currentTimes.length > 0 &&
             currentTimes.map((time) => (
               <tr key={time.id}>
-                <td>Time</td>
+                <td>Clube</td>
                 <td>{time.nome}</td>
-                <td>{time.status}</td>
-                <td>{new Date(time.createdAt).toLocaleDateString()}</td>
+                <td>Solicitação de Aprovação de novo Clube</td>
+                <td>{new Date(time.updatedAt).toLocaleDateString()}</td>
                 <td>
                   <i
                     className="bi bi-check-circle"
@@ -230,8 +230,12 @@ function TabelaPendentes() {
               <tr key={utilizador.id}>
                 <td>Utilizador</td>
                 <td>{utilizador.nome}</td>
-                <td>{utilizador.status}</td>
-                <td>{new Date(utilizador.createdAt).toLocaleDateString()}</td>
+                <td>
+                  {utilizador.status === 'pendente'
+                    ? 'Pedido de Aprovação de conta'
+                    : 'Pedido de troca de Senha'}
+                </td>
+                <td>{new Date(utilizador.updatedAt).toLocaleDateString()}</td>
                 <td>
                   <i
                     className="bi bi-check-circle"
@@ -242,7 +246,11 @@ function TabelaPendentes() {
                     to={`/utilizadores/detalhes/${utilizador.id}`}
                     className="action-buttonAT dashboard-link"
                   >
-                    <i className="bi bi-eye" title="Ver" style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }}></i>
+                    <i
+                      className="bi bi-eye"
+                      title="Ver"
+                      style={{ cursor: 'pointer', color: 'Blue', marginRight: '10px' }}
+                    />
                   </Link>
                   <i
                     className="bi bi-x-circle"

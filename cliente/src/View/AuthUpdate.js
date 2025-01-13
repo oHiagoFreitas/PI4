@@ -7,7 +7,6 @@ import AcadLogo from '../img/AcadLogo.png';
 
 const AuthUpdate = () => {
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
   const [novaSenha, setNovaSenha] = useState(''); // Novo campo para senha
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // Inicializa useNavigate
@@ -17,7 +16,6 @@ const AuthUpdate = () => {
     try {
       const response = await axios.post('http://localhost:3000/auth/UpdatePassword', {
         email,
-        senha,
         novaSenha,
       });
 
@@ -61,15 +59,6 @@ const AuthUpdate = () => {
               required
             />
 
-            <label htmlFor="current-password">Senha Atual:</label>
-            <input
-              type="password"
-              id="current-password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Digite sua senha atual"
-              required
-            />
 
             <label htmlFor="new-password">Nova Senha:</label>
             <input

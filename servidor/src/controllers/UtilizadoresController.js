@@ -1,5 +1,7 @@
 const Utilizadores = require('../models/Utilizadores');
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
+
 
 // Criar um novo utilizador
 exports.createUtilizador = async (req, res) => {
@@ -159,15 +161,19 @@ exports.deactivateUtilizador = async (req, res) => {
 exports.getPendentes = async (req, res) => {
     try {
         const pendentes = await Utilizadores.findAll({
-            where: { status: 'pendente' },
+            where: {
+                status: {
+                    [Op.or]: ['pendente', 'Redefinição Solicitada'], // Filtra por 'pendente' ou 'senha-alterada'
+                }
+            },
         });
         if (pendentes.length > 0) {
             res.json(pendentes);
         } else {
-            res.status(404).json({ message: 'Nenhum utilizador pendente encontrado' });
+            res.status(404).json({ message: 'Nenhum utilizador encontrado com os status solicitados' });
         }
     } catch (error) {
-        res.status(500).json({ error: 'Erro ao buscar utilizadores pendentes' });
+        res.status(500).json({ error: 'Erro ao buscar utilizadores com status pendente ou senha alterada' });
     }
 };
 

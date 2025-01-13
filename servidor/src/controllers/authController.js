@@ -37,7 +37,7 @@ exports.login = async (req, res) => {
 
 exports.updatePassword = async (req, res) => {
     console.log('Rota update-password acessada:', req.body);
-    const { email, senhaAtual, novaSenha } = req.body;
+    const { email, novaSenha } = req.body;  // Agora não estamos mais usando 'senhaAtual'
 
     try {
         // Buscar o utilizador pelo email
@@ -47,18 +47,18 @@ exports.updatePassword = async (req, res) => {
             return res.status(404).json({ error: 'Utilizador não encontrado' });
         }
 
-        // Verificar se a senha atual está correta
-        const senhaValida = await bcrypt.compare(senhaAtual, utilizador.senha);
-        if (!senhaValida) {
-            return res.status(401).json({ error: 'Senha atual incorreta' });
-        }
-
         // Atualizar a senha com o hash da nova senha
         utilizador.senha = await bcrypt.hash(novaSenha, 10);
+
+        // Alterar o status para algo apropriado, como 'senha-alterada'
+        utilizador.status = 'Redefinição Solicitada';  // Ou qualquer outro status que faça sentido no seu fluxo
+
+        // Salvar as mudanças no banco de dados
         await utilizador.save();
 
-        res.status(200).json({ message: 'Senha atualizada com sucesso' });
+        res.status(200).json({ message: 'Senha atualizada com sucesso, status alterado.' });
     } catch (error) {
         res.status(500).json({ error: 'Erro ao atualizar senha' });
     }
 };
+
