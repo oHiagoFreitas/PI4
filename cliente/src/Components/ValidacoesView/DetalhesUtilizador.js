@@ -76,7 +76,7 @@ function DetalhesUtilizador() {
                                 <div><strong>Data de nascimento:</strong> {new Date(utilizador.dataNascimento).toLocaleDateString()}</div>
                                 <div><strong>Telefone:</strong> {utilizador.telefone}</div>
                                 <div><strong>Endereço:</strong> {utilizador.endereco}</div>
-                                <div><strong>Função:</strong> {utilizador.funcao}</div>
+                                <div><strong>Função:</strong> {utilizador.role}</div>
                                 <div><strong>Status:</strong> {utilizador.status}</div>
                             </div>
 
