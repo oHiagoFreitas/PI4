@@ -96,8 +96,8 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
           <tr>
             <th>Data</th>
             <th>Hora</th>
-            <th>Time do Atleta</th>
-            <th>Time Visitante</th>
+            <th>Equipa do Atleta</th>
+            <th>Equipa Visitante</th>
             <th>Atletas</th>
             <th>Scouts</th>
             <th>Local</th>

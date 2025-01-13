@@ -253,7 +253,7 @@ function CriarPartida() {
                                 />
                             </div>
                             <div>
-                                <label>Time do Atleta:</label>
+                                <label>Equipa do Atleta:</label>
                                 <input
                                     className="inputPJ"
                                     type="text"
@@ -263,7 +263,7 @@ function CriarPartida() {
                                 />
                             </div>
                             <div>
-                                <label>Time Visitante (opcional):</label>
+                                <label>Equipa Visitante (opcional):</label>
                                 <input
                                     className="inputPJ"
                                     type="text"
