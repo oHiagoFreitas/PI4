@@ -79,13 +79,12 @@ const AuthUpdate = () => {
             />
 
             <button type="submit">Atualizar Senha</button>
+            <button onClick={() => navigate(-1)} className="back-buttonAD" style={{marginTop: "10px"}}>
+              Voltar
+            </button>
           </form>
 
-          <div className="back-to-login">
-            <p>
-              <a href="/login">Voltar ao Login</a>
-            </p>
-          </div>
+      
         </div>
       </div>
 
