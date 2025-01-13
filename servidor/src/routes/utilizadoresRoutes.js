@@ -5,6 +5,8 @@ const utilizadoresController = require('../controllers/UtilizadoresController');
 // Rota para obter todos os utilizadores
 router.get('/', utilizadoresController.getAllUtilizadores);
 
+router.get('/AdminScout', utilizadoresController.getUtilizadoresAdminScout);
+
 // Rota para criar um novo utilizador
 router.post('/', utilizadoresController.createUtilizador);
 

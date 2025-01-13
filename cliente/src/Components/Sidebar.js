@@ -32,7 +32,7 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
             <ul>
                 <li>
                     <i className="bi bi-calendar-event"></i>
-                    <Link to="/partidas">Partidas</Link> {/* Link para a página de Partidas */}
+                    <Link to="/partidas">Jogos</Link> {/* Link para a página de Partidas */}
                 </li>
                 <li>
                     <i className="bi bi-trophy"></i>

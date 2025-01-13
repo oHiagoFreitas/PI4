@@ -151,7 +151,7 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
                         <option value="Defesa Central">Defesa Central</option>
                         <option value="Defesa Esquerda">Defesa Esquerda</option>
                         <option value="Defesa Direita">Defesa Direita</option>
-                        <option value="Meio Campista">Meio Campista</option>
+                        <option value="Médio">Médio</option>
                         <option value="Atacante">Atacante</option>
                         <option value="Universal">Universal</option>
                     </select>
@@ -191,7 +191,7 @@ const CreateAthleteModal = ({ isOpen, onRequestClose }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="contactoAgente">Contato do Agente:</label>
+                    <label htmlFor="contactoAgente">Contacto do Agente:</label>
                     <input
                         type="text"
                         id="contactoAgente"

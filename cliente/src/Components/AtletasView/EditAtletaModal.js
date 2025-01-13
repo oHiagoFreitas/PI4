@@ -20,8 +20,6 @@ const customStyles = {
 const EditAthleteModal = ({ isOpen, onRequestClose, athleteData }) => {
     const [formData, setFormData] = useState({
         nome: '',
-        dataNascimento: '',
-        ano: '',
         nacionalidade: '',
         posicao: '',
         clube: '',
@@ -109,18 +107,6 @@ const EditAthleteModal = ({ isOpen, onRequestClose, athleteData }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="dataNascimento">Data de Nascimento:</label>
-                    <input
-                        type="date"
-                        id="dataNascimento"
-                        name="dataNascimento"
-                        value={formData.dataNascimento}
-                        onChange={handleChange}
-                        required
-                        className="form-input"
-                    />
-                </div>
-                <div className="form-group">
                     <label htmlFor="posicao">Posição:</label>
                     <select
                         id="posicao"
@@ -135,22 +121,10 @@ const EditAthleteModal = ({ isOpen, onRequestClose, athleteData }) => {
                         <option value="Defesa Central">Defesa Central</option>
                         <option value="Defesa Esquerda">Defesa Esquerda</option>
                         <option value="Defesa Direita">Defesa Direita</option>
-                        <option value="Meio Campista">Meio Campista</option>
+                        <option value="Médio">Médio</option>
                         <option value="Atacante">Atacante</option>
                         <option value="Universal">Universal</option>
                     </select>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="ano">Ano:</label>
-                    <input
-                        type="number"
-                        id="ano"
-                        name="ano"
-                        value={formData.ano}
-                        onChange={handleChange}
-                        required
-                        className="form-input"
-                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="clube">Clube:</label>

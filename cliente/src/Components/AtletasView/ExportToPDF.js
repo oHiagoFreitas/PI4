@@ -13,7 +13,7 @@ function ExportToPDF({ atletas }) {
     let yPosition = 30;
     doc.autoTable({
       startY: yPosition,
-      head: [['ID', 'Nome', 'País', 'Posição', 'Time', 'Status']],
+      head: [['ID', 'Nome', 'País', 'Posição', 'Clube', 'Status']],
       body: atletas.map(atleta => [
         atleta.id,
         atleta.nome,

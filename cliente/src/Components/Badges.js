@@ -109,7 +109,7 @@ const Badges = () => {
 
                 <div className="badge" onClick={openTeamModal}>
                     <span className="badge-icon">+</span>
-                    Criar Time
+                    Criar Clube
                 </div>
                 <CreateTeamModal isOpen={teamModalIsOpen} onRequestClose={closeTeamModal} />
 
@@ -133,7 +133,7 @@ const Badges = () => {
                     </div>
 
                     <div className="badgee">
-                        <div className="badgee-header">Total De Times</div>
+                        <div className="badgee-header">Total De Clubes</div>
                         <div className="badgee-number">{totalTimes}</div>
                     </div>
 

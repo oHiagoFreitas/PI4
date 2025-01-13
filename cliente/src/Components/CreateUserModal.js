@@ -115,9 +115,9 @@ const CreateUserModal = ({
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             style={customStyles}
-            contentLabel={isEditModal ? "Editar Usuário" : "Criar Usuário"}
+            contentLabel={isEditModal ? "Editar Utilizador" : "Criar Utilizador"}
         >
-            <h2 className="modal-title">{isEditModal ? "Editar Usuário" : "Criar Usuário"}</h2>
+            <h2 className="modal-title">{isEditModal ? "Editar Utilizador" : "Criar Utilizador"}</h2>
             <form onSubmit={handleSubmit} className="create-user-form">
                 <div className="form-group-user">
                     <label htmlFor="nome">Nome:</label>
@@ -158,7 +158,7 @@ const CreateUserModal = ({
                     </div>
                 )}
                 <div className="form-group-user">
-                    <label htmlFor="role">Role:</label>
+                    <label htmlFor="role">Função:</label>
                     <select
                         id="role"
                         name="role"

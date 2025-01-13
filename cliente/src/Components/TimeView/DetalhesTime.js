@@ -58,7 +58,7 @@ function DetalhesTime() {
                     {time && (
                         <div className="detalhes-timeAD">
                             <div className="headerAD">
-                                <h1>Detalhes do Time: {time.nome || "Nome não disponível"}</h1>
+                                <h1>Detalhe do Clube: {time.nome || "Nome não disponível"}</h1>
                             </div>
 
                             <div style={{ display: 'flex', marginBottom: '0px' }}>
@@ -71,7 +71,7 @@ function DetalhesTime() {
                             </div>
 
                             <div className="sectionAD informacoesAD">
-                                <div><strong>Nome do Time:</strong> {time.nome || "Nome não disponível"}</div>
+                                <div><strong>Clube:</strong> {time.nome || "Nome não disponível"}</div>
                                 <div><strong>País:</strong> {time.pais || "Endereço não disponível"}</div>
                                 <div><strong>Categoria:</strong> {time.categoria || "Categoria não disponível"}</div>
                                 <div><strong>Descrição:</strong> {time.descricao || "Descrição não disponível"}</div>

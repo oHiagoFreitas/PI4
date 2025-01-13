@@ -51,7 +51,7 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
       <table className="atletas-tableAT" style={{ marginTop: 20 }}>
         <thead>
           <tr>
-            <th>Nome do Time</th>
+            <th>Clube</th>
             <th>País</th>
             <th>Categoria</th>
             <th>Descrição</th>

@@ -4,7 +4,7 @@ import '../../Style/AtletasTitle.css';
 const PartidasTitle = () => { // Altere o nome aqui
     return (
         <div className="AtletasTitleMessage">
-            <h1>Partidas</h1>
+            <h1>Jogos</h1>
         </div>
     );
 };

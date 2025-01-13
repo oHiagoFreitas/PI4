@@ -73,7 +73,7 @@ const EditTeamModal = ({ isOpen, onRequestClose, teamData }) => {
             style={customStyles}
             contentLabel="Editar Time"
         >
-            <h2 className="modal-title">Editar Time</h2>
+            <h2 className="modal-title">Editar Clube</h2>
             <form onSubmit={handleSubmit} className="create-team-form">
                 <div className="form-group-team">
                     <label htmlFor="nome">Nome:</label>

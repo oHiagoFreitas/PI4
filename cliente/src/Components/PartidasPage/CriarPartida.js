@@ -13,15 +13,15 @@ function CriarPartida() {
     const [local, setLocal] = useState('');
     const [timeMandanteNome, setTimeMandanteNome] = useState('');
     const [timeVisitanteNome, setTimeVisitanteNome] = useState('');
-    const [jogadoresNomes, setJogadoresNomes] = useState([]);  
+    const [jogadoresNomes, setJogadoresNomes] = useState([]);
     const [scoutsNomes, setScoutsNomes] = useState([]);  // Lista de nomes de scouts
     const [scoutsIds, setScoutsIds] = useState([]);  // IDs de scouts selecionados
-    const [times, setTimes] = useState([]);  
-    const [jogadores, setJogadores] = useState([]);  
+    const [times, setTimes] = useState([]);
+    const [jogadores, setJogadores] = useState([]);
     const [scouts, setScouts] = useState([]);  // Lista de scouts
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [jogadoresDisponiveis, setJogadoresDisponiveis] = useState([]); 
+    const [jogadoresDisponiveis, setJogadoresDisponiveis] = useState([]);
     const navigate = useNavigate();
 
     const [userRole, setUserRole] = useState(null);
@@ -37,9 +37,9 @@ function CriarPartida() {
 
     // Função para buscar os times
     useEffect(() => {
-        axios.get('http://localhost:3000/times')  
+        axios.get('http://localhost:3000/times')
             .then((response) => {
-                setTimes(response.data);  
+                setTimes(response.data);
             })
             .catch((error) => {
                 console.error('Erro ao buscar os times', error);
@@ -49,9 +49,9 @@ function CriarPartida() {
 
     // Função para buscar os jogadores
     useEffect(() => {
-        axios.get('http://localhost:3000/atletas')  
+        axios.get('http://localhost:3000/atletas')
             .then((response) => {
-                setJogadores(response.data);  
+                setJogadores(response.data);
             })
             .catch((error) => {
                 console.error('Erro ao buscar os jogadores', error);
@@ -61,7 +61,7 @@ function CriarPartida() {
 
     // Função para buscar os scouts
     useEffect(() => {
-        axios.get('http://localhost:3000/utilizadores')  // Endpoint para scouts
+        axios.get('http://localhost:3000/utilizadores/AdminScout')  // Endpoint para scouts
             .then((response) => {
                 setScouts(response.data);  // Atualiza o estado com os scouts recebidos
             })
@@ -85,7 +85,7 @@ function CriarPartida() {
 
     // Função para filtrar jogadores pelo time
     const getJogadoresPorTime = (timeId) => {
-        return jogadores.filter(jogador => jogador.timeId === timeId); 
+        return jogadores.filter(jogador => jogador.timeId === timeId);
     };
 
     // Função para encontrar o ID do jogador a partir do nome
@@ -102,7 +102,7 @@ function CriarPartida() {
         const timeMandanteId = getTimeIdByNome(nomeTimeMandante);
         if (timeMandanteId) {
             const jogadoresDoTimeMandante = getJogadoresPorTime(timeMandanteId);
-            setJogadoresDisponiveis(jogadoresDoTimeMandante); 
+            setJogadoresDisponiveis(jogadoresDoTimeMandante);
         } else {
             setJogadoresDisponiveis([]); // Limpa os jogadores se o time não for encontrado
         }
@@ -128,30 +128,30 @@ function CriarPartida() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         if (!data || !hora || !local || !timeMandanteNome || !jogadoresNomes.length) {
             Swal.fire('Erro!', 'Por favor, preencha todos os campos obrigatórios.', 'error');
             return;
         }
-    
+
         const timeMandanteId = getTimeIdByNome(timeMandanteNome);
         const timeVisitanteId = timeVisitanteNome ? getTimeIdByNome(timeVisitanteNome) : null;
-    
+
         if (!timeMandanteId) {
             Swal.fire('Erro!', 'Time mandante não encontrado. Verifique o nome digitado.', 'error');
             return;
         }
-    
+
         const jogadoresIds = jogadoresNomes.map(nome => getJogadorIdByNome(nome)).filter(id => id !== null);
         const scoutsIds = scoutsNomes.map(nome => getScoutIdByNome(nome)).filter(id => id !== null);
-    
+
         if (jogadoresIds.length === 0) {
             Swal.fire('Erro!', 'Nenhum jogador encontrado. Verifique os nomes digitados.', 'error');
             return;
         }
-    
+
         setLoading(true);
-    
+
         axios
             .post('http://localhost:3000/partidas', {
                 data,
@@ -164,41 +164,41 @@ function CriarPartida() {
             })
             .then((response) => {
                 console.log('Partida criada com sucesso!', response);
-    
+
                 // Criar notificação para cada scout atribuído
                 scoutsIds.forEach(scoutId => {
                     const remetenteId = userRole === 'admin' ? localStorage.getItem('adminId') : localStorage.getItem('userId');
-                    
+
                     // Log para verificar se os IDs estão sendo passados corretamente
                     console.log("Remetente ID:", remetenteId);
                     console.log("Destinatário ID (Scout ID):", scoutId);
-                
+
                     axios.post('http://localhost:3000/Notificacao', {
                         conteudo: `Você foi atribuído como scout para a partida entre ${timeMandanteNome} e ${timeVisitanteNome || 'time visitante'}.`,
                         tipo: 'Atribuição',
                         destinatarioId: scoutId,
                         remetenteId: remetenteId, // Garantir que estamos passando o remetenteId corretamente
                     })
-                    .then((notificacaoResponse) => {
-                        console.log('Notificação criada com sucesso!', notificacaoResponse);
-                    })
-                    .catch((error) => {
-                        console.error('Erro ao criar a notificação', error.response ? error.response.data : error);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Erro!',
-                            text: error.response ? error.response.data.error : 'Não foi possível criar a notificação.',
+                        .then((notificacaoResponse) => {
+                            console.log('Notificação criada com sucesso!', notificacaoResponse);
+                        })
+                        .catch((error) => {
+                            console.error('Erro ao criar a notificação', error.response ? error.response.data : error);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro!',
+                                text: error.response ? error.response.data.error : 'Não foi possível criar a notificação.',
+                            });
                         });
-                    });
                 });
-    
+
                 Swal.fire('Sucesso!', 'A partida foi criada com sucesso!', 'success');
                 navigate('/partidas');
             })
             .catch((error) => {
                 setLoading(false);
                 setError('Erro ao criar a partida.');
-    
+
                 if (error.response && error.response.status === 400) {
                     Swal.fire({
                         icon: 'error',
@@ -214,11 +214,11 @@ function CriarPartida() {
                 }
             });
     };
-    
+
 
     return (
         <div className="criar-partidaPJ">
-            <Sidebar userRole={userRole}/>
+            <Sidebar userRole={userRole} />
             <div className="main-content">
                 <Navbar />
                 <div className="sub-main-content">
@@ -227,33 +227,33 @@ function CriarPartida() {
                         <form className="formularioPj" onSubmit={handleSubmit}>
                             <div>
                                 <label>Data:</label>
-                                <input 
-                                    className="inputPJ" 
-                                    type="date" 
-                                    value={data} 
-                                    onChange={(e) => setData(e.target.value)} 
+                                <input
+                                    className="inputPJ"
+                                    type="date"
+                                    value={data}
+                                    onChange={(e) => setData(e.target.value)}
                                 />
                             </div>
                             <div>
                                 <label>Hora:</label>
-                                <input 
-                                    className="inputPJ" 
-                                    type="time" 
-                                    value={hora} 
-                                    onChange={(e) => setHora(e.target.value)} 
+                                <input
+                                    className="inputPJ"
+                                    type="time"
+                                    value={hora}
+                                    onChange={(e) => setHora(e.target.value)}
                                 />
                             </div>
                             <div>
                                 <label>Local:</label>
-                                <input 
-                                    className="inputPJ" 
-                                    type="text" 
-                                    value={local} 
-                                    onChange={(e) => setLocal(e.target.value)} 
+                                <input
+                                    className="inputPJ"
+                                    type="text"
+                                    value={local}
+                                    onChange={(e) => setLocal(e.target.value)}
                                 />
                             </div>
                             <div>
-                                <label>Time Mandante:</label>
+                                <label>Time do Atleta:</label>
                                 <input
                                     className="inputPJ"
                                     type="text"
@@ -273,10 +273,10 @@ function CriarPartida() {
                                 />
                             </div>
                             <div>
-                                <label>Jogadores (nomes separados por vírgula):</label>
+                                <label>Atletas (nomes separados por vírgula):</label>
                                 {jogadoresDisponiveis.map(jogador => (
                                     <div key={jogador.id}>
-                                        <input 
+                                        <input
                                             type="checkbox"
                                             id={jogador.id}
                                             value={jogador.nome}
@@ -288,26 +288,31 @@ function CriarPartida() {
                                 ))}
                             </div>
                             <div>
-                                <label>Scouts (nomes separados por vírgula):</label>
-                                <input
+                                <label>Atribuir um Scout</label>
+                                <select
                                     className="inputPJ"
-                                    type="text"
-                                    placeholder="Digite os nomes dos scouts separados por vírgula"
-                                    value={scoutsNomes.join(', ')}
-                                    onChange={(e) => setScoutsNomes(e.target.value.split(',').map(nome => nome.trim()))}
-                                />
+                                    value={scoutsNomes[0] || ''} // Seleciona o primeiro scout/admin caso exista
+                                    onChange={(e) => setScoutsNomes([e.target.value])} // Apenas um selecionado
+                                >
+                                    <option value="" disabled>Selecione um Scout</option>
+                                    {scouts.map((scout) => (
+                                        <option key={scout.id} value={scout.nome}>
+                                            {scout.nome}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="buttons-container">
-                                <button 
-                                    className="botao-submitPJ" 
-                                    type="submit" 
+                                <button
+                                    className="botao-submitPJ"
+                                    type="submit"
                                     disabled={loading}
                                 >
-                                    {loading ? 'Criando...' : 'Criar Partida'}
+                                    {loading ? 'Criando...' : 'Criar Jogo'}
                                 </button>
-                                <button 
-                                    className="back-buttonPJ" 
+                                <button
+                                    className="back-buttonPJ"
                                     onClick={() => navigate('/partidas')}
                                 >
                                     Voltar

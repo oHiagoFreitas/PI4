@@ -118,7 +118,7 @@ function PartidasTable() {
               className="button-createAT"
               onClick={handleCreatePartida} // Lógica de navegação para criação de partida
             >
-              Criar Partida
+              Criar Jogo
             </button>
           )}
 

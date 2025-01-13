@@ -28,7 +28,7 @@ function TabelaUsuarios({ usuarios, handleEdit, handleDelete }) {
             <th>Data de Criação</th>
             <th>Nome</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Função</th>
             <th>Ultima Edição</th>
             <th>Ações</th>
           </tr>

@@ -56,7 +56,7 @@ function TabelaJogosAtribuidos({ jogosAtribuidos }) {
             <th>Data</th>
             <th>Hora</th>
             <th>Local</th>
-            <th>Time Mandante</th>
+            <th>Time do Atleta</th>
             <th>Time Visitante</th>
             <th>Jogadores</th>
             <th>Ações</th>

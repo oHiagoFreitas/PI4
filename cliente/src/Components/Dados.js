@@ -6,7 +6,7 @@ import '../Style/Backoffice.css'; // Certifique-se de que os estilos estão apli
 const Dados = () => {
     return (
         <div className="quick-actions">
-            <h2 className="quick-actions-title">Estatisticas</h2>
+            <h2 className="quick-actions-title">Estatísticas</h2>
         </div>
     );
 };

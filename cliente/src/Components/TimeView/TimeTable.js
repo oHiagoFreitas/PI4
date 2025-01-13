@@ -112,7 +112,7 @@ function TimesTable() {
 
         {/* Botões de Ação: Criar Time e Exportar Times */}
         <button className="button-createAT" onClick={openCreateTimeModal}>
-          Criar Time
+          Criar Clube
         </button>
         <button className="button-exportAT" onClick={exportTimesToPDF}>
           Exportar Times em PDF

@@ -31,6 +31,21 @@ exports.getAllUtilizadores = async (req, res) => {
     }
 };
 
+// Mostrar apenas Admins e Scouts
+exports.getUtilizadoresAdminScout = async (req, res) => {
+    try {
+        const utilizadores = await Utilizadores.findAll({
+            where: {
+                role: ['Admin', 'Scout'] // Filtra os utilizadores com role 'admin' ou 'scout'
+            }
+        });
+        res.json(utilizadores);
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar utilizadores' });
+    }
+};
+
+
 // Mostrar um utilizador pelo ID
 exports.getUtilizadorById = async (req, res) => {
     const { id } = req.params;
