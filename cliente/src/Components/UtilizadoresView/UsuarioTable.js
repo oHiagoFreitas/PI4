@@ -50,11 +50,11 @@ function UsuariosTable() {
         axios
           .delete(`http://localhost:3000/utilizadores/${usuarioId}`) // Rota de delete de usuários
           .then(() => {
-            Swal.fire('Deletado!', 'O usuário foi excluído.', 'success');
+            Swal.fire('Deletado!', 'O Utilizador foi excluído.', 'success');
             setUsuarios(usuarios.filter((usuario) => usuario.id !== usuarioId));
           })
           .catch((error) => {
-            console.error('Erro ao excluir usuário:', error);
+            console.error('Erro ao excluir Utilizador:', error);
             Swal.fire('Erro!', 'Ocorreu um erro ao excluir o usuário.', 'error');
           });
       }
@@ -97,7 +97,7 @@ function UsuariosTable() {
           className="button-createAT"
           onClick={openCreateUserModal}
         >
-          Criar Usuário
+          Criar Utilizador
         </button>
       </div>
 

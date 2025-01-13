@@ -14,9 +14,18 @@ const AuthUpdate = () => {
   const handlePasswordUpdate = async (e) => {
     e.preventDefault();
     try {
+      // Atualiza a senha
       const response = await axios.post('http://localhost:3000/auth/UpdatePassword', {
         email,
         novaSenha,
+      });
+
+      // Criação de notificação
+      await axios.post('http://localhost:3000/Notificacao', {
+        conteudo: `O utilizador com o email ${email} fez uma solicitação de redefinição de senha.`,
+        tipo: "Criação",
+        remetenteId: 1,  // Pode ser alterado para o ID do remetente
+        destinatarioId: 1  // Pode ser alterado para o ID do destinatário
       });
 
       Swal.fire({
@@ -58,7 +67,6 @@ const AuthUpdate = () => {
               placeholder="Digite seu email"
               required
             />
-
 
             <label htmlFor="new-password">Nova Senha:</label>
             <input

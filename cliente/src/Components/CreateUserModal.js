@@ -64,8 +64,8 @@ const CreateUserModal = ({
                 );
                 Swal.fire({
                     icon: 'success',
-                    title: 'Usuário Atualizado!',
-                    text: 'O usuário foi atualizado com sucesso.',
+                    title: 'Utilizador Atualizado!',
+                    text: 'O Utilizador foi atualizado com sucesso.',
                     confirmButtonText: 'Ok',
                 });
     
@@ -78,8 +78,8 @@ const CreateUserModal = ({
                 response = await axios.post('http://localhost:3000/utilizadores', formData);
                 Swal.fire({
                     icon: 'success',
-                    title: 'Usuário Criado!',
-                    text: 'O usuário foi criado com sucesso.',
+                    title: 'Utilizador Criado!',
+                    text: 'O Utilizador foi criado com sucesso.',
                     confirmButtonText: 'Ok',
                 });
             }
@@ -100,11 +100,11 @@ const CreateUserModal = ({
                 role: '',
             });
         } catch (error) {
-            console.error('Erro ao salvar usuário:', error.response || error);  // Log detalhado do erro
+            console.error('Erro ao salvar Utilizador:', error.response || error);  // Log detalhado do erro
             Swal.fire({
                 icon: 'error',
                 title: 'Erro!',
-                text: 'Ocorreu um erro ao salvar o usuário. Por favor, tente novamente.',
+                text: 'Ocorreu um erro ao salvar o Utilizador. Por favor, tente novamente.',
                 confirmButtonText: 'Ok',
             });
         }
@@ -174,7 +174,7 @@ const CreateUserModal = ({
                     </select>
                 </div>
                 <button type="submit" className="submit-button-user">
-                    {isEditModal ? "Salvar Alterações" : "Criar Usuário"}
+                    {isEditModal ? "Salvar Alterações" : "Criar Utilizador"}
                 </button>
             </form>
         </Modal>

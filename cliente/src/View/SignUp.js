@@ -15,7 +15,18 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
+      // Requisição de cadastro do usuário
       const response = await axios.post('http://localhost:3000/utilizadores', { nome, email, senha, role });
+
+      // Após o cadastro, cria a notificação
+      await axios.post('http://localhost:3000/Notificacao/', {
+        conteudo: `Um novo utilizador "${nome}" foi cadastrado e está a espera de verificação.`,
+        tipo: 'Criação',
+        remetenteId: 1,  // Pode ser alterado para o ID do remetente
+        destinatarioId: 1  // Pode ser alterado para o ID do destinatário
+      });
+
+      // Alerta de sucesso de cadastro
       Swal.fire({
         title: 'Sucesso!',
         text: 'Cadastro realizado com sucesso!',
