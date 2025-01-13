@@ -34,3 +34,31 @@ exports.login = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+exports.updatePassword = async (req, res) => {
+    console.log('Rota update-password acessada:', req.body);
+    const { email, senhaAtual, novaSenha } = req.body;
+
+    try {
+        // Buscar o utilizador pelo email
+        const utilizador = await Usuario.findOne({ where: { email } });
+
+        if (!utilizador) {
+            return res.status(404).json({ error: 'Utilizador não encontrado' });
+        }
+
+        // Verificar se a senha atual está correta
+        const senhaValida = await bcrypt.compare(senhaAtual, utilizador.senha);
+        if (!senhaValida) {
+            return res.status(401).json({ error: 'Senha atual incorreta' });
+        }
+
+        // Atualizar a senha com o hash da nova senha
+        utilizador.senha = await bcrypt.hash(novaSenha, 10);
+        await utilizador.save();
+
+        res.status(200).json({ message: 'Senha atualizada com sucesso' });
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao atualizar senha' });
+    }
+};

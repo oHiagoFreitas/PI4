@@ -87,7 +87,7 @@ const Auth = () => {
             />
 
             <div className="forgot-password">
-              <a href="/forgot-password">Esqueceu a senha?</a>
+              <a href="/EsqueceuPass">Esqueceu a senha?</a>
             </div>
 
             <button type="submit">Login</button>

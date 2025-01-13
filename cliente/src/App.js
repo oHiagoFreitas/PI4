@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './View/Home';
 import Auth from './View/Auth';
+import AuthUpdate from './View/AuthUpdate';
 import SignUp from './View/SignUp';
 import Atletas from './View/Atletas';
 import AtletasConsultor from './View/AtletasConsultor';
@@ -38,6 +39,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Auth />} />
+        <Route path="/EsqueceuPass" element={<AuthUpdate />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/backoffice" element={<Backoffice />} />
         <Route path="/atletas" element={<Atletas />} />
