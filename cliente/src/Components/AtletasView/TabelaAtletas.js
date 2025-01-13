@@ -54,7 +54,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
             <th>Ano</th>
             <th>Nacionalidade</th>
             <th>Posição</th>
-            <th>Clubes</th>
+            <th>Clube</th>
             <th>Ações</th>
           </tr>
         </thead>

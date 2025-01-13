@@ -10,21 +10,45 @@ exports.createAtleta = async (req, res) => {
             return res.status(400).json({ error: 'Time não encontrado ou não aprovado.' });
         }
 
+        // Verificar se o atleta tem pelo menos 3 anos de idade
+        const dataNascimentoAtleta = new Date(dataNascimento);
+        const idadeAtleta = new Date().getFullYear() - dataNascimentoAtleta.getFullYear();
+        const mesAtual = new Date().getMonth();
+        const mesNascimento = dataNascimentoAtleta.getMonth();
+
+        // Se o atleta tiver menos de 3 anos
+        if (idadeAtleta < 3 || (idadeAtleta === 3 && mesNascimento > mesAtual)) {
+            return res.status(400).json({ error: 'O atleta deve ter pelo menos 3 anos de idade.' });
+        }
+
+        // Verificar se já existe um atleta com o mesmo nome, clube e data de nascimento
+        const atletaExistente = await Atleta.findOne({
+            where: {
+                nome: nome,
+                dataNascimento: dataNascimento,
+                clube: clube
+            }
+        });
+
+        if (atletaExistente) {
+            return res.status(400).json({ error: 'Já existe um atleta com esse nome, clube e data de nascimento.' });
+        }
+
         // Calcula o ano de nascimento a partir da dataNascimento
         const anoNascimento = new Date(dataNascimento).getFullYear();
 
         // Cria o atleta com o ano calculado
-        const novoAtleta = await Atleta.create({ 
-            nome, 
-            dataNascimento, 
+        const novoAtleta = await Atleta.create({
+            nome,
+            dataNascimento,
             ano: anoNascimento, // Salva automaticamente o ano
-            nacionalidade, 
-            posicao, 
-            clube, 
-            link, 
-            agente, 
-            contactoAgente, 
-            timeId: time.id, 
+            nacionalidade,
+            posicao,
+            clube,
+            link,
+            agente,
+            contactoAgente,
+            timeId: time.id,
             status: 'pendente' // Define o status inicial como 'pendente'
         });
 
@@ -34,7 +58,6 @@ exports.createAtleta = async (req, res) => {
     }
 };
 
-
 exports.createAtletaAprovado = async (req, res) => {
     const { nome, dataNascimento, nacionalidade, posicao, clube, link, agente, contactoAgente } = req.body;
     try {
@@ -43,22 +66,46 @@ exports.createAtletaAprovado = async (req, res) => {
             return res.status(400).json({ error: 'Time não encontrado ou não aprovado.' });
         }
 
+        // Verificar se o atleta tem pelo menos 3 anos de idade
+        const dataNascimentoAtleta = new Date(dataNascimento);
+        const idadeAtleta = new Date().getFullYear() - dataNascimentoAtleta.getFullYear();
+        const mesAtual = new Date().getMonth();
+        const mesNascimento = dataNascimentoAtleta.getMonth();
+
+        // Se o atleta tiver menos de 3 anos
+        if (idadeAtleta < 3 || (idadeAtleta === 3 && mesNascimento > mesAtual)) {
+            return res.status(400).json({ error: 'O atleta deve ter pelo menos 3 anos de idade.' });
+        }
+
+        // Verificar se já existe um atleta com o mesmo nome, clube e data de nascimento
+        const atletaExistente = await Atleta.findOne({
+            where: {
+                nome: nome,
+                dataNascimento: dataNascimento,
+                clube: clube
+            }
+        });
+
+        if (atletaExistente) {
+            return res.status(400).json({ error: 'Já existe um atleta com esse nome, clube e data de nascimento.' });
+        }
+
         // Calcula o ano de nascimento a partir da dataNascimento
         const anoNascimento = new Date(dataNascimento).getFullYear();
 
         // Cria o atleta com o ano calculado
-        const novoAtleta = await Atleta.create({ 
-            nome, 
-            dataNascimento, 
+        const novoAtleta = await Atleta.create({
+            nome,
+            dataNascimento,
             ano: anoNascimento, // Salva automaticamente o ano
-            nacionalidade, 
-            posicao, 
-            clube, 
-            link, 
-            agente, 
-            contactoAgente, 
-            timeId: time.id, 
-            status: 'aprovado' // Define o status inicial como 'pendente'
+            nacionalidade,
+            posicao,
+            clube,
+            link,
+            agente,
+            contactoAgente,
+            timeId: time.id,
+            status: 'aprovado' // Define o status inicial como 'aprovado'
         });
 
         res.status(201).json(novoAtleta);
@@ -66,6 +113,7 @@ exports.createAtletaAprovado = async (req, res) => {
         res.status(500).json({ error: 'Erro ao criar atleta' });
     }
 };
+
 
 // Função para atualizar o status do atleta
 const updateAtletaStatus = async (req, res, status) => {
