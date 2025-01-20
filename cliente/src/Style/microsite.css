@@ -41,17 +41,22 @@
 .ms-inicio-img {
     width: auto !important;        /* Calcula automaticamente com base na altura */
     height: auto !important;          /* Mantém a proporção */
-    max-width: 700px !important;      /* Aumenta 4 vezes (ou ajuste conforme necessário) */
-    max-height: 700px !important;      /* Aumenta 4 vezes (ou ajuste conforme necessário) */
+    max-width: 900px !important;      /* Aumenta 4 vezes (ou ajuste conforme necessário) */
+    max-height: 900px !important;      /* Aumenta 4 vezes (ou ajuste conforme necessário) */
     position: relative;
-    margin-left: 830px;      
-    margin-top: 120px;
+    margin-left: 1030px;      
+    margin-top: 0px;
     z-index: 1;              /* Garante que a imagem fique acima do fundo */
 }
 
 /*botoes*/
 
 .ms-btn-dark:hover {
+    background-color: #DEAF5E;
+    color: white !important;
+}
+
+.ms-btn-dark1:hover {
     background-color: #DEAF5E;
     color: white !important;
 }
@@ -68,18 +73,22 @@
     text-align: center; /* Garante que o texto fique centralizado */
     padding: 9px; /* Ajusta o padding para tornar o botão mais alto e largo */
     display: block; /* Faz os botões se empilharem um em cima do outro */
+    text-decoration: none;
+    font-size: 24px;
 }
 
 .ms-btn-dark1 {
     margin: 0;
-    margin-left: 0;
-    margin-top: 0 !important;
     border-radius: 25px;
-    background-color: #DEAF5E;
-    color: #ffffff;
-    width: 300px;
+    background-color: white;
+    color: #DEAF5E;
+    border: none; /* Remove o contorno/borda */
+    width: 300px; /* Define a largura do botão (ajuste conforme necessário) */
     text-align: center; /* Garante que o texto fique centralizado */
     padding: 9px; /* Ajusta o padding para tornar o botão mais alto e largo */
+    display: block; /* Faz os botões se empilharem um em cima do outro */
+    text-decoration: none;
+    font-size: 24px;
 }
 
 .ms-btn-dark2 {
@@ -109,30 +118,34 @@
     margin-left: 95px;
 }
 
-/* barra preta com 3 frases*/
-.ms-detalhes{
+.ms-detalhes {
+    display: flex; /* Usando flexbox */
+    justify-content: space-between; /* Distribui o espaço igualmente entre os itens */
     background-color: #000000;
     color: white;
-    padding: 12px 0;
-    position: relative;
+    padding: 12px 20px; /* Ajustei o padding para dar mais espaço nas laterais */
 }
 
-.ms-detalhes .desc0 {
-    display: flex;               /* Ativa o layout flexível */
-    justify-content: space-between; /* Distribui o espaço uniformemente */
-    align-items: center;         /* Alinha verticalmente ao centro */
-    text-align: center;          /* Garante alinhamento interno */
-    color: white;                /* Ajuste da cor do texto para branco */
+.ms-frase {
+    display: block; /* Garante que cada frase será tratada como um bloco */
+    font-size: 28px;
 }
 
-.ms-detalhes .desc0 .frase {
-    font-size: 1.2rem;
-    flex: 0 0 auto;              /* Impede redimensionamento das frases */
-    font-style: italic;          /* Aplica o estilo itálico */
-    text-align: center;          /* Centraliza o texto de cada frase */
-    margin-left: 100px; /* Margem leve na esquerda */
-    margin-right: 100px; /* Margem leve na direita */
+.left {
+    text-align: left;
+    margin-left: 200px;
 }
+
+.center {
+    text-align: center;
+    flex-grow: 1; /* Faz com que o "center" ocupe o espaço disponível */
+}
+
+.right {
+    text-align: right;
+    margin-right: 200px;
+}
+
 
 .ms-info {
     background-color: #ffffff;
@@ -160,47 +173,101 @@
     line-height: 1.5;
 }
 
+/* Footer */
+.ms-footer {
+    background-color: #000000;
+    color: white;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Garantir que os itens se ajustem em telas pequenas */
+    text-align: left; /* Alinha o texto à esquerda */
+}
+
+.ms-fim-esquerda, .ms-fim-direita {
+    flex: 1; /* Faz com que ambos ocupem o mesmo espaço */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    
+}
+
 .ms-fim-esquerda {
-    margin-left: 60px; /* Adiciona uma margem à esquerda em todo o container */
+    flex: 1; /* Faz com que a parte esquerda ocupe o espaço disponível */
+    display: flex;
+    flex-direction: row; /* Organiza os botões em linha */
+    gap: 15px; /* Espaço entre os botões */
+    align-items: center; /* Alinha os itens no centro verticalmente */
 }
 
 .ms-fim-direita {
-    display: flex;                 /* Ativa o layout flexível */
-    justify-content: space-between; /* Espaça "Políticas de Privacidade" e "Redes Sociais" */
-    align-items: flex-start;       /* Alinha verticalmente ao topo */
-    padding: 10px 20px;            /* Adiciona espaçamento interno */
-    background-color: #000000;     /* Cor de fundo preta */
-    color: #ffffff;                /* Cor do texto branco */
-    margin-right: 60px;
-}
-
-.ms-fim-direita .privacidade {
-    font-size: 1rem;               /* Ajusta o tamanho do texto */
-    text-align: left;              /* Alinha o texto à esquerda */
-}
-
-.ms-fim-direita .redes-sociais {
-    text-align: center;            /* Centraliza internamente os elementos */
     display: flex;
-    flex-direction: column;        /* Organiza os elementos em coluna (texto + ícones) */
-    align-items: flex-end;         /* Alinha ao lado direito */
-    margin-left: 50px;              /* Adiciona um espaço entre o texto "Redes Sociais" e os ícones */
+    flex-direction: column; /* Coloca as redes sociais e política de privacidade em coluna */
+    align-items: flex-end; /* Alinha os itens à direita */
+    margin-left: 40px;
 }
 
-.ms-fim-direita .redes-sociais p {
-    font-size: 1rem;               /* Ajusta o tamanho do texto */
+.ms-fim-esquerda p, .ms-fim-direita p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
-.ms-fim-direita .redes-sociais .icons {
-    margin-top: 2px;               /* Adiciona espaço entre o texto e os ícones */
-    display: flex;                 /* Organiza os ícones em linha (horizontalmente) */
-    gap: 10px;                     /* Espaçamento entre os ícones */
-    justify-content: flex-start;   /* Alinha os ícones à esquerda (ou use 'center' se preferir) */
+.ms-btn-dark2, .ms-btn-dark3 {
+    margin: 5px 0;
+    width: 100px; /* Ajuste a largura dos botões conforme necessário */
+    border-radius: 25px;
+    padding: 10px;
+    font-size: 1.2rem;
+    text-decoration: none;
 }
 
-.ms-fim-direita .redes-sociais .icons a {
-    text-decoration: none;         /* Remove sublinhado dos links */
-    color: #ffffff;                /* Cor dos ícones */
+.ms-privacidade {
+    font-size: 1rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.ms-redes-sociais {
+    display: flex;
+    flex-direction: row; /* Exibe os ícones das redes sociais lado a lado */
+    gap: 15px; /* Espaçamento entre os ícones */
+    align-items: center;
+}
+
+.ms-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.ms-social-icon {
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.ms-social-icon:hover {
+    color: #DEAF5E;
+}
+
+@media (max-width: 768px) {
+    .ms-footer {
+        flex-direction: column; /* Coloca os elementos em uma coluna quando a tela for pequena */
+        text-align: center;
+    }
+
+    .ms-fim-esquerda, .ms-fim-direita {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .ms-redes-sociais {
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .ms-fim-direita {
+        align-items: center; /* Alinha a seção de redes sociais e privacidade ao centro */
+    }
 }
 
 .ms-hero img {
@@ -269,25 +336,6 @@
     transition: transform 0.3s ease; 
 }
 
-/* Footer */
-.ms-footer {
-    background-color: #000000;
-    color: white;
-    padding: 30px 0;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.ms-social-icon {
-    color: #ffffff;
-}
-
-.ms-social-icon:hover {
-    color: #DEAF5E;
-}
-
 /* Carrossel */
 .ms-middle-section {
     display: flex;
@@ -299,6 +347,7 @@
 .ms-carousel-inner {
     background: linear-gradient(to right, transparent 50%, #f0f0f0 50%);
 }
+
 
 .ms-mobile-image {
     width: 50%;

@@ -13,7 +13,7 @@ const PoliticasPrivacidade = () => (
                 <a className="navbar-brand ms-5" href="#">
                     <div className="pp-logo-container">
                         <img className="pp-logo" src={logo} alt="Logo" height="45" />
-                        <a href="index.html">
+                        <a href="/MicroSite">
                             <img className="pp-seta" src={seta} alt="Seta" height="20" />
                         </a>
                     </div>
@@ -93,7 +93,7 @@ const PoliticasPrivacidade = () => (
         {/* Info Section */}
         <div className="pp-info">
             <div className="pp-logo-container">
-                <img src={logo} alt="Logo" className="pp-logo-img" />
+                <img src={logo} alt="Logo" className="pp-logo-img" style={{justifyContent: "center"}}/>
                 <p className="pp-text-center texto-info">
                     Cada jovem talento é uma promessa.<br />
                     A nossa missão? Transformá-la em realidade!
@@ -102,27 +102,30 @@ const PoliticasPrivacidade = () => (
         </div>
 
         {/* Footer */}
-        <footer className="pp-footer">
-            <div className="pp-fim-esquerda text-start">
-                <p>Faça já o download</p>
-                <a href="/" className="btn btn-dark2">Backoffice</a>
-                <a href="https://drive.google.com/uc?export=download&id=16nORhcn6V-SeuoxUfgTO9cq7zWoyhNfu" className="btn btn-dark3">App Mobile</a>
-            </div>
+        <footer className="ms-footer">
+        <div className="ms-fim-esquerda">
+          <p>Faça já o download</p>
+          <a href="/" className="btn ms-btn-dark2">Backoffice</a>
+          <a href="https://drive.google.com/uc?export=download&id=16nORhcn6V-SeuoxUfgTO9cq7zWoyhNfu" className="btn ms-btn-dark3">App Mobile</a>
+        </div>
 
-            <div className="pp-fim-direita">
-                <div className="pp-redes-sociais">
-                    <p>Redes Sociais</p>
-                    <div className="icons">
-                        <a href="https://www.instagram.com/academicodeviseufc/" target="_blank" className="text-white me-2">
-                            <i className="bi bi-instagram fs-3 social-icon"></i>
-                        </a>
-                        <a href="https://www.facebook.com/AcademicodeViseu/?locale=pt_PT" target="_blank" className="text-white me-2">
-                            <i className="bi bi-facebook fs-3 social-icon"></i>
-                        </a>
-                    </div>
-                </div>
+        <div className="ms-fim-direita">
+          <a href="PoliticasPrivacidade" className="ms-privacidade" target="_blank" rel="noopener noreferrer">
+            Políticas de Privacidade
+          </a>
+          <div className="ms-redes-sociais">
+            <p>Redes Sociais</p>
+            <div className="ms-icons">
+              <a href="https://www.instagram.com/academicodeviseufc/" target="_blank" className="text-white me-2">
+                <i className="bi bi-instagram fs-3 ms-social-icon"></i>
+              </a>
+              <a href="https://www.facebook.com/AcademicodeViseu/?locale=pt_PT" target="_blank" className="text-white me-2">
+                <i className="bi bi-facebook fs-3 ms-social-icon"></i>
+              </a>
             </div>
-        </footer>
+          </div>
+        </div>
+      </footer>
     </div>
 );
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import '../Style/microsite.css';
+
+import { Carousel } from 'react-bootstrap'; // Importando o componente Carousel do React Bootstrap
 
 import logo from '../assets/logo.png';
 import inicio from '../assets/inicio.png';
@@ -37,11 +38,8 @@ const App = () => {
           <a className="navbar-brand ms-5" href="#">
             <img className="ms-logo" src={logo} alt="Logo" height="45" />
           </a>
-          <br></br>
           <p className="ms-text-start ms-nome">{microsite.mensagem}</p>
-          <br></br>
           <h1 className="ms-text-start ms-titulo">{microsite.titulo}</h1>
-          <br></br>
           <a href="/" className="btn ms-btn-dark">Acesso Backoffice</a>
           <a href="https://drive.google.com/uc?export=download&id=1IcqSbJwp0LMQ7jJe11wuaMC-YMqwemTP" className="btn ms-btn-dark1">Download App Mobile</a>
           <img className="ms-inicio-img" src={inicio} alt="Inicio" />
@@ -49,65 +47,65 @@ const App = () => {
       </header>
 
       <div className="ms-detalhes">
-        <p className="ms-desc0 ms-text-start">
-          <span className="ms-frase left">Classificação de Talentos</span>
-          <span className="ms-frase center">Consulta Personalizada</span>
-          <span className="ms-frase right">Equipa Personalizada</span>
-        </p>
+        <span className="ms-frase left">Classificação de Talentos</span>
+        <span className="ms-frase center">Consulta Personalizada</span>
+        <span className="ms-frase right">Equipa Personalizada</span>
       </div>
 
-      <div id="middleSectionCarousel" className="carousel slide" data-bs-ride="carousel" data-bs-interval="15000">
-        <div className="carousel-inner">
-          <div className="carousel-item active">
-            <div className="ms-middle-section">
-              <img src={login} className="ms-mobile-image" alt="Login" />
-              <div className="ms-login-info">
-                <h3>Login</h3>
-                <p>A página de login é o ponto de acesso ao sistema, garantindo segurança e privacidade aos scouts.</p>
-                <p>Com um design simples e funcional, permite um acesso rápido, bastando introduzir as credenciais.</p>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <div className="ms-middle-section">
-              <img src={criarAtleta} className="ms-mobile-image" alt="Criar Atleta" />
-              <div className="ms-login-info">
-                <h3>Criar Atleta</h3>
-                <p>Crie novos atletas de formas rápida e eficiente</p>
-                <p>A interface simplificada permite adicionar todas as informações relevantes.</p>
-                <p>Este processo eficiente garante que, em poucos cliques, os atletas ficam disponíveis para consulta.</p>
-              </div>
-            </div>
-          </div>
-          <div className="carousel-item">
-            <div className="ms-middle-section">
-              <img src={criarRelatorio} className="ms-mobile-image" alt="Criar Relatório" />
-              <div className="ms-login-info">
-                <h3>Criar Relatório</h3>
-                <p>A página de criação de relatórios foi desenhada para que possa registar o desempenho dos atletas</p>
-                <p>Inclui campos personalizados para avaliações, observações e métricas chave, com uma experiência fluida</p>
-                <p>Além disso, os relatórios podem ser exportados em formatos como Excel ou PDF, facilitando a partilha.</p>
-              </div>
-            </div>
-          </div>
+
+
+
+      <div className="ms-middle-section">
+        <img src={login} className="ms-mobile-image" alt="Login" />
+        <div className="ms-login-info">
+          <h3>Login</h3>
+          <p>A página de login é o ponto de acesso ao sistema, garantindo segurança e privacidade aos scouts.</p>
+          <p>Com um design simples e funcional, permite um acesso rápido, bastando introduzir as credenciais.</p>
         </div>
       </div>
+
+
+
+      <div className="ms-middle-section">
+        <img src={criarAtleta} className="ms-mobile-image" alt="Criar Atleta" />
+        <div className="ms-login-info">
+          <h3>Criar Atleta</h3>
+          <p>Crie novos atletas de forma rápida e eficiente.</p>
+          <p>A interface simplificada permite adicionar todas as informações relevantes.</p>
+          <p>Este processo eficiente garante que, em poucos cliques, os atletas ficam disponíveis para consulta.</p>
+        </div>
+      </div>
+
+
+
+      <div className="ms-middle-section">
+        <img src={criarRelatorio} className="ms-mobile-image" alt="Criar Relatório" />
+        <div className="ms-login-info">
+          <h3>Criar Relatório</h3>
+          <p>A página de criação de relatórios foi desenhada para registrar o desempenho dos atletas.</p>
+          <p>Inclui campos personalizados para avaliações, observações e métricas chave, com uma experiência fluida.</p>
+          <p>Além disso, os relatórios podem ser exportados em formatos como Excel ou PDF, facilitando a partilha.</p>
+        </div>
+      </div>
+
+
 
       <div className="ms-info">
         <div className="ms-logo-container">
           <img src={logo} alt="Logo" className="ms-logo-img" />
-          <p className="ms-text-center ms-texto-info">Cada jovem talento é uma promessa.<br />A nossa missão? Transformá-la em realidade!</p>
+          <p className="ms-text-center ms-texto-info">Cada jovem talento é uma promessa. A nossa missão? Transformá-la em realidade!</p>
         </div>
       </div>
 
       <footer className="ms-footer">
-        <div className="ms-fim-esquerda ms-text-start">
+        <div className="ms-fim-esquerda">
           <p>Faça já o download</p>
           <a href="/" className="btn ms-btn-dark2">Backoffice</a>
           <a href="https://drive.google.com/uc?export=download&id=16nORhcn6V-SeuoxUfgTO9cq7zWoyhNfu" className="btn ms-btn-dark3">App Mobile</a>
         </div>
+
         <div className="ms-fim-direita">
-          <a href="PoliticasPrivacidade" className="ms-privacidade" target="_blank" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <a href="PoliticasPrivacidade" className="ms-privacidade" target="_blank" rel="noopener noreferrer">
             Políticas de Privacidade
           </a>
           <div className="ms-redes-sociais">
