@@ -52,11 +52,11 @@ const AtletasFilters = ({
         onChange={(e) => onFilterPositionChange(e.target.value)}
       >
         <option value="">Todas as posições</option>
-        <option value="Guarda Redes">Guarda Redes</option>
+        <option value="Guarda-Redes">Guarda-Redes</option>
         <option value="Defesa Central">Defesa Central</option>
         <option value="Defesa Esquerda">Defesa Esquerda</option>
         <option value="Defesa Direita">Defesa Direita</option>
-        <option value="Meio Campista">Meio Campista</option>
+        <option value="Médio">Médio</option>
         <option value="Atacante">Atacante</option>
         <option value="Universal">Universal</option>
       </select>

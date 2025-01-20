@@ -17,7 +17,7 @@ const TimesFilters = ({
       <input
         type="text"
         className="filter-inputAT"
-        placeholder="Buscar pelo nome do time..."
+        placeholder="Pesquisar por nome..."
         value={filterTeamName}
         onChange={(e) => onFilterTeamNameChange(e.target.value)}
       />
@@ -29,16 +29,20 @@ const TimesFilters = ({
         onChange={(e) => onFilterCategoryChange(e.target.value)}
       >
         <option value="">Todas as categorias</option>
+        <option value="Sub-18">Sub-18</option>
+        <option value="Sub-19">Sub-19</option>
+        <option value="Sub-20">Sub-20</option>
+        <option value="Sub-21">Sub-21</option>
+        <option value="Sub-22">Sub-22</option>
+        <option value="Sub-23">Sub-23</option>
         <option value="Seniors">Seniors</option>
-        <option value="Amador">Amador</option>
-        <option value="Juvenil">Juvenil</option>
       </select>
 
       {/* Filtro por país */}
       <input
         type="text"
         className="filter-inputAT"
-        placeholder="Buscar pelo país..."
+        placeholder="Pesquisar por país..."
         value={filterCountry}
         onChange={(e) => onFilterCountryChange(e.target.value)}
       />

@@ -7,7 +7,7 @@ const WelcomeMessage = () => {
     return (
         <div className="welcome-message">
             <h1>Bem-vindo(a) ao Backoffice</h1>
-            <p>Aqui você pode gerenciar suas atividades, visualizar relatórios e acessar as configurações da sua conta.</p>
+            <p>Aqui pode gerir as suas atividades, visualizar relatórios e aceder às configurações da sua conta.</p>
         </div>
     );
 };

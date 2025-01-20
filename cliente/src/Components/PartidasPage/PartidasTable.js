@@ -29,7 +29,7 @@ function PartidasTable() {
 
     // Carrega as partidas atribuídas ao usuário logado
     axios
-      .get(`http://localhost:3000/partidas/atribuidas/${userId}`) // Rota de partidas atribuídas
+      .get(`http://localhost:3000/partidas/atribuidas/${userId}`) // Corrigido a interpolação da URL
       .then((response) => setJogosAtribuidos(response.data))
       .catch((error) => console.error('Erro ao carregar jogos atribuídos:', error));
   }, [navigate]);
@@ -37,22 +37,22 @@ function PartidasTable() {
   const handleDelete = (partidaId) => {
     Swal.fire({
       title: 'Confirmar Exclusão',
-      text: `Você tem certeza que deseja excluir a partida ${partidaId}?`,
+      text: `Tem certeza que deseja apagar o jogo? ${partidaId}?`, // Corrigida a interpolação
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sim, excluir',
+      confirmButtonText: 'Sim, apagar',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/partidas/${partidaId}`) // Rota de delete de partidas
+          .delete(`http://localhost:3000/partidas/${partidaId}`) // Corrigido a interpolação da URL
           .then(() => {
-            Swal.fire('Deletado!', 'A partida foi excluída.', 'success');
+            Swal.fire('Deletado!', 'O jogo foi apagado.', 'success');
             setPartidas(partidas.filter((partida) => partida.id !== partidaId));
           })
           .catch((error) => {
-            console.error('Erro ao excluir partida:', error);
-            Swal.fire('Erro!', 'Ocorreu um erro ao excluir a partida.', 'error');
+            console.error('Erro ao apagar jogo:', error);
+            Swal.fire('Erro!', 'Ocorreu um erro ao apagar jogo.', 'error');
           });
       }
     });
@@ -68,7 +68,7 @@ function PartidasTable() {
 
     // Adiciona um título
     doc.setFontSize(16);
-    doc.text('Meus Jogos Atribuídos', 14, 16);
+    doc.text('Os meus Jogos', 14, 16);
 
     // Define a posição inicial para a tabela
     let yPosition = 30;
@@ -78,8 +78,8 @@ function PartidasTable() {
     doc.text('Data', 14, yPosition);
     doc.text('Hora', 40, yPosition);
     doc.text('Local', 70, yPosition);
-    doc.text('Time Mandante', 100, yPosition);
-    doc.text('Time Visitante', 140, yPosition);
+    doc.text('Equipa da Casa', 100, yPosition);
+    doc.text('Equipa Visitante', 140, yPosition);
     doc.text('Jogadores', 180, yPosition); // Coluna dos jogadores
     yPosition += 10;
 
@@ -108,7 +108,7 @@ function PartidasTable() {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 
-        <div > <h2 style={{ color: "#DEAF5E" }}>Meus jogos</h2> </div>
+        <div > <h2 style={{ color: "#DEAF5E" }}>Os meus jogos</h2> </div>
         <div className="actions-buttonsAT">
 
 

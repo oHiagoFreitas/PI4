@@ -101,15 +101,23 @@ const CreateTeamModal = ({ isOpen, onRequestClose }) => {
                 </div>
                 <div className="form-group-team">
                     <label htmlFor="categoria">Categoria:</label>
-                    <input
-                        type="text"
+                    <select
                         id="categoria"
                         name="categoria"
                         value={formData.categoria}
                         onChange={handleChange}
                         required
                         className="form-input-team"
-                    />
+                    >
+                        <option value="">Selecione a categoria</option>          
+                        <option value="Sub-18">Sub-18</option>
+                        <option value="Sub-19">Sub-19</option>
+                        <option value="Sub-20">Sub-20</option>
+                        <option value="Sub-21">Sub-21</option>
+                        <option value="Sub-22">Sub-22</option>
+                        <option value="Sub-23">Sub-23</option>
+                        <option value="Seniors">Seniors</option>
+                    </select>
                 </div>
                 <div className="form-group-team">
                     <label htmlFor="descricao">Descrição:</label>

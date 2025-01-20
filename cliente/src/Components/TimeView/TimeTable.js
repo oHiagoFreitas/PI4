@@ -115,7 +115,7 @@ function TimesTable() {
           Criar Clube
         </button>
         <button className="button-exportAT" onClick={exportTimesToPDF}>
-          Exportar Times em PDF
+          Exportar Clubes em PDF
         </button>
       </div>
 
