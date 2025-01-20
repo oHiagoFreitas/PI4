@@ -146,7 +146,7 @@ function PartidasTable() {
           <button className="button-exportAT" onClick={exportarMeusJogosParaPDF}>
             Exportar Meus Jogos em PDF
           </button>
-          <button className="button-exportAT" onClick={exportarMeusJogosParaExcel}>
+          <button className="button-exportAT" onClick={exportarMeusJogosParaExcel} style={{backgroundColor:"green"}}>
             Exportar Meus Jogos em Excel
           </button>
         </div>
