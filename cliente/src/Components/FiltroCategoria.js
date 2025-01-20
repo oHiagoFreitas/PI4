@@ -22,7 +22,7 @@ function FiltroCategoria({ categoriaFiltro, setCategoriaFiltro }) {
           <option value="">Todas</option>
           <option value="Utilizador">Utilizador</option>
           <option value="Atleta">Atleta</option>
-          <option value="Time">Time</option>
+          <option value="Clube">Clubes</option>
           <option value="Relatório">Relatório</option>
         </select>
       </div>

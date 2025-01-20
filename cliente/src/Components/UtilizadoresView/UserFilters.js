@@ -28,7 +28,7 @@ function UserFilters({ filterName, filterRole, filterEmail, onFilterNameChange, 
                 value={filterRole}
                 onChange={(e) => onFilterRoleChange(e.target.value)}
             >
-                <option value="">Todos os roles</option>
+                <option value="">Todas as Funções</option>
                 <option value="admin">Admin</option>
                 <option value="scout">Scout</option>
                 <option value="consultor">Consultor</option>
