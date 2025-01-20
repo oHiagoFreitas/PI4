@@ -4,20 +4,20 @@ const app = express();
 const sequelize = require('./database'); // Ajuste o caminho conforme necessário
 
 // Importação de rotas
-const utilizadoresRoutes = require('./routes/utilizadoresRoutes'); // Ajuste o caminho conforme necessário
-const timeRoutes = require('./routes/timeRoutes'); // Ajuste o caminho conforme necessário
-const atletaRoutes = require('./routes/atletaRoutes'); // Ajuste o caminho conforme necessário
-const scoutAtletaRoutes = require('./routes/scoutAtletaRoutes'); // Rota de associações entre scout e atleta
-const relatorioRoutes = require('./routes/relatorioRoutes'); // Rota de relatórios
-const authRoute = require('./routes/authRoutes'); // Rota de login
-const equipeSombraRoutes = require('./routes/equipeSombraRoutes'); // Rota de equipes sombra
-const formacaoRoutes = require('./routes/formacaoRoutes'); // Rota de formações
-const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes'); // Ajuste o caminho conforme necessário
-const partidaRoutes = require('./routes/partidaRoutes'); // Ajuste o caminho conforme necessário
-const PendentesRoute = require('./routes/PendentesRoute'); // Ajuste o caminho conforme necessário
-const Microsite = require('./routes/MicroSiteRoutes'); // Certifique-se de ajustar o caminho para o seu modelo
-const equipePrincipalRoutes = require('./routes/equipePrincipalRoutes'); // Rota de equipes Principal
-const Notificacoes = require('./routes/NotificacoesRoute'); // Rota de notificações
+const utilizadoresRoutes = require('./routes/utilizadoresRoutes');
+const timeRoutes = require('./routes/timeRoutes');
+const atletaRoutes = require('./routes/atletaRoutes');
+const scoutAtletaRoutes = require('./routes/scoutAtletaRoutes');
+const relatorioRoutes = require('./routes/relatorioRoutes');
+const authRoute = require('./routes/authRoutes');
+const equipeSombraRoutes = require('./routes/equipeSombraRoutes');
+const formacaoRoutes = require('./routes/formacaoRoutes');
+const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes');
+const partidaRoutes = require('./routes/partidaRoutes');
+const PendentesRoute = require('./routes/PendentesRoute');
+const Microsite = require('./routes/MicroSiteRoutes');
+const equipePrincipalRoutes = require('./routes/equipePrincipalRoutes');
+const Notificacoes = require('./routes/NotificacoesRoute');
 
 // Configurações
 app.set('port', process.env.PORT || 3000);
@@ -28,7 +28,7 @@ app.use(express.json()); // Habilita o middleware para processar JSON
 // Configuração do CORS
 const corsOptions = {
     origin: 'http://localhost:3001', // Permite apenas o frontend da porta 3001
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Permite os métodos HTTP necessários
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Access-Control-Allow-Request-Method'],
 };
 
@@ -59,10 +59,17 @@ app.use('/pendentes', PendentesRoute);
 app.use('/Microsite', Microsite);
 app.use('/Notificacao', Notificacoes);
 
-// Sincroniza os modelos com o banco de dados, incluindo o modelo Microsite
+// Importar o modelo Formacao e chamar a função initDefaultFormacoes
+const Formacao = require('./models/Formacao');
+
+// Sincroniza os modelos com o banco de dados
 sequelize.sync()
-    .then(() => {
+    .then(async () => {
         console.log('Tabelas sincronizadas com o banco de dados.');
+
+        // Inicializa as formações padrão
+        await Formacao.initDefaultFormacoes();
+        console.log('Formações padrão verificadas e criadas, se necessário.');
     })
     .catch((error) => {
         console.error('Erro ao sincronizar as tabelas:', error);
