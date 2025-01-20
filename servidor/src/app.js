@@ -61,6 +61,7 @@ app.use('/Notificacao', Notificacoes);
 
 // Importar o modelo Formacao e chamar a função initDefaultFormacoes
 const Formacao = require('./models/Formacao');
+const MicrositeModel = require('./models/MicroSite');
 
 // Sincroniza os modelos com o banco de dados
 sequelize.sync()
@@ -70,6 +71,8 @@ sequelize.sync()
         // Inicializa as formações padrão
         await Formacao.initDefaultFormacoes();
         console.log('Formações padrão verificadas e criadas, se necessário.');
+        await MicrositeModel.initDefaultMicrosite();
+        console.log('Microsite padrão verificado e criado, se necessário.');
     })
     .catch((error) => {
         console.error('Erro ao sincronizar as tabelas:', error);

@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../database'); // ajuste o caminho conforme necessário
+const sequelize = require('../database'); // Ajuste o caminho conforme necessário
 
 const Microsite = sequelize.define('microsite', {
     id: {
@@ -18,5 +18,22 @@ const Microsite = sequelize.define('microsite', {
 }, {
     timestamps: true, // Inclui os campos createdAt e updatedAt
 });
+
+// Método para criar o microsite com valores padrão, caso não exista
+Microsite.initDefaultMicrosite = async () => {
+    const [microsite, created] = await Microsite.findOrCreate({
+        where: { titulo: 'Viriatus Scouting' }, // Busca por título único
+        defaults: {
+            titulo: 'Viriatus Scouting', // Título padrão
+            mensagem: 'Bem-vindo', // Mensagem padrão
+        },
+    });
+
+    if (created) {
+        console.log('Microsite criado com sucesso!');
+    } else {
+        console.log('Microsite já existe.');
+    }
+};
 
 module.exports = Microsite;
