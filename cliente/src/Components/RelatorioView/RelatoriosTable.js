@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { jsPDF } from 'jspdf'; // Importando a biblioteca jsPDF
+import * as XLSX from 'xlsx'; // Importando a biblioteca para exportar para Excel
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import CreateReportModal from '../CreateReportModal'; // Modal de criação de relatório
 import TabelaRelatorios from './TabelaRelatorios'; // Componente da Tabela de Relatórios
@@ -101,6 +102,25 @@ function RelatoriosTable() {
     doc.save('relatorios.pdf');
   };
 
+  // Função de exportação para Excel
+  const exportRelatoriosToExcel = () => {
+    const data = [
+      ["Data de Criação", "Nome do Atleta", "Nome do Scout", "Rating", "Comentário"],
+      ...filteredRelatorios.map((relatorio) => [
+        new Date(relatorio.createdAt).toLocaleDateString(),
+        relatorio.atleta.nome,
+        relatorio.utilizador.nome,
+        relatorio.ratingFinal,
+        relatorio.comentario,
+      ]),
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data); // Convertendo a array para uma planilha
+    const workbook = XLSX.utils.book_new(); // Criando um novo livro de trabalho
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Relatórios"); // Adicionando a planilha ao livro
+    XLSX.writeFile(workbook, 'relatorios.xlsx'); // Gerando o arquivo Excel
+  };
+
   return (
     <div className="atletas-table-containerAT">
       {/* Componente de filtros */}
@@ -116,12 +136,15 @@ function RelatoriosTable() {
           onFilterRatingChange={(value) => setFilterRating(value)}
         />
 
-        {/* Botões de Ação: Criar Relatório e Exportar Relatórios */}
+        {/* Botões de Ação: Criar Relatório, Exportar para PDF e Excel */}
         <button className="button-createAT" onClick={openCreateRelatorioModal}>
           Criar Relatório
         </button>
         <button className="button-exportAT" onClick={exportRelatoriosToPDF}>
           Exportar Relatórios em PDF
+        </button>
+        <button className="button-exportAT" onClick={exportRelatoriosToExcel} style={{backgroundColor: "green"}}>
+          Exportar Relatórios em Excel
         </button>
       </div>
 

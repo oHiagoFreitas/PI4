@@ -6,6 +6,7 @@ import TabelaPartidas from './TabelaPartidas'; // Componente da Tabela de Partid
 import TabelaJogosAtribuidos from './TabelaJogosAtribuidos'; // Componente da Tabela de Jogos Atribuídos
 import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf'; // Importando o jsPDF
+import * as XLSX from 'xlsx'; // Importando a biblioteca para exportar para Excel
 
 function PartidasTable() {
   const [partidas, setPartidas] = useState([]); // Estado para todas as partidas
@@ -102,6 +103,26 @@ function PartidasTable() {
     doc.save('meus_jogos_atribuidos.pdf');
   };
 
+  // Função para exportar os "Meus Jogos" para Excel
+  const exportarMeusJogosParaExcel = () => {
+    const data = [
+      ["Data", "Hora", "Local", "Equipa da Casa", "Equipa Visitante", "Jogadores"],
+      ...jogosAtribuidos.map((jogo) => [
+        jogo.data,
+        jogo.hora,
+        jogo.local,
+        jogo.timeMandante?.nome || 'N/A',
+        jogo.timeVisitante?.nome || 'N/A',
+        jogo.jogadores?.map((jogador) => jogador.nome).join(', ') || 'N/A',
+      ]),
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data); // Convertendo a array para uma planilha
+    const workbook = XLSX.utils.book_new(); // Criando um novo livro de trabalho
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Meus Jogos"); // Adicionando a planilha ao livro
+    XLSX.writeFile(workbook, 'meus_jogos_atribuidos.xlsx'); // Gerando o arquivo Excel
+  };
+
   return (
     <div className="atletas-table-containerAT" style={{ display: "flex" }}>
       {/* Botões de Ação */}
@@ -123,12 +144,15 @@ function PartidasTable() {
           )}
 
           <button className="button-exportAT" onClick={exportarMeusJogosParaPDF}>
-            Exportar Meus Jogos
+            Exportar Meus Jogos em PDF
+          </button>
+          <button className="button-exportAT" onClick={exportarMeusJogosParaExcel}>
+            Exportar Meus Jogos em Excel
           </button>
         </div>
       </div>
 
-      {/* Tabela com dados das partidas */}
+      {/* Tabela com dados dos jogos atribuídos */}
       <TabelaJogosAtribuidos jogosAtribuidos={jogosAtribuidos} />
 
       {/* Tabela com jogos atribuídos ao usuário */}

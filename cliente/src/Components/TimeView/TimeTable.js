@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { jsPDF } from 'jspdf'; // Importando a biblioteca jsPDF
-import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
-import CreateTeamModal from '../CreateTeamModal'; // Modal de criação de time
-import TabelaTime from './TabelaTime'; // Componente da Tabela de Times
-import TimesFilters from './TimesFilters'; // Componente de filtros de times
+import { jsPDF } from 'jspdf';
+import * as XLSX from 'xlsx'; // Biblioteca para exportar para Excel
+import '../../Style/AtletasView/AtletasTable.css';
+import CreateTeamModal from '../CreateTeamModal';
+import TabelaTime from './TabelaTime';
+import TimesFilters from './TimesFilters';
 
 function TimesTable() {
   const [times, setTimes] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedTime, setSelectedTime] = useState(null); // Time selecionado para edição
+  const [selectedTime, setSelectedTime] = useState(null);
   const [filterTeamName, setFilterTeamName] = useState('');
   const [filterCategory, setFilterCategory] = useState('');
   const [filterCountry, setFilterCountry] = useState('');
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/times') // Rota de times
+      .get('http://localhost:3000/times')
       .then((response) => setTimes(response.data))
       .catch((error) => console.error('Erro ao carregar times:', error));
   }, []);
@@ -27,12 +28,12 @@ function TimesTable() {
   const closeCreateTimeModal = () => setIsCreateModalOpen(false);
 
   const openEditTimeModal = (time) => {
-    setSelectedTime(time); // Define o time selecionado
+    setSelectedTime(time);
     setIsEditModalOpen(true);
   };
 
   const closeEditTimeModal = () => {
-    setSelectedTime(null); // Reseta o time selecionado
+    setSelectedTime(null);
     setIsEditModalOpen(false);
   };
 
@@ -47,7 +48,7 @@ function TimesTable() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/times/${timeId}`) // Rota de delete de times
+          .delete(`http://localhost:3000/times/${timeId}`)
           .then(() => {
             Swal.fire('Deletado!', 'O time foi excluído.', 'success');
             setTimes(times.filter((time) => time.id !== timeId));
@@ -60,7 +61,6 @@ function TimesTable() {
     });
   };
 
-  // Filtros de times
   const filteredTimes = times.filter((time) => {
     const nameMatch = filterTeamName ? time.nome.toLowerCase().includes(filterTeamName.toLowerCase()) : true;
     const categoryMatch = filterCategory ? time.categoria === filterCategory : true;
@@ -69,15 +69,12 @@ function TimesTable() {
     return nameMatch && categoryMatch && countryMatch;
   });
 
-  // Função para exportar times para PDF
   const exportTimesToPDF = () => {
     const doc = new jsPDF();
 
-    // Adicionando título
     doc.setFontSize(18);
     doc.text('Lista de Times', 20, 20);
 
-    // Definindo o formato da tabela
     const tableColumn = ['Nome do Time', 'Categoria', 'País'];
     const tableRows = filteredTimes.map((time) => [
       time.nome,
@@ -85,21 +82,35 @@ function TimesTable() {
       time.pais,
     ]);
 
-    // Adicionando a tabela ao PDF
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 30, // Onde começa a tabela
-      theme: 'grid', // Tema da tabela
+      startY: 30,
+      theme: 'grid',
     });
 
-    // Gerando o PDF
     doc.save('times.pdf');
+  };
+
+  // Função para exportar times para Excel
+  const exportTimesToExcel = () => {
+    const headers = ['Nome do Time', 'Categoria', 'País', 'Descrição'];
+    const rows = filteredTimes.map((time) => [
+      time.nome,
+      time.categoria,
+      time.pais,
+      time.descricao
+    ]);
+
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Times');
+
+    XLSX.writeFile(workbook, 'times.xlsx');
   };
 
   return (
     <div className="atletas-table-containerAT">
-      {/* Componente de filtros */}
       <div className="actions-buttonsAT">
         <TimesFilters
           filterTeamName={filterTeamName}
@@ -109,24 +120,23 @@ function TimesTable() {
           onFilterCategoryChange={(value) => setFilterCategory(value)}
           onFilterCountryChange={(value) => setFilterCountry(value)}
         />
-
-        {/* Botões de Ação: Criar Time e Exportar Times */}
         <button className="button-createAT" onClick={openCreateTimeModal}>
           Criar Clube
         </button>
         <button className="button-exportAT" onClick={exportTimesToPDF}>
           Exportar Clubes em PDF
         </button>
+        <button className="button-exportAT" onClick={exportTimesToExcel} style={{backgroundColor: "green"}}>
+          Exportar Clubes em Excel
+        </button>
       </div>
 
-      {/* Tabela com dados dos times */}
       <TabelaTime
         times={filteredTimes}
         handleEdit={openEditTimeModal}
         handleDelete={handleDelete}
       />
 
-      {/* Modal de Criação de Time */}
       <CreateTeamModal
         isOpen={isCreateModalOpen}
         onRequestClose={closeCreateTimeModal}

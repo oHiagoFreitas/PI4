@@ -3,65 +3,52 @@ import Sidebar from "../Sidebar";
 import Navbar from "../Navbar";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { jsPDF } from "jspdf"; // Importando a biblioteca jsPDF
-import "jspdf-autotable"; // Importando a extensão de tabelas para jsPDF
-import "../../Style/AtletasView/DetalhesAtleta.css"; // Estilos
-import Swal from 'sweetalert2'; // Importando SweetAlert
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
+import Swal from "sweetalert2";
+import * as XLSX from "xlsx"; // Importando biblioteca para Excel
+import "../../Style/AtletasView/DetalhesAtleta.css";
 
 function DetalhesRelatorio() {
-  const { id } = useParams(); // Obtém o ID do relatório da URL
-  const [relatorio, setRelatorio] = useState(null); // Estado para armazenar os dados do relatório
-  const [loading, setLoading] = useState(true); // Estado para controlar o carregamento
-  const [error, setError] = useState(null); // Estado para armazenar erros
-  const navigate = useNavigate(); // Inicializa o hook de navegação
+  const { id } = useParams();
+  const [relatorio, setRelatorio] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const [userRole, setUserRole] = useState(null);
 
-  // Carregar os detalhes do relatório
   useEffect(() => {
-    console.log("ID do relatório:", id); // Verifique se o ID está sendo passado
     axios
-      .get(`http://localhost:3000/relatorios/${id}`) // A URL para carregar o relatório específico
+      .get(`http://localhost:3000/relatorios/${id}`)
       .then((response) => {
-        console.log("Relatório carregado:", response.data); // Verifique a resposta do backend
         setRelatorio(response.data);
         setLoading(false);
       })
-      .catch((error) => {
-        console.log("Erro ao carregar o relatório:", error); // Para depuração
+      .catch(() => {
         setError("Erro ao carregar os detalhes do relatório.");
         setLoading(false);
-        // Exibir SweetAlert de erro
         Swal.fire({
-          icon: 'error',
-          title: 'Erro!',
-          text: 'Não foi possível carregar os detalhes do relatório.',
+          icon: "error",
+          title: "Erro!",
+          text: "Não foi possível carregar os detalhes do relatório.",
         });
       });
   }, [id]);
 
-  const [userRole, setUserRole] = useState(null);
-
   useEffect(() => {
-    const scoutId = localStorage.getItem('userId');
-    const role = localStorage.getItem('userRole');
-    console.log('Scout ID no localStorage:', scoutId);
-    console.log('Role do utilizador no localStorage:', role);
-
-    setUserRole(role); // Atualiza o estado
+    const role = localStorage.getItem("userRole");
+    setUserRole(role);
   }, []);
 
   // Função para exportar o relatório como PDF
   const exportRelatorioToPDF = () => {
     const doc = new jsPDF();
 
-    // Adicionando título
     doc.setFontSize(18);
-    doc.text('Detalhes do Relatório', 20, 20);
-
-    // Adicionando o nome do atleta
+    doc.text("Detalhes do Relatório", 20, 20);
     doc.setFontSize(14);
     doc.text(`Atleta: ${relatorio.atleta.nome}`, 20, 40);
 
-    // Adicionando os detalhes do relatório
     doc.setFontSize(12);
     doc.text(`Nome do Scout: ${relatorio.utilizador.nome}`, 20, 50);
     doc.text(`Atitude Competitiva: ${relatorio.atitudeCompetitiva}`, 20, 60);
@@ -73,12 +60,34 @@ function DetalhesRelatorio() {
     doc.text(`Rating Final: ${relatorio.ratingFinal}`, 20, 120);
     doc.text(`Comentário: ${relatorio.comentario}`, 20, 130);
 
-    // Adicionando data de criação e atualização
     doc.text(`Criado em: ${new Date(relatorio.createdAt).toLocaleDateString()}`, 20, 140);
     doc.text(`Última atualização: ${new Date(relatorio.updatedAt).toLocaleDateString()}`, 20, 150);
 
-    // Gerando o PDF
     doc.save(`relatorio_${relatorio.id}.pdf`);
+  };
+
+  // Função para exportar o relatório como Excel
+  const exportRelatorioToExcel = () => {
+    const data = [
+      ["Atributo", "Valor"],
+      ["Nome do Scout", relatorio.utilizador.nome],
+      ["Atleta", relatorio.atleta.nome],
+      ["Atitude Competitiva", relatorio.atitudeCompetitiva],
+      ["Técnica", relatorio.tecnica],
+      ["Velocidade", relatorio.velocidade],
+      ["Inteligência", relatorio.inteligencia],
+      ["Altura", relatorio.altura],
+      ["Morfologia", relatorio.morfologia],
+      ["Rating Final", relatorio.ratingFinal],
+      ["Comentário", relatorio.comentario],
+      ["Criado em", new Date(relatorio.createdAt).toLocaleDateString()],
+      ["Última atualização", new Date(relatorio.updatedAt).toLocaleDateString()],
+    ];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Relatório");
+    XLSX.writeFile(workbook, `relatorio_${relatorio.id}.xlsx`);
   };
 
   return (
@@ -95,11 +104,11 @@ function DetalhesRelatorio() {
                 <h1>Detalhes do Relatório de {relatorio.atleta.nome}</h1>
               </div>
 
-              <div style={{ display: 'flex', marginBottom: '0px' }}>
-                <p style={{ color: 'Black', marginRight: '4px', marginBottom: '0px' }}>
+              <div style={{ display: "flex", marginBottom: "0px" }}>
+                <p style={{ color: "Black", marginRight: "4px", marginBottom: "0px" }}>
                   Criado em: {new Date(relatorio.createdAt).toLocaleDateString()} <strong>|</strong>
                 </p>
-                <p style={{ color: 'Black', marginBottom: '0px' }}>
+                <p style={{ color: "Black", marginBottom: "0px" }}>
                   Última atualização: {new Date(relatorio.updatedAt).toLocaleDateString()}
                 </p>
               </div>
@@ -121,9 +130,12 @@ function DetalhesRelatorio() {
                   Voltar
                 </button>
 
-                {/* Botão para exportar o relatório como PDF */}
-                <button onClick={exportRelatorioToPDF} className="export-pdf-buttonAD">
+                {/* Botões para exportar como PDF e Excel */}
+                <button onClick={exportRelatorioToPDF} className="export-buttonAD">
                   Exportar como PDF
+                </button>
+                <button onClick={exportRelatorioToExcel} className="export-buttonAD" style={{backgroundColor: "green"}}>
+                  Exportar como Excel
                 </button>
               </div>
             </div>

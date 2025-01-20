@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import * as XLSX from 'xlsx'; // Biblioteca para exportar para Excel
 import '../../Style/AtletasView/AtletasTable.css';
-import AtletasFilters from './AtletasFilters'; // Importando o componente de filtros
+import AtletasFilters from './AtletasFilters';
 import CreateAthleteModal from '../CreateAthleteModal';
 import EditAthleteModal from './EditAtletaModal';
 import TabelaAtletas from './TabelaAtletas';
@@ -67,58 +68,73 @@ function AtletasTable() {
     const matchesName = atleta.nome.toLowerCase().includes(filterText.toLowerCase());
     const matchesPosition = filterPosition ? atleta.posicao === filterPosition : true;
     const matchesYear = filterYear ? atleta.ano === parseInt(filterYear) : true;
-    const matchesCountry = atleta.nacionalidade.toLowerCase().includes(filterCountry.toLowerCase()); // Filtro de país
+    const matchesCountry = atleta.nacionalidade.toLowerCase().includes(filterCountry.toLowerCase());
     const matchesTeam = atleta.time?.nome?.toLowerCase().includes(filterTeam.toLowerCase()) ||
-      atleta.clube?.toLowerCase().includes(filterTeam.toLowerCase()); // Filtro de time
+      atleta.clube?.toLowerCase().includes(filterTeam.toLowerCase());
 
     return matchesName && matchesPosition && matchesYear && matchesCountry && matchesTeam;
   });
 
-  // Posições e anos únicos
   const uniquePositions = [...new Set(atletas.map((atleta) => atleta.posicao))];
   const uniqueYears = [...new Set(atletas.map((atleta) => atleta.ano))];
   const uniqueCountries = [...new Set(atletas.map((atleta) => atleta.nacionalidade))];
   const uniqueTeams = [...new Set(atletas.map((atleta) => (atleta.time ? atleta.time.nome : atleta.clube)))];
 
+  // Função para exportar atletas para Excel
+  const exportAtletasToExcel = () => {
+    const headers = ['Nome', 'Posição', 'Ano', 'Nacionalidade', 'Clube'];
+    const rows = filteredAtletas.map((atleta) => [
+      atleta.nome,
+      atleta.posicao,
+      atleta.ano,
+      atleta.nacionalidade,
+      atleta.time?.nome || atleta.clube || 'N/A',
+    ]);
+
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Atletas');
+
+    XLSX.writeFile(workbook, 'atletas.xlsx');
+  };
+
   return (
     <div className="atletas-table-containerAT">
-
-      {/* Botões de ações */}
       <div className="actions-buttonsAT">
         <AtletasFilters
           filterText={filterText}
           filterPosition={filterPosition}
           filterYear={filterYear}
-          filterCountry={filterCountry} // Adicionado
-          filterTeam={filterTeam}       // Adicionado
+          filterCountry={filterCountry}
+          filterTeam={filterTeam}
           uniquePositions={uniquePositions}
           uniqueYears={uniqueYears}
           onFilterTextChange={setFilterText}
           onFilterPositionChange={setFilterPosition}
           onFilterYearChange={setFilterYear}
-          onFilterCountryChange={setFilterCountry} // Adicionado
-          onFilterTeamChange={setFilterTeam}       // Adicionado
+          onFilterCountryChange={setFilterCountry}
+          onFilterTeamChange={setFilterTeam}
         />
         <button className="button-createAT" onClick={openCreateAtletaModal}>
           Criar Atleta
         </button>
+        <button className="button-exportAT" onClick={exportAtletasToExcel} style={{backgroundColor: "green"}}>
+          Exportar em Excel
+        </button>
         <ExportToPDF atletas={filteredAtletas} />
       </div>
 
-      {/* Tabela com dados filtrados */}
       <TabelaAtletas
         atletas={filteredAtletas}
         handleEdit={openEditAtletaModal}
         handleDelete={handleDelete}
       />
 
-      {/* Modal de Criação de Atleta */}
       <CreateAthleteModal
         isOpen={isCreateModalOpen}
         onRequestClose={closeCreateAtletaModal}
       />
 
-      {/* Modal de Edição de Atleta */}
       <EditAthleteModal
         isOpen={isEditModalOpen}
         onRequestClose={closeEditAtletaModal}

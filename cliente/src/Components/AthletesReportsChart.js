@@ -2,43 +2,36 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import jsPDF from 'jspdf';
-import axios from 'axios';  // Usando axios para fazer a requisição à API
+import * as XLSX from 'xlsx'; // Biblioteca para exportar para Excel
+import axios from 'axios';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const AthletesReportsChart = () => {
-    const chartRef = useRef(); // Referência para o gráfico
-    const [data, setData] = useState(null);  // Armazenando os dados do gráfico
+    const chartRef = useRef();
+    const [data, setData] = useState(null);
 
-    // Função para pegar os dados da API
     const fetchData = async () => {
         try {
-            // Requisição para pegar os relatórios
             const reportsResponse = await axios.get('http://localhost:3000/relatorios');
             const relatorios = reportsResponse.data;
 
-            // Requisição para pegar os atletas
             const athletesResponse = await axios.get('http://localhost:3000/atletas');
             const atletas = athletesResponse.data;
 
-            // Organizar os dados para o gráfico
-            const reportsSubmitted = new Array(12).fill(0);  // Inicializa um array para os relatórios
-            const athletesCount = new Array(12).fill(0); // Inicializa um array para o número de atletas
+            const reportsSubmitted = new Array(12).fill(0);
+            const athletesCount = new Array(12).fill(0);
 
-            // Organizar os dados dos relatórios
             relatorios.forEach(relatorio => {
-                const month = new Date(relatorio.createdAt).getMonth();  // Obtém o mês da data de criação
-                athletesCount[month] += 1;  // Incrementa os atletas criados
-                reportsSubmitted[month] += 1;  // Incrementa os relatórios enviados
+                const month = new Date(relatorio.createdAt).getMonth();
+                reportsSubmitted[month] += 1;
             });
 
-            // Organizar os dados dos atletas
             atletas.forEach(atleta => {
-                const month = new Date(atleta.createdAt).getMonth();  // Obtém o mês da data de criação do atleta
-                athletesCount[month] += 1; // Incrementa o número de atletas por mês
+                const month = new Date(atleta.createdAt).getMonth();
+                athletesCount[month] += 1;
             });
 
-            // Define os dados do gráfico
             setData({
                 labels: [
                     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -48,15 +41,15 @@ const AthletesReportsChart = () => {
                     {
                         label: 'Atletas Criados',
                         data: athletesCount,
-                        backgroundColor: 'rgba(255, 165, 0, 0.6)', // Laranja
-                        borderColor: 'rgba(255, 165, 0, 1)', // Laranja
+                        backgroundColor: 'rgba(255, 165, 0, 0.6)',
+                        borderColor: 'rgba(255, 165, 0, 1)',
                         borderWidth: 1,
                     },
                     {
                         label: 'Relatórios Submetidos',
                         data: reportsSubmitted,
-                        backgroundColor: 'rgba(0, 0, 0, 0.6)', // Preto
-                        borderColor: 'rgba(0, 0, 0, 1)', // Preto
+                        backgroundColor: 'rgba(0, 0, 0, 0.6)',
+                        borderColor: 'rgba(0, 0, 0, 1)',
                         borderWidth: 1,
                     },
                 ],
@@ -66,12 +59,10 @@ const AthletesReportsChart = () => {
         }
     };
 
-    // Chama a função fetchData assim que o componente for montado
     useEffect(() => {
         fetchData();
     }, []);
 
-    // Verifica se os dados estão prontos
     if (!data) {
         return <div>Carregando gráficos...</div>;
     }
@@ -89,43 +80,62 @@ const AthletesReportsChart = () => {
         },
     };
 
-    // Função para exportar o gráfico como PDF
     const exportToPDF = () => {
         if (chartRef.current) {
-            const imgData = chartRef.current.toBase64Image(); // Captura a imagem do gráfico
+            const imgData = chartRef.current.toBase64Image();
 
-            const pdf = new jsPDF('landscape'); // Configura o PDF em paisagem
-            pdf.addImage(imgData, 'PNG', 10, 10, 280, 150); // Adiciona a imagem ao PDF
-            pdf.save('chart.pdf'); // Salva o arquivo como chart.pdf
+            const pdf = new jsPDF('landscape');
+            pdf.addImage(imgData, 'PNG', 10, 10, 280, 150);
+            pdf.save('chart.pdf');
         } else {
             console.error("Gráfico não está disponível para captura.");
         }
     };
 
+    const exportToExcel = () => {
+        const headers = ['Mês', 'Atletas Criados', 'Relatórios Submetidos'];
+        const rows = data.labels.map((month, index) => [
+            month,
+            data.datasets[0].data[index],
+            data.datasets[1].data[index],
+        ]);
+
+        const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Relatório');
+
+        XLSX.writeFile(workbook, 'RelatórioAtletas.xlsx');
+    };
+
     return (
         <div className="athletes-reports">
             <Bar
-                ref={chartRef} // Coloca a referência aqui
+                ref={chartRef}
                 data={data}
                 options={options}
-                onReady={(chart) => (chartRef.current = chart)} // Atualiza a referência quando o gráfico estiver pronto
+                onReady={(chart) => (chartRef.current = chart)}
             />
-            <i
-                className="bi bi-file-earmark-arrow-down"
-                style={iconStyle}
-                onClick={exportToPDF} // Chama a função ao clicar no ícone
-                title="Exportar para PDF"
-            ></i>
+            <div style={{ marginTop: '10px' }}>
+                <i
+                    className="bi bi-file-earmark-arrow-down"
+                    style={iconStyle}
+                    onClick={exportToPDF}
+                    title="Exportar para PDF"
+                ></i>
+                <i
+                    className="bi bi-file-earmark-excel"
+                    style={{ ...iconStyle, marginLeft: '10px', color: 'green' }}
+                    onClick={exportToExcel}
+                    title="Exportar para Excel"
+                ></i>
+            </div>
         </div>
     );
 };
 
-// Estilos do ícone
 const iconStyle = {
-    marginTop: '10px',
-    fontSize: '24px', // Tamanho do ícone
-    color: '#f39c12', // Cor do ícone
-    cursor: 'pointer', // Cursor de mão ao passar por cima
+    fontSize: '24px',
+    cursor: 'pointer',
 };
 
 export default AthletesReportsChart;
