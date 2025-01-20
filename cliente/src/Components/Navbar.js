@@ -1,107 +1,100 @@
 import React, { useState, useEffect } from 'react';
-import '../Style/Navbar.css'; // Certifique-se de criar um arquivo CSS para a Navbar
-import axios from 'axios'; // Para fazer requisições à API
+import '../Style/Navbar.css';
+import axios from 'axios';
 
 function Navbar() {
     const [notificacoes, setNotificacoes] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
     const [unreadCount, setUnreadCount] = useState(0);
-    const [userId, setUserId] = useState(null); // Para armazenar o ID do utilizador logado
-    const [userRole, setUserRole] = useState(null); // Para armazenar o papel do utilizador
+    const [userId, setUserId] = useState(null);
+    const [userRole, setUserRole] = useState(null);
 
-    // Carregar ID e papel do utilizador logado do localStorage
     useEffect(() => {
-        const id = localStorage.getItem('userId');  // Supondo que o ID do usuário está armazenado no localStorage
-        const role = localStorage.getItem('userRole');  // Supondo que o papel do usuário está armazenado no localStorage
+        const id = localStorage.getItem('userId');
+        const role = localStorage.getItem('userRole');
         setUserId(id);
         setUserRole(role);
-    }, []); // Não depende de variáveis externas
+    }, []);
 
-    console.log(userId, userRole); // Verifique se o ID e o papel do usuário estão corretos
-
-    // Carregar notificações de criação apenas para usuários com papel 'admin'
     useEffect(() => {
         if (userRole === 'Admin') {
             const fetchNotificacoesCriacao = async () => {
                 try {
                     const response = await axios.get('http://localhost:3000/Notificacao/Criacao');
                     const notificacoesNaoLidas = response.data.filter(not => !not.lida);
-                    
-                    // Ordenar notificações mais recentes primeiro
-                    notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Supondo que 'dataCriacao' seja o campo da data
-
-                    setNotificacoes(prevNotificacoes => [...prevNotificacoes, ...notificacoesNaoLidas]);
-                    setUnreadCount(prevCount => prevCount + notificacoesNaoLidas.length);
+                    notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    setNotificacoes(prev => [...prev, ...notificacoesNaoLidas]);
+                    setUnreadCount(prev => prev + notificacoesNaoLidas.length);
                 } catch (error) {
                     console.error('Erro ao buscar notificações de criação', error);
                 }
             };
-
             fetchNotificacoesCriacao();
         }
-    }, [userRole]); // Recarrega quando o userRole mudar
+    }, [userRole]);
 
-    // Carregar notificações do utilizador logado apenas para o papel 'Scout'
     useEffect(() => {
-        if (userRole === 'Scout' && userId) {  // Verifica se o papel é 'Scout'
+        if (userRole === 'Scout' && userId) {
             const fetchNotificacoesUsuario = async () => {
                 try {
                     const response = await axios.get(`http://localhost:3000/Notificacao/utilizador/${userId}`);
                     const notificacoesNaoLidas = response.data.filter(not => !not.lida);
-
-                    // Ordenar notificações mais recentes primeiro
-                    notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Supondo que 'dataCriacao' seja o campo da data
-
-                    setNotificacoes(prevNotificacoes => [...prevNotificacoes, ...notificacoesNaoLidas]);
-                    setUnreadCount(prevCount => prevCount + notificacoesNaoLidas.length);
+                    notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    setNotificacoes(prev => [...prev, ...notificacoesNaoLidas]);
+                    setUnreadCount(prev => prev + notificacoesNaoLidas.length);
                 } catch (error) {
                     console.error('Erro ao buscar notificações do utilizador', error);
                 }
             };
-
             fetchNotificacoesUsuario();
         }
-    }, [userRole, userId]); // Recarrega quando o userRole ou userId mudar
+    }, [userRole, userId]);
 
-    // Função para marcar notificação como lida
     const markAsRead = async (id) => {
         try {
-            const response = await axios.put(`http://localhost:3000/Notificacao/mark-as-read/${id}`);
-            console.log('Resposta do servidor:', response);
-
-            setNotificacoes(prevNotificacoes => 
-                prevNotificacoes.map(notificacao => 
+            await axios.put(`http://localhost:3000/Notificacao/mark-as-read/${id}`);
+            setNotificacoes(prev =>
+                prev.map(notificacao =>
                     notificacao.id === id ? { ...notificacao, lida: true } : notificacao
                 )
             );
-
-            setUnreadCount(prevCount => prevCount - 1);
-
+            setUnreadCount(prev => prev - 1);
         } catch (error) {
             console.error('Erro ao marcar notificação como lida', error);
         }
     };
 
-    // Função para alternar a exibição do dropdown
+    const markAllAsRead = () => {
+        notificacoes.forEach(not => {
+            if (!not.lida) markAsRead(not.id);
+        });
+    };
+
     const handleBellClick = () => {
         setShowDropdown(!showDropdown);
     };
 
-    // Função para fechar o dropdown ao clicar fora
     const handleOutsideClick = (e) => {
         if (!e.target.closest('.dropdown-menu') && !e.target.closest('.notification-iconp')) {
             setShowDropdown(false);
         }
     };
 
-    // Usar useEffect para adicionar um listener de clique fora
     useEffect(() => {
         document.addEventListener('click', handleOutsideClick);
-
         return () => {
             document.removeEventListener('click', handleOutsideClick);
         };
-    }, []); // Executa uma vez ao montar o componente
+    }, []);
+
+    const getNotificationIcon = (tipo) => {
+        switch (tipo) {
+            case 'info': return 'bi-info-circle';
+            case 'warning': return 'bi-exclamation-circle';
+            case 'success': return 'bi-check-circle';
+            default: return 'bi-bell';
+        }
+    };
 
     return (
         <nav className="navbarp">
@@ -111,7 +104,7 @@ function Navbar() {
                     onClick={handleBellClick}
                 >
                     {unreadCount > 0 && (
-                        <span className="notification-badge">{unreadCount}</span> 
+                        <span className="notification-badge">{unreadCount}</span>
                     )}
                 </i>
 
@@ -119,21 +112,31 @@ function Navbar() {
                     <div className="dropdown-menu">
                         {notificacoes.length > 0 ? (
                             <>
+                                <div className="dropdown-header">
+                                    <span className="notifications-title">Notificações</span>
+                                    <button 
+                                        className="mark-all-read-btn" 
+                                        onClick={markAllAsRead}
+                                    >
+                                        Marcar todas como lidas
+                                    </button>
+                                </div>
                                 {notificacoes.map((notificacao) => (
                                     <div 
-                                        className="dropdown-item" 
+                                        className={`dropdown-item ${notificacao.lida ? 'read' : 'unread'}`} 
                                         key={notificacao.id}
                                     >
                                         <div className="notification-content">
+                                            <i className={`bi ${getNotificationIcon(notificacao.tipo)} notification-type-icon`}></i>
                                             {notificacao.mensagem}
-                                            
                                             {!notificacao.lida && (
                                                 <i 
-                                                    className="bi bi-check-circle" style={{marginLeft: "5px", color: "#DEAF5E"}}
+                                                    className="bi bi-check-circle" 
                                                     onClick={(e) => { 
                                                         e.stopPropagation();  
                                                         markAsRead(notificacao.id); 
                                                     }} 
+                                                    style={{ marginLeft: "5px", color: "#DEAF5E" }}
                                                 />
                                             )}
                                         </div>
@@ -141,7 +144,7 @@ function Navbar() {
                                 ))}
                             </>
                         ) : (
-                            <div className="dropdown-item">
+                            <div className="loading-placeholder">
                                 <p>Não há notificações.</p>
                             </div>
                         )}
