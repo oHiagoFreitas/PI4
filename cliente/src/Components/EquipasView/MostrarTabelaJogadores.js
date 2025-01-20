@@ -4,7 +4,7 @@ import { X } from "react-bootstrap-icons"; // Importando o ícone 'x' do Bootstr
 function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
     const formationData = {
         "4-3-3": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -15,7 +15,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Atacante" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes " },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -23,7 +23,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos17", title: "Atacante" },
         ],
         "4-4-2": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -34,7 +34,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Médio" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -42,7 +42,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos17", title: "Atacante" },
         ],
         "4-2-3-1": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -53,7 +53,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Médio" },
             { pos: "pos10", title: "Médio" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -61,7 +61,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos17", title: "Atacante" },
         ],
         "4-2-4": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -72,7 +72,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Atacante" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -80,7 +80,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos17", title: "Atacante" },
         ],
         "3-5-2": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Central" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -91,7 +91,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Médio" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -100,7 +100,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             
         ],
         "5-2-3": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -111,7 +111,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Atacante" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -120,7 +120,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             
         ],
         "5-3-2": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -131,7 +131,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Médio" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -140,7 +140,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             
         ],
         "5-4-1": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -151,7 +151,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Médio" },
             { pos: "pos10", title: "Médio" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
@@ -160,7 +160,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             
         ],
         "3-4-3": [
-            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos1", title: "Guarda-Redes" },
             { pos: "pos2", title: "Defesa Central" },
             { pos: "pos3", title: "Defesa Central" },
             { pos: "pos4", title: "Defesa Central" },
@@ -171,7 +171,7 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos9", title: "Atacante" },
             { pos: "pos10", title: "Atacante" },
             { pos: "pos11", title: "Atacante" },
-            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos12", title: "Guarda-Redes" },
             { pos: "pos13", title: "Defesa Esquerda" },
             { pos: "pos14", title: "Defesa Central" },
             { pos: "pos15", title: "Defesa Direita" },
