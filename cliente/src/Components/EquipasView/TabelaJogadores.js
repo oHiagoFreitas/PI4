@@ -99,6 +99,26 @@ function TabelaJogadores({ positions, ratings, onRemovePlayer, formacao }) {
             { pos: "pos17", title: "Atacante" },
             
         ],
+        "5-2-3": [
+            { pos: "pos1", title: "Guarda Redes" },
+            { pos: "pos2", title: "Defesa Esquerda" },
+            { pos: "pos3", title: "Defesa Central" },
+            { pos: "pos4", title: "Defesa Central" },
+            { pos: "pos5", title: "Defesa Central" },
+            { pos: "pos6", title: "Defesa Direita" },
+            { pos: "pos7", title: "Médio" },
+            { pos: "pos8", title: "Médio" },
+            { pos: "pos9", title: "Atacante" },
+            { pos: "pos10", title: "Atacante" },
+            { pos: "pos11", title: "Atacante" },
+            { pos: "pos12", title: "Guarda Redes" },
+            { pos: "pos13", title: "Defesa Esquerda" },
+            { pos: "pos14", title: "Defesa Central" },
+            { pos: "pos15", title: "Defesa Direita" },
+            { pos: "pos16", title: "Médio" },
+            { pos: "pos17", title: "Atacante" },
+            
+        ],
         "5-3-2": [
             { pos: "pos1", title: "Guarda Redes" },
             { pos: "pos2", title: "Defesa Esquerda" },

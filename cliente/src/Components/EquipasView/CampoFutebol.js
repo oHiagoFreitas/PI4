@@ -127,6 +127,27 @@ function CampoFutebol({ positions, openModal, formacao }) {
             { pos: "pos16", title: "Médio", style: { top: '69%', left: '80%' } },
             { pos: "pos17", title: "Atacante", style: { top: '81%', left: '80%' } },
         ],
+        "5-2-3"
+        : [
+            { pos: "pos1", title: "Guarda redes", style: { top: '53.5%', left: '19%' } },
+            { pos: "pos2", title: "Defesa Esquerda", style: { top: '30%', left: '28%' } },
+            { pos: "pos3", title: "Defesa Central", style: { top: '42%', left: '26%' } },
+            { pos: "pos4", title: "Defesa Central", style: { top: '67%', left: '26%' } },
+            { pos: "pos5", title: "Defesa Central", style: { top: '54.5%', left: '26%' } },
+            { pos: "pos6", title: "Defesa Direita", style: { top: '80%', left: '28%' } }, 
+            { pos: "pos7", title: "Médio", style: { top: '64.5%', left: '41%' } },
+            { pos: "pos8", title: "Médio", style: { top: '43%', left: '41%' } },
+            { pos: "pos9", title: "Atacante", style: { top: '35%', left: '54%' } },
+            { pos: "pos10", title: "Atacante", style: { top: '75%', left: '54%' } },
+            { pos: "pos11", title: "Atacante", style: { top: '53.5%', left: '59%' } },
+            // Reservas
+            { pos: "pos12", title: "Guarda redes", style: { top: '21%', left: '80%' } },
+            { pos: "pos13", title: "Defesa Esquerda", style: { top: '33%', left: '80%' } },
+            { pos: "pos14", title: "Defesa Central", style: { top: '45%', left: '80%' } },
+            { pos: "pos15", title: "Defesa Direita", style: { top: '57%', left: '80%' } },
+            { pos: "pos16", title: "Médio", style: { top: '69%', left: '80%' } },
+            { pos: "pos17", title: "Atacante", style: { top: '81%', left: '80%' } },
+        ],
         "5-3-2"
         : [
             { pos: "pos1", title: "Guarda redes", style: { top: '53.5%', left: '19%' } },
