@@ -11,6 +11,9 @@ function EditMainTeamModal({ isOpen, onClose, teamId, onUpdate }) {
         formacaoNome: ''
     });
 
+    const formations = ["3-4-3", "3-5-2", "4-3-3", "4-2-4", "4-4-2", "4-2-3-1", "5-2-3", "5-3-2", "5-4-1"]; // Lista de opções de formação
+    const categories = ["Sub-20", "Sub-21", "Sub-21", "Sub-23", "Seniors"]; // Opções de categorias
+
     // Função para buscar os dados da equipe principal por ID
     useEffect(() => {
         const fetchTeamData = async () => {
@@ -82,23 +85,27 @@ function EditMainTeamModal({ isOpen, onClose, teamId, onUpdate }) {
                     onChange={(e) => setTeamData({ ...teamData, descricao: e.target.value })}
                     className="input-fieldES"
                 />
-                <input
-                    type="text"
-                    placeholder="Categoria"
+                <select
                     value={teamData.categoria}
                     onChange={(e) => setTeamData({ ...teamData, categoria: e.target.value })}
                     className="input-fieldES"
-                />
+                >
+                    <option value="" disabled>Selecione uma categoria</option>
+                    {categories.map((category, index) => (
+                        <option key={index} value={category}>{category}</option>
+                    ))}
+                </select>
                 <select
                     value={teamData.formacaoNome}
                     onChange={(e) => setTeamData({ ...teamData, formacaoNome: e.target.value })}
                     className="input-fieldES"
                 >
                     <option value="" disabled>Selecione Formação</option>
-                    <option value="4-3-3">4-3-3</option>
-                    <option value="4-4-2">4-4-2</option>
-                    <option value="4-2-3-1">4-2-3-1</option>
+                    {formations.map((formation, index) => (
+                        <option key={index} value={formation}>{formation}</option>
+                    ))}
                 </select>
+
                 <div className="modal-actionsES">
                     <button className="button-createAT button-createES" onClick={editMainTeam}>Salvar</button>
                     <button className="button-cancelES" onClick={onClose}>Cancelar</button>
