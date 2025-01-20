@@ -61,6 +61,7 @@ function MainTeamList() {
                         <tr>
                             <th>Nome da Equipa</th>
                             <th>Categoria</th>
+                            <th>Formação</th>
                             <th>Descrição</th>
                             <th>Ações</th>
                         </tr>
@@ -73,6 +74,7 @@ function MainTeamList() {
                                 <tr key={team.id}>
                                     <td>{team.nome}</td>
                                     <td>{team.categoria}</td>
+                                    <td>{team.formacao.nome}</td>
                                     <td>{team.descricao}</td>
                                     <td>
                                         {/* Botão de "Ver Detalhes" */}
