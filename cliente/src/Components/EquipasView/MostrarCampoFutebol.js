@@ -202,7 +202,7 @@ function CampoFutebol({ positions, openModal, formacao }) {
                     key={position.pos}
                     position={position}
                     nome={positions[position.pos] ? positions[position.pos].nome : ""} // Nome do jogador
-                    onClick={() => openModal(position.title, position.pos)} // Chama a modal com título e posição
+                    
                 />
             ))}
         </div>
