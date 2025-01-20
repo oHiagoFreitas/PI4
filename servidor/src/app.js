@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors'); // Importa o pacote CORS
 const app = express();
 const sequelize = require('./database'); // Ajuste o caminho conforme necessário
-const Microsite = require('./models/Microsite'); // Certifique-se de ajustar o caminho para o seu modelo
 
 // Importação de rotas
 const utilizadoresRoutes = require('./routes/utilizadoresRoutes'); // Ajuste o caminho conforme necessário
@@ -16,6 +15,7 @@ const formacaoRoutes = require('./routes/formacaoRoutes'); // Rota de formaçõe
 const atletasEquipeSombraRoutes = require('./routes/atletasEquipeSombraRoutes'); // Ajuste o caminho conforme necessário
 const partidaRoutes = require('./routes/partidaRoutes'); // Ajuste o caminho conforme necessário
 const PendentesRoute = require('./routes/PendentesRoute'); // Ajuste o caminho conforme necessário
+const Microsite = require('./routes/MicroSiteRoutes'); // Certifique-se de ajustar o caminho para o seu modelo
 const equipePrincipalRoutes = require('./routes/equipePrincipalRoutes'); // Rota de equipes Principal
 const Notificacoes = require('./routes/NotificacoesRoute'); // Rota de notificações
 
@@ -56,25 +56,13 @@ app.use('/formacao', formacaoRoutes);
 app.use('/atletasEquipeSombra', atletasEquipeSombraRoutes);
 app.use('/partidas', partidaRoutes);
 app.use('/pendentes', PendentesRoute);
+app.use('/Microsite', Microsite);
 app.use('/Notificacao', Notificacoes);
 
-// Sincroniza os modelos com o banco de dados e cria uma entrada padrão no Microsite
-sequelize.sync({ alter: true }) // Use alter para evitar recriações desnecessárias
-    .then(async () => {
+// Sincroniza os modelos com o banco de dados, incluindo o modelo Microsite
+sequelize.sync()
+    .then(() => {
         console.log('Tabelas sincronizadas com o banco de dados.');
-
-        // Verifica se já existe uma entrada no Microsite
-        const count = await Microsite.count();
-        if (count === 0) {
-            // Cria uma linha padrão no Microsite
-            await Microsite.create({
-                titulo: 'Viriatus Scouting',
-                mensagem: 'Bem-vindo ao Viriatus Scouting, onde encontramos talentos únicos!',
-            });
-            console.log('Linha padrão no Microsite criada com sucesso.');
-        } else {
-            console.log('Microsite já contém registros. Nenhuma ação necessária.');
-        }
     })
     .catch((error) => {
         console.error('Erro ao sincronizar as tabelas:', error);
