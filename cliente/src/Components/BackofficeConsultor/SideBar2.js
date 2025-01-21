@@ -41,6 +41,10 @@ function Sidebar() {
                     <i className="bi bi-file-earmark-text"></i>
                     <Link to="/RelatorioConsultor">Relatórios</Link>
                 </li>
+                <li>
+                    <i className="bi bi-window"></i>
+                    <Link to="/MicroSite">Web Page</Link>
+                </li>
             </ul>
             <div className="footer">
                 <Link to="/PoliticasPrivacidade">
