@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './View/Home';
-import Auth from './View/Auth';
 import AuthUpdate from './View/AuthUpdate';
 import SignUp from './View/SignUp';
 import Atletas from './View/Atletas';
@@ -32,6 +31,7 @@ import EditarPartida from './Components/PartidasPage/EditarPartida'; // Página 
 import MicroSite from './View/MicroSite';
 import PoliticasPrivacidade from './View/PoliticasPrivacidade';
 import WebPage from './View/WebPage';
+import Auth from './View/Auth';
 
 const App = () => {
   return (
