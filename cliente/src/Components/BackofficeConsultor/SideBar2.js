@@ -35,11 +35,11 @@ function Sidebar() {
             <ul>
                 <li>
                     <i className="bi bi-person"></i>
-                    < Link href="/AtletasConsultor">Atletas</Link>
+                    < Link to="/AtletasConsultor">Atletas</Link>
                 </li>
                 <li>
                     <i className="bi bi-file-earmark-text"></i>
-                    <Link href="/RelatorioConsultor">Relatórios</Link>
+                    <Link to="/RelatorioConsultor">Relatórios</Link>
                 </li>
             </ul>
             <div className="footer">
