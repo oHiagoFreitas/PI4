@@ -37,7 +37,6 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Auth />} />
         <Route path="/EsqueceuPass" element={<AuthUpdate />} />
         <Route path="/signup" element={<SignUp />} />
@@ -69,6 +68,7 @@ const App = () => {
         <Route path="/MostrarequipePrincipal/:id" element={<MostrarEquipePrincipalComJogadores />} />
         <Route path="/editar-equipe/:id" element={<EditarEquipeComJogadores />} />
         <Route path="/editar-equipePrincipal/:id" element={<EditarEquipePrincipal />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </Router>
   );
