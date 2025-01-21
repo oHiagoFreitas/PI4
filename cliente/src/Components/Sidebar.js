@@ -78,14 +78,14 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
                 )}
             </ul>
             <div className="footer">
-                <a href="#privacy-policy">
+                <Link href="#privacy-policy">
                     <i className="bi bi-shield-lock"></i>
                     Políticas de Privacidade
-                </a>
-                <a onClick={handleLogout} style={{ cursor: 'pointer' }}>
+                </Link>
+                <Link onClick={handleLogout} style={{ cursor: 'pointer' }}>
                     <i className="bi bi-box-arrow-right"></i>
                     Logout
-                </a>
+                </Link>
             </div>
         </aside>
     );
