@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Importar Link para navegação
+import { Link, useNavigate } from 'react-router-dom'; // Importar Link para navegação
 import '../Style/Sidebar.css';
 import AcadLogo from '../img/AcadLogo.png';
 
