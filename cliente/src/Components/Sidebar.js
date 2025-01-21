@@ -78,8 +78,10 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
                 )}
             </ul>
             <div className="footer">
-                <i className="bi bi-shield-lock"></i>
                 <Link href="PoliticasPrivacidade">
+
+                <i className="bi bi-shield-lock"></i>
+
                     Políticas de Privacidade
                 </Link>
                 <Link onClick={handleLogout} style={{ cursor: 'pointer' }}>
