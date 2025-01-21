@@ -87,10 +87,11 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
 
                     Políticas de Privacidade
                 </Link>
-                <Link to="/login" onClick={(e) => { e.preventDefault(); handleLogout(); }} style={{ cursor: 'pointer' }}>
+                <button onClick={handleLogout} className="logout-button">
                     <i className="bi bi-box-arrow-right"></i>
                     Logout
-                </Link>
+                </button>
+
 
 
             </div>
