@@ -14,7 +14,7 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
         console.log('Antes do clear:', localStorage);
         localStorage.clear();
         console.log('Depois do clear:', localStorage);
-        navigate('/login'); // Ou window.location.href = '/login';
+        window.location.href = '/login';
     };
 
 
