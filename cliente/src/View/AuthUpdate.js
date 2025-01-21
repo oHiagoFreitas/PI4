@@ -15,13 +15,13 @@ const AuthUpdate = () => {
     e.preventDefault();
     try {
       // Atualiza a senha
-      const response = await axios.post('http://localhost:3000/auth/UpdatePassword', {
+      const response = await axios.post('https://frontpi4.onrender.com/auth/UpdatePassword', {
         email,
         novaSenha,
       });
 
       // Criação de notificação
-      await axios.post('http://localhost:3000/Notificacao', {
+      await axios.post('https://frontpi4.onrender.com/Notificacao', {
         conteudo: `O utilizador com o email ${email} fez uma solicitação de redefinição de senha.`,
         tipo: "Criação",
         remetenteId: 1,  // Pode ser alterado para o ID do remetente

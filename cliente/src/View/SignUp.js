@@ -16,10 +16,10 @@ const SignUp = () => {
     e.preventDefault();
     try {
       // Requisição de cadastro do usuário
-      const response = await axios.post('http://localhost:3000/utilizadores', { nome, email, senha, role });
+      const response = await axios.post('https://frontpi4.onrender.com/utilizadores', { nome, email, senha, role });
 
       // Após o cadastro, cria a notificação
-      await axios.post('http://localhost:3000/Notificacao/', {
+      await axios.post('https://frontpi4.onrender.com/Notificacao/', {
         conteudo: `Um novo utilizador "${nome}" foi cadastrado e está a espera de verificação.`,
         tipo: 'Criação',
         remetenteId: 1,  // Pode ser alterado para o ID do remetente
