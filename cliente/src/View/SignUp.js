@@ -21,7 +21,7 @@ const SignUp = () => {
       console.log('Resposta da API ao criar usuário:', response.data);
 
       // Após o cadastro, cria a notificação
-      await axios.post('https://frontpi4.onrender.com/Notificacao/', {
+      await axios.post('https://pi4-hdnd.onrender.com/Notificacao/', {
         conteudo: `Um novo utilizador "${nome}" foi cadastrado e está a espera de verificação.`,
         tipo: 'Criação',
         remetenteId: 1,  // Pode ser alterado para o ID do remetente
