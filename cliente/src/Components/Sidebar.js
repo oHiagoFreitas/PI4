@@ -11,9 +11,12 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
     };
 
     const handleLogout = () => {
-        localStorage.clear(); // Limpa todo o localStorage
-        window.location.href = '/login'; // Redireciona para a página de login
+        console.log('Antes do clear:', localStorage);
+        localStorage.clear();
+        console.log('Depois do clear:', localStorage);
+        navigate('/login'); // Ou window.location.href = '/login';
     };
+
 
     return (
         <aside className="sidebar">
@@ -78,16 +81,18 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
                 )}
             </ul>
             <div className="footer">
-                <Link href="PoliticasPrivacidade">
+                <Link to="/PoliticasPrivacidade">
 
-                <i className="bi bi-shield-lock"></i>
+                    <i className="bi bi-shield-lock"></i>
 
                     Políticas de Privacidade
                 </Link>
-                <Link onClick={handleLogout} style={{ cursor: 'pointer' }}>
+                <Link to="/login" onClick={(e) => { e.preventDefault(); handleLogout(); }} style={{ cursor: 'pointer' }}>
                     <i className="bi bi-box-arrow-right"></i>
                     Logout
                 </Link>
+
+
             </div>
         </aside>
     );
