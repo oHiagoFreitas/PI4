@@ -1,15 +1,24 @@
 // src/Components/Sidebar.js
-
 import React, { useState } from 'react';
 import '../../Style/Sidebar.css';
 import AcadLogo from '../../img/AcadLogo.png';
+import { Link, useNavigate } from 'react-router-dom'; // Importar Link para navegação
 
 function Sidebar() {
     const [isAdminOpen, setIsAdminOpen] = useState(false);
+    const navigate = useNavigate();
 
     const toggleAdminDropdown = () => {
         setIsAdminOpen(!isAdminOpen);
     };
+
+    const handleLogout = () => {
+        console.log('Antes do clear:', localStorage);
+        localStorage.clear();
+        console.log('Depois do clear:', localStorage);
+        navigate('/login');
+    };
+
 
     return (
         <aside className="sidebar">
@@ -26,22 +35,24 @@ function Sidebar() {
             <ul>
                 <li>
                     <i className="bi bi-person"></i>
-                    <a href="/AtletasConsultor">Atletas</a>
+                    < Link href="/AtletasConsultor">Atletas</Link>
                 </li>
                 <li>
                     <i className="bi bi-file-earmark-text"></i>
-                    <a href="/RelatorioConsultor">Relatórios</a>
+                    <Link href="/RelatorioConsultor">Relatórios</Link>
                 </li>
             </ul>
             <div className="footer">
-                <a href="#">
+                <Link to="/PoliticasPrivacidade">
+
                     <i className="bi bi-shield-lock"></i>
+
                     Políticas de Privacidade
-                </a>
-                <a href="/login">
+                </Link>
+                <Link to="/login" onClick={(e) => { e.preventDefault(); handleLogout(); }} style={{ cursor: 'pointer' }}>
                     <i className="bi bi-box-arrow-right"></i>
                     Logout
-                </a>
+                </Link>
             </div>
         </aside>
     );

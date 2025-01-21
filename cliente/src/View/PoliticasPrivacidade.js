@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import '../Style/politicas_privacidade.css';
 
@@ -13,9 +14,9 @@ const PoliticasPrivacidade = () => (
                 <a className="navbar-brand ms-5" href="#">
                     <div className="pp-logo-container">
                         <img className="pp-logo" src={logo} alt="Logo" height="45" />
-                        <a href="/MicroSite">
+                        <Link href="/MicroSite">
                             <img className="pp-seta" src={seta} alt="Seta" height="20" />
-                        </a>
+                        </Link>
                     </div>
                 </a>
                 <p className="pp-text-start nome">Viriatos Scouting</p>
