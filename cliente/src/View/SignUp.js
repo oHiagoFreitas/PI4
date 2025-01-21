@@ -16,7 +16,9 @@ const SignUp = () => {
     e.preventDefault();
     try {
       // Requisição de cadastro do usuário
-      const response = await axios.post('https://frontpi4.onrender.com/utilizadores', { nome, email, senha, role });
+      const response = await axios.post('https://pi4-hdnd.onrender.com/utilizadores/', { nome, email, senha, role });
+
+      console.log('Resposta da API ao criar usuário:', response.data);
 
       // Após o cadastro, cria a notificação
       await axios.post('https://frontpi4.onrender.com/Notificacao/', {
