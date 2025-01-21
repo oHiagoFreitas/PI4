@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import '../Style/Auth.css';
 import AcadLogo from '../img/AcadLogo.png';
+import { Link } from 'react-router-dom';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -87,14 +88,14 @@ const Auth = () => {
             />
 
             <div className="forgot-password">
-              <a href="/EsqueceuPass">Esqueceu a senha?</a>
+              <Link to="/EsqueceuPass">Esqueceu a senha?</Link>
             </div>
 
             <button type="submit">Login</button>
           </form>
 
           <div className="no-account">
-            <p>Não tem conta? <a href="/signup">Cadastre-se</a></p>
+          <p>Não tem conta? <Link to="/signup">Cadastre-se</Link></p>
           </div>
         </div>
       </div>
