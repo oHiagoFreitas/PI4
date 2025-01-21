@@ -22,7 +22,7 @@ function TabelaPendentes() {
   // Carregar os dados de pendentes
   const carregarPendentes = () => {
     axios
-      .get('http://localhost:3000/pendentes/pendentes')
+      .get('https://pi4-hdnd.onrender.com/pendentes/pendentes')
       .then((response) => setPendentes(response.data))
       .catch((error) => console.error('Erro ao carregar pendentes:', error));
   };
@@ -32,7 +32,7 @@ function TabelaPendentes() {
   }, []);
 
   const aprovar = (id, categoria) => {
-    const baseURL = `http://localhost:3000`;
+    const baseURL = `https://pi4-hdnd.onrender.com`;
     const endpoints = {
       Utilizador: `/utilizadores/${id}/aprovar`,
       Atleta: `/atletas/${id}/aprovar`,
@@ -64,7 +64,7 @@ function TabelaPendentes() {
   };
 
   const rejeitar = (id, categoria) => {
-    const baseURL = `http://localhost:3000`;
+    const baseURL = `https://pi4-hdnd.onrender.com`;
     const endpoints = {
       Utilizador: `/utilizadores/${id}/rejeitar`,
       Atleta: `/atletas/${id}/rejeitar`,

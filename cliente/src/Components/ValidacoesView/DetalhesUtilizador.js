@@ -17,7 +17,7 @@ function DetalhesUtilizador() {
     useEffect(() => {
         console.log("ID do utilizador:", id); // Verifique se o ID está sendo passado
         axios
-            .get(`http://localhost:3000/utilizadores/${id}`) // A URL para carregar os detalhes do utilizador específico
+            .get(`https://pi4-hdnd.onrender.com/utilizadores/${id}`) // A URL para carregar os detalhes do utilizador específico
             .then((response) => {
                 console.log("Utilizador carregado:", response.data); // Verifique a resposta do backend
                 setUtilizador(response.data);

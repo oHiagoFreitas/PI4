@@ -25,7 +25,7 @@ function DetalhesAtleta() {
     // Carregar os detalhes do atleta
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/atletas/${id}`)
+            .get(`https://pi4-hdnd.onrender.com/atletas/${id}`)
             .then((response) => {
                 setAtleta(response.data);
                 setLoading(false);
@@ -45,7 +45,7 @@ function DetalhesAtleta() {
     // Carregar todos os relatórios associados ao atleta
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/relatorios/atleta/${id}`) // A URL correta para obter todos os relatórios do atleta
+            .get(`https://pi4-hdnd.onrender.com/relatorios/atleta/${id}`) // A URL correta para obter todos os relatórios do atleta
             .then((response) => {
                 setRelatorios(response.data); // Armazenar todos os relatórios
             })

@@ -25,7 +25,7 @@ function DetalhesAtleta() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/atletas/${id}`)
+            .get(`https://pi4-hdnd.onrender.com/atletas/${id}`)
             .then((response) => {
                 setAtleta(response.data);
                 setLoading(false);
@@ -51,7 +51,7 @@ function DetalhesAtleta() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/relatorios/atleta/${id}`)
+            .get(`https://pi4-hdnd.onrender.com/relatorios/atleta/${id}`)
             .then((response) => {
                 setRelatorios(response.data);
             })

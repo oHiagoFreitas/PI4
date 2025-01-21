@@ -9,7 +9,7 @@ function UsuariosTable() {
   // Carregar os dados dos usuários na inicialização
   useEffect(() => {
     axios
-      .get('http://localhost:3000/utilizadores') // Rota de usuários
+      .get('https://pi4-hdnd.onrender.com/utilizadores') // Rota de usuários
       .then((response) => setUsuarios(response.data))
       .catch((error) => console.error('Erro ao carregar usuários:', error));
   }, []);

@@ -59,7 +59,7 @@ const CreateUserModal = ({
             if (isEditModal) {
                 // Atualizar usuário
                 response = await axios.put(
-                    `http://localhost:3000/utilizadores/${selectedUsuario.id}`,
+                    `https://pi4-hdnd.onrender.com/utilizadores/${selectedUsuario.id}`,
                     formData
                 );
                 Swal.fire({
@@ -75,7 +75,7 @@ const CreateUserModal = ({
                 }
             } else {
                 // Criar usuário
-                response = await axios.post('http://localhost:3000/utilizadores', formData);
+                response = await axios.post('https://pi4-hdnd.onrender.com/utilizadores', formData);
                 Swal.fire({
                     icon: 'success',
                     title: 'Utilizador Criado!',

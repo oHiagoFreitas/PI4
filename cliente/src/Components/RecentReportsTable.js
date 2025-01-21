@@ -12,7 +12,7 @@ const RecentReportsTable = () => {
 
     const fetchReports = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/relatorios/pendentes');
+            const response = await axios.get('https://pi4-hdnd.onrender.com/relatorios/pendentes');
             setReports(response.data);
         } catch (error) {
             console.error('Erro ao buscar relatórios:', error);
@@ -38,7 +38,7 @@ const RecentReportsTable = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.put(`http://localhost:3000/relatorios/${id}/aprovar`);
+                await axios.put(`https://pi4-hdnd.onrender.com/relatorios/${id}/aprovar`);
                 Swal.fire('Aprovado!', 'O relatório foi aprovado com sucesso.', 'success');
                 fetchReports();
             } catch (error) {
@@ -61,7 +61,7 @@ const RecentReportsTable = () => {
 
         if (result.isConfirmed) {
             try {
-                await axios.put(`http://localhost:3000/relatorios/${id}/rejeitar`);
+                await axios.put(`https://pi4-hdnd.onrender.com/relatorios/${id}/rejeitar`);
                 Swal.fire('Rejeitado!', 'O relatório foi rejeitado com sucesso.', 'success');
                 fetchReports();
             } catch (error) {

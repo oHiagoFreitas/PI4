@@ -24,13 +24,13 @@ function PartidasTable() {
 
     // Carrega todas as partidas
     axios
-      .get('http://localhost:3000/partidas') // Rota para buscar todas as partidas
+      .get('https://pi4-hdnd.onrender.com/partidas') // Rota para buscar todas as partidas
       .then((response) => setPartidas(response.data))
       .catch((error) => console.error('Erro ao carregar partidas:', error));
 
     // Carrega as partidas atribuídas ao usuário logado
     axios
-      .get(`http://localhost:3000/partidas/atribuidas/${userId}`) // Corrigido a interpolação da URL
+      .get(`https://pi4-hdnd.onrender.com/partidas/atribuidas/${userId}`) // Corrigido a interpolação da URL
       .then((response) => setJogosAtribuidos(response.data))
       .catch((error) => console.error('Erro ao carregar jogos atribuídos:', error));
   }, [navigate]);
@@ -46,7 +46,7 @@ function PartidasTable() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/partidas/${partidaId}`) // Corrigido a interpolação da URL
+          .delete(`https://pi4-hdnd.onrender.com/partidas/${partidaId}`) // Corrigido a interpolação da URL
           .then(() => {
             Swal.fire('Deletado!', 'O jogo foi apagado.', 'success');
             setPartidas(partidas.filter((partida) => partida.id !== partidaId));

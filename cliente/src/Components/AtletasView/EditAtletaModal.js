@@ -47,7 +47,7 @@ const EditAthleteModal = ({ isOpen, onRequestClose, athleteData }) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await axios.put(`http://localhost:3000/atletas/${athleteData.id}`, formData);
+            const response = await axios.put(`https://pi4-hdnd.onrender.com/atletas/${athleteData.id}`, formData);
             console.log('Atleta atualizado:', response.data);
 
             Swal.fire({

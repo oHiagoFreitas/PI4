@@ -20,7 +20,7 @@ function RelatoriosTable() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/relatorios') // Rota de relatórios
+      .get('https://pi4-hdnd.onrender.com/relatorios') // Rota de relatórios
       .then((response) => setRelatorios(response.data))
       .catch((error) => console.error('Erro ao carregar relatórios:', error));
   }, []);
@@ -49,7 +49,7 @@ function RelatoriosTable() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/relatorios/${relatorioId}`) // Rota de delete de relatórios
+          .delete(`https://pi4-hdnd.onrender.com/relatorios/${relatorioId}`) // Rota de delete de relatórios
           .then(() => {
             Swal.fire('Deletado!', 'O relatório foi excluído.', 'success');
             setRelatorios(relatorios.filter((relatorio) => relatorio.id !== relatorioId));

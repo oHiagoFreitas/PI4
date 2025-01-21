@@ -9,7 +9,7 @@ const EquipasEditarTime = () => {
     
     useEffect(() => {
         if (equipeSombraId) {
-            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}`)
+            fetch(`https://pi4-hdnd.onrender.com/equipeSombra/${equipeSombraId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.nome) {

@@ -19,7 +19,7 @@ function TimesTable() {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/times')
+      .get('https://pi4-hdnd.onrender.com/times')
       .then((response) => setTimes(response.data))
       .catch((error) => console.error('Erro ao carregar times:', error));
   }, []);
@@ -48,7 +48,7 @@ function TimesTable() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`http://localhost:3000/times/${timeId}`)
+          .delete(`https://pi4-hdnd.onrender.com/times/${timeId}`)
           .then(() => {
             Swal.fire('Deletado!', 'O time foi excluído.', 'success');
             setTimes(times.filter((time) => time.id !== timeId));

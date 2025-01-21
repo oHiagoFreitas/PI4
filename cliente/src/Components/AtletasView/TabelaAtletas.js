@@ -33,7 +33,7 @@ function TabelaAtletas({ atletas, handleEdit, handleDelete }) {
   // Função para atualizar os atletas após a edição de um time
   const updateAtletas = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/atletas/getAllAtletasAprovados'); // Requisição para obter os atletas novamente
+      const response = await axios.get('https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados'); // Requisição para obter os atletas novamente
       setAtletasData(response.data); // Atualiza o estado com os atletas atualizados
     } catch (error) {
       console.error('Erro ao atualizar os atletas:', error);

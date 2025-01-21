@@ -44,7 +44,7 @@ function EditarEquipe() {
     useEffect(() => {
         if (equipeSombraId) {
             setLoading(true);
-            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}`)
+            fetch(`https://pi4-hdnd.onrender.com/equipeSombra/${equipeSombraId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.formacao) {
@@ -55,7 +55,7 @@ function EditarEquipe() {
                 })
                 .catch(error => console.error("Erro ao carregar formação:", error));
 
-            fetch(`http://localhost:3000/equipeSombra/${equipeSombraId}/atletas`)
+            fetch(`https://pi4-hdnd.onrender.com/equipeSombra/${equipeSombraId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -82,12 +82,12 @@ function EditarEquipe() {
     }, [equipeSombraId, ratings]);
 
     useEffect(() => {
-        fetch("http://localhost:3000/atletas/getAllAtletasAprovados")
+        fetch("https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados")
             .then(response => response.json())
             .then(data => setPlayers(data))
             .catch(error => console.error("Erro ao carregar jogadores:", error));
 
-        fetch("http://localhost:3000/relatorios")
+        fetch("https://pi4-hdnd.onrender.com/relatorios")
             .then(response => response.json())
             .then(data => {
                 const ratingsMap = data.reduce((acc, report) => {
@@ -123,7 +123,7 @@ function EditarEquipe() {
         const oldPlayer = positions[positionId];
 
         if (oldPlayer) {
-            fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
+            fetch("https://pi4-hdnd.onrender.com/equipeSombra/remover-jogadores", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -175,7 +175,7 @@ function EditarEquipe() {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch("http://localhost:3000/equipeSombra/remover-jogadores", {
+                fetch("https://pi4-hdnd.onrender.com/equipeSombra/remover-jogadores", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -216,7 +216,7 @@ function EditarEquipe() {
             }, {}),
         };
 
-        fetch("http://localhost:3000/equipeSombra/jogadores", {
+        fetch("https://pi4-hdnd.onrender.com/equipeSombra/jogadores", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestData),

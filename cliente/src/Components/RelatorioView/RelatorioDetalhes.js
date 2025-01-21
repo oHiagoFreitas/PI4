@@ -19,7 +19,7 @@ function DetalhesRelatorio() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/relatorios/${id}`)
+      .get(`https://pi4-hdnd.onrender.com/relatorios/${id}`)
       .then((response) => {
         setRelatorio(response.data);
         setLoading(false);

@@ -40,7 +40,7 @@ const CreateUserModal = ({
         e.preventDefault();
         try {
             // Criar usuário
-            const response = await axios.post('http://localhost:3000/utilizadores', formData);
+            const response = await axios.post('https://pi4-hdnd.onrender.com/utilizadores', formData);
             Swal.fire({
                 icon: 'success',
                 title: 'Utilizador Criado!',
