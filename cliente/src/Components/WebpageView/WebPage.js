@@ -105,7 +105,7 @@ function WebPageView() {
               <button onClick={handleEditClick} className="back-buttonAD">
                 Editar
               </button>
-              <Link to="/MicroSite">Ir para Web Page</Link>
+              <Link to="/MicroSite" className="back-buttonAD"> Ir para Web Page</Link>
             </div>
           </div>
         )}
