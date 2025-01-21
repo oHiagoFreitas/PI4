@@ -5,6 +5,7 @@ import AcadLogo from '../img/AcadLogo.png';
 
 function Sidebar({ userRole }) { // Receber a função do utilizador
     const [isAdminOpen, setIsAdminOpen] = useState(false);
+     const navigate = useNavigate();
 
     const toggleAdminDropdown = () => {
         setIsAdminOpen(!isAdminOpen);
@@ -14,7 +15,7 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
         console.log('Antes do clear:', localStorage);
         localStorage.clear();
         console.log('Depois do clear:', localStorage);
-        window.location.href = '/login';
+        navigate('/login');
     };
 
 
@@ -87,10 +88,10 @@ function Sidebar({ userRole }) { // Receber a função do utilizador
 
                     Políticas de Privacidade
                 </Link>
-                <button onClick={handleLogout} className="logout-button">
+                <Link to="/login" onClick={(e) => { e.preventDefault(); handleLogout(); }} style={{ cursor: 'pointer' }}>
                     <i className="bi bi-box-arrow-right"></i>
                     Logout
-                </button>
+                </Link>
 
 
 
