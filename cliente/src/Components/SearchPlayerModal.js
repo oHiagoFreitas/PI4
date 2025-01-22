@@ -1,107 +1,90 @@
-import React, { useState } from 'react';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../Style/CreateReportModal.css'; // Certifique-se de que o caminho para o CSS está correto
+import Modal from 'react-modal';
 
-const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [players, setPlayers] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+const JogadoresModal = () => {
+  const [jogadores, setJogadores] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [jogadorSelecionado, setJogadorSelecionado] = useState(null); // Estado para armazenar o jogador selecionado
 
-    const handleSearch = async () => {
-        if (!searchTerm.trim()) {
-            setError('Por favor, insira um termo de busca.');
-            return;
-        }
-        setLoading(true);
-        setError('');
-        try {
-            const response = await axios.get(`http://pi4-hdnd.onrender.com/atletas`, {
-                params: { search: searchTerm },
-            });
-            console.log('Jogadores retornados pela API:', response.data);
-            setPlayers(response.data);
-        } catch (err) {
-            console.error('Erro na busca de jogadores:', err);
-            setError('Erro ao buscar jogadores. Tente novamente.');
-        } finally {
-            setLoading(false);
-        }
-    };
+  useEffect(() => {
+    // Fazendo a requisição para obter os jogadores
+    axios.get('https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados')
+      .then(response => {
+        setJogadores(response.data);
+      })
+      .catch(error => {
+        console.error("Erro ao buscar jogadores:", error);
+      });
+  }, []);
 
-    return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
-            contentLabel="Procurar Jogador"
-            style={{
-                content: {
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: '600px',
-                    height: 'auto',
-                    maxHeight: '80vh',
-                    overflowY: 'auto',
-                },
-            }}
-        >
-            <h2>Procurar Jogador</h2>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Digite o nome do jogador"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ width: '100%', marginBottom: '10px', padding: '8px' }}
-                />
-                <button onClick={handleSearch} style={{ marginBottom: '20px', padding: '8px 16px' }}>
-                    {loading ? 'Buscando...' : 'Buscar'}
-                </button>
-            </div>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                <thead>
-                    <tr>
-                        <th style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>Nome</th>
-                        <th style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>Clube</th>
-                        <th style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {players.map((player) => (
-                        <tr key={player.id}>
-                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
-                                {player.nome}
-                            </td>
-                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
-                                {player.time ? player.time.nome : player.clube}
-                            </td>
-                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
-                                <button
-                                    onClick={() => onPlayerSelect(player.nome)} // Passa o nome do jogador ao selecionar
-                                    style={{
-                                        padding: '6px 12px',
-                                        backgroundColor: '#007bff',
-                                        color: '#fff',
-                                        border: 'none',
-                                        borderRadius: '4px',
-                                        cursor: 'pointer',
-                                    }}
-                                >
-                                    Selecionar
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            {players.length === 0 && !loading && !error && (
-                <p style={{ marginTop: '20px', textAlign: 'center' }}>Nenhum jogador encontrado.</p>
-            )}
-        </Modal>
-    );
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const selecionarJogador = (jogador) => {
+    setJogadorSelecionado(jogador);  // Atualiza o estado com o jogador selecionado
+    setIsModalOpen(false);  // Fecha a modal após selecionar o jogador
+  };
+
+  return (
+    <div>
+      <button onClick={openModal}>Abrir Modal de Jogadores</button>
+
+      {/* Exibe o jogador selecionado abaixo do botão */}
+      {jogadorSelecionado && (
+        <div>
+          <h3>Jogador Selecionado:</h3>
+          <p>{jogadorSelecionado.nome}</p>
+          <p>Posição: {jogadorSelecionado.posicao}</p>
+          <p>Clube: {jogadorSelecionado.clube}</p>
+        </div>
+      )}
+
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        contentLabel="Jogadores"
+        ariaHideApp={false} // Necessário para o modal funcionar no React
+      >
+        <h2>Jogadores Aprovados</h2>
+        <button onClick={closeModal}>Fechar</button>
+        <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+          <table border="1" style={{ width: '100%' }}>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Data de Nascimento</th>
+                <th>Posição</th>
+                <th>Clube</th>
+                <th>Link</th>
+                <th>Ação</th> {/* Nova coluna para o botão de seleção */}
+              </tr>
+            </thead>
+            <tbody>
+              {jogadores.map(jogador => (
+                <tr key={jogador.id}>
+                  <td>{jogador.nome}</td>
+                  <td>{new Date(jogador.dataNascimento).toLocaleDateString()}</td>
+                  <td>{jogador.posicao}</td>
+                  <td>{jogador.clube}</td>
+                  <td><a href={jogador.link} target="_blank" rel="noopener noreferrer">Perfil</a></td>
+                  <td>
+                    {/* Botão de seleção do jogador */}
+                    <button onClick={() => selecionarJogador(jogador)}>Selecionar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Modal>
+    </div>
+  );
 };
 
-export default SearchPlayerModal;
+export default JogadoresModal;
