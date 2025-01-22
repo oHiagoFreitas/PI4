@@ -14,9 +14,10 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
         setError('');
         try {
             const response = await axios.get(`http://pi4-hdnd.onrender.com/atletas`, {
-                params: { search: searchTerm }, // Ajuste conforme a API do backend
+                params: { search: searchTerm },
             });
-            setPlayers(response.data); // Assumindo que o retorno é uma lista de jogadores
+            console.log('Jogadores retornados:', response.data); // Verifique aqui
+            setPlayers(response.data);
         } catch (err) {
             setError('Erro ao buscar jogadores. Tente novamente.');
         } finally {
@@ -67,10 +68,12 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
                     {players.map((player) => (
                         <tr key={player.id}>
                             <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{player.nome}</td>
-                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{player.time}</td>
+                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
+                                {player.time ? player.time.nome : player.clube}
+                            </td>
                             <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
                                 <button
-                                    onClick={() => onPlayerSelect(player.name)}
+                                    onClick={() => onPlayerSelect(player.nome)} // Use "nome" ao invés de "name"
                                     style={{
                                         padding: '6px 12px',
                                         backgroundColor: '#007bff',
