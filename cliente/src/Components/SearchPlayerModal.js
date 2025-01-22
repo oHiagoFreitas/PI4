@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import '../Style/SearchPlayerModal.css';
+import '../Style/CreateReportModal.css'; // Certifique-se de que o caminho para o CSS está correto
 
 const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -13,8 +13,8 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
         setLoading(true);
         setError('');
         try {
-            const response = await axios.get(`https://pi4-hdnd.onrender.com/atletas`, {
-                params: { search: searchTerm }, // Envia o termo de busca como parâmetro (ajuste conforme o backend)
+            const response = await axios.get(`http://pi4-hdnd.onrender.com/atletas`, {
+                params: { search: searchTerm }, // Ajuste conforme a API do backend
             });
             setPlayers(response.data); // Assumindo que o retorno é uma lista de jogadores
         } catch (err) {
@@ -34,8 +34,10 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: '400px',
+                    width: '600px',
                     height: 'auto',
+                    maxHeight: '80vh',
+                    overflowY: 'auto',
                 },
             }}
         >
@@ -46,20 +48,48 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
                     placeholder="Digite o nome do jogador"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    style={{ width: '100%', marginBottom: '10px' }}
+                    style={{ width: '100%', marginBottom: '10px', padding: '8px' }}
                 />
-                <button onClick={handleSearch} style={{ marginBottom: '20px' }}>
+                <button onClick={handleSearch} style={{ marginBottom: '20px', padding: '8px 16px' }}>
                     {loading ? 'Buscando...' : 'Buscar'}
                 </button>
             </div>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
-                {players.map(player => (
-                    <li key={player.id} style={{ cursor: 'pointer' }}>
-                        <span onClick={() => onPlayerSelect(player.name)}>{player.name}</span>
-                    </li>
-                ))}
-            </ul>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                <thead>
+                    <tr>
+                        <th style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>Nome</th>
+                        <th style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>Clube</th>
+                        <th style={{ borderBottom: '1px solid #ccc', padding: '8px' }}>Ação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {players.map((player) => (
+                        <tr key={player.id}>
+                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{player.nome}</td>
+                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{player.time}</td>
+                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
+                                <button
+                                    onClick={() => onPlayerSelect(player.name)}
+                                    style={{
+                                        padding: '6px 12px',
+                                        backgroundColor: '#007bff',
+                                        color: '#fff',
+                                        border: 'none',
+                                        borderRadius: '4px',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    Selecionar
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {players.length === 0 && !loading && !error && (
+                <p style={{ marginTop: '20px', textAlign: 'center' }}>Nenhum jogador encontrado.</p>
+            )}
         </Modal>
     );
 };

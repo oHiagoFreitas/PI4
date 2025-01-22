@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Importando SweetAlert2
 import '../Style/CreateReportModal.css'; // Certifique-se de que o caminho para o CSS está correto
+import SearchPlayerModal from './SearchPlayerModal'; // Importa o novo componente
 
 const customStyles = {
     content: {
@@ -35,6 +36,15 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
         comentario: '',
         atletaNome: ''
     });
+
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+    const handleSelectPlayer = (playerName) => {
+        setFormData({ ...formData, atletaNome: playerName });
+        setIsSearchModalOpen(false); // Fecha o modal de busca ao selecionar o jogador
+    };
+
+
 
     const handleChangeCheckbox = (field, index) => {
         const updatedField = Array(formData[field].length).fill(false); // Cria um array com todos os valores como false
@@ -262,21 +272,34 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                 </div>
                 <div className="form-group-report">
                     <label>Nome do Atleta:</label>
-                    <input
-                        type="text"
-                        id="atletaNome"
-                        name="atletaNome"
-                        value={formData.atletaNome}
-                        onChange={(e) => setFormData({ ...formData, atletaNome: e.target.value })}
-                        required
-                        className="form-input-report"
-                    />
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <input
+                            type="text"
+                            value={formData.atletaNome}
+                            onChange={(e) => setFormData({ ...formData, atletaNome: e.target.value })}
+                            required
+                            className="form-input-report"
+                            placeholder="Selecione ou digite o nome do atleta"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setIsSearchModalOpen(true)}
+                            className="submit-button"
+                        >
+                            Buscar
+                        </button>
+                    </div>
                 </div>
                 <div className="form-buttons">
                     <button type="submit" className="submit-button">Criar Relatório</button>
-                    <button type="button" onClick={onRequestClose} className="submit-button" style={{marginLeft: '10px'}}>Cancelar</button>
+                    <button type="button" onClick={onRequestClose} className="submit-button" style={{ marginLeft: '10px' }}>Cancelar</button>
                 </div>
             </form>
+            <SearchPlayerModal
+                isOpen={isSearchModalOpen}
+                onRequestClose={() => setIsSearchModalOpen(false)}
+                onPlayerSelect={handleSelectPlayer}
+            />
         </Modal>
     );
 };
