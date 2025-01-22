@@ -295,11 +295,13 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                     <button type="button" onClick={onRequestClose} className="submit-button" style={{ marginLeft: '10px' }}>Cancelar</button>
                 </div>
             </form>
-            <SearchPlayerModal
-                isOpen={isSearchModalOpen}
-                onRequestClose={() => setIsSearchModalOpen(false)}
-                onPlayerSelect={handleSelectPlayer}
-            />
+            {isSearchModalOpen && (
+                <SearchPlayerModal
+                    isOpen={isSearchModalOpen}
+                    onRequestClose={() => setIsSearchModalOpen(false)}
+                    onPlayerSelect={handleSelectPlayer}
+                />
+            )}
         </Modal>
     );
 };

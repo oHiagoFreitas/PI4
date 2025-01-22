@@ -33,15 +33,15 @@ const JogadoresModal = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Abrir Modal de Jogadores</button>
+      <button onClick={openModal} className="submit-button">Selecione o Jogador</button>
 
       {/* Exibe o jogador selecionado abaixo do botão */}
       {jogadorSelecionado && (
         <div>
           <h3>Jogador Selecionado:</h3>
-          <p>{jogadorSelecionado.nome}</p>
-          <p>Posição: {jogadorSelecionado.posicao}</p>
-          <p>Clube: {jogadorSelecionado.clube}</p>
+          <p><strong>Nome:</strong> {jogadorSelecionado.nome}</p>
+          <p><strong>Posição:</strong> {jogadorSelecionado.posicao}</p>
+          <p><strong>Clube:</strong> {jogadorSelecionado.clube}</p>
         </div>
       )}
 
