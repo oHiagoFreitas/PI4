@@ -10,15 +10,20 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
     const [error, setError] = useState('');
 
     const handleSearch = async () => {
+        if (!searchTerm.trim()) {
+            setError('Por favor, insira um termo de busca.');
+            return;
+        }
         setLoading(true);
         setError('');
         try {
             const response = await axios.get(`http://pi4-hdnd.onrender.com/atletas`, {
                 params: { search: searchTerm },
             });
-            console.log('Jogadores retornados:', response.data); // Verifique aqui
+            console.log('Jogadores retornados pela API:', response.data);
             setPlayers(response.data);
         } catch (err) {
+            console.error('Erro na busca de jogadores:', err);
             setError('Erro ao buscar jogadores. Tente novamente.');
         } finally {
             setLoading(false);
@@ -67,13 +72,15 @@ const SearchPlayerModal = ({ isOpen, onRequestClose, onPlayerSelect }) => {
                 <tbody>
                     {players.map((player) => (
                         <tr key={player.id}>
-                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>{player.nome}</td>
+                            <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
+                                {player.nome}
+                            </td>
                             <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
                                 {player.time ? player.time.nome : player.clube}
                             </td>
                             <td style={{ borderBottom: '1px solid #eee', padding: '8px' }}>
                                 <button
-                                    onClick={() => onPlayerSelect(player.nome)} // Use "nome" ao invés de "name"
+                                    onClick={() => onPlayerSelect(player.nome)} // Passa o nome do jogador ao selecionar
                                     style={{
                                         padding: '6px 12px',
                                         backgroundColor: '#007bff',
