@@ -273,7 +273,7 @@ function CriarPartida() {
                                 />
                             </div>
                             <div>
-                                <label>Atletas (nomes separados por vírgula):</label>
+                                <label>Atletas:</label>
                                 {jogadoresDisponiveis.map(jogador => (
                                     <div key={jogador.id}>
                                         <input

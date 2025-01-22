@@ -58,13 +58,6 @@ function TabelaRelatorios({ relatorios, handleEdit, handleDelete }) {
                   {/* Botões de edição e exclusão apenas para Admins */}
                   {userRole === 'Admin' && (
                     <>
-                      {/* Botão para editar */}
-                      <button
-                        className="action-buttonAT"
-                        onClick={() => handleEdit(relatorio)}
-                      >
-                        <i className="bi bi-pencil" title="Editar"></i>
-                      </button>
 
                       {/* Botão para apagar */}
                       <button
