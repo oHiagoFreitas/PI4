@@ -28,6 +28,7 @@ function Sidebar() {
             <div className="dashboard">
                 <span className="dashboard-label badge">
                     <i className="bi bi-house-fill dashboard-icon"></i> {/* Ícone de dashboard */}
+                    < Link to="/backofficeConsultor">Dashboard</Link>
                     Dashboard
                 </span>
             </div>
