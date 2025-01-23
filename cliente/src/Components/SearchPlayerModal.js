@@ -79,7 +79,7 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
                   <td>{jogador.posicao}</td>
                   <td>{jogador.clube}</td>
                   <td>
-                    <button onClick={() => selecionarJogador(jogador)}><i class="bi bi-check2-circle"></i></button>
+                    <button onClick={() => selecionarJogador(jogador)} className="submit-button"><i class="bi bi-check2-circle"></i></button>
                   </td>
                 </tr>
               ))}
