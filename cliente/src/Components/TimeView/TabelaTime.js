@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'; // Para criar links de navegação
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import EditTeamModal from './EditTeamModal'; // Importando o modal de edição
+import { useNavigate } from 'react-router-dom';
 
 // Componente da Tabela de Times
 function TabelaTimes({ times, handleEdit, handleDelete }) {
@@ -32,10 +33,12 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
 
   // Função para fechar o modal e recarregar a página
   const closeEditModal = (refresh = false) => {
+    const navigate = useNavigate();
+    
     setIsModalOpen(false);
     setSelectedTeam(null);
     if (refresh) {
-        window.location.href = "/";  // Redireciona para a página inicial
+        navigate("/times"); // Redireciona para a página "/times" sem recarregar
     }
 };
 
