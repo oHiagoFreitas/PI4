@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Para criar links de navegação
+import { Link, useNavigate } from 'react-router-dom'; // Para criar links de navegação
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import EditTeamModal from './EditTeamModal'; // Importando o modal de edição
-import { useNavigate } from 'react-router-dom';
+
 
 // Componente da Tabela de Times
 function TabelaTimes({ times, handleEdit, handleDelete }) {
