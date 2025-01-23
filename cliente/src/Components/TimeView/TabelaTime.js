@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Para criar links de navegação
+import { Link, useNavigate } from 'react-router-dom'; // Para criar links de navegação
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import EditTeamModal from './EditTeamModal'; // Importando o modal de edição
+
 
 // Componente da Tabela de Times
 function TabelaTimes({ times, handleEdit, handleDelete }) {
@@ -34,10 +35,12 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
   const closeEditModal = (refresh = false) => {
     setIsModalOpen(false);
     setSelectedTeam(null);
+
     if (refresh) {
-        window.location.href = "/times";  // Redireciona para a página inicial
+        fetchData(); // Chama uma função para atualizar os dados da página
     }
 };
+
 
   // Carregar a role do usuário do localStorage
   useEffect(() => {
