@@ -35,13 +35,13 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
   const location = useLocation();
 
   const closeEditModal = (refresh = false) => {
-      setIsModalOpen(false);
-      setSelectedTeam(null);
+    setIsModalOpen(false);
+    setSelectedTeam(null);
+    if (refresh) {
+        window.location.reload(); // Recarrega mantendo a URL atual
+    }
+};
 
-      if (refresh) {
-          navigate(location.pathname); // Redireciona para a mesma página
-      }
-  };
 
 
   // Carregar a role do usuário do localStorage
