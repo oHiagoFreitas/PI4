@@ -35,9 +35,9 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
     setIsModalOpen(false);
     setSelectedTeam(null);
     if (refresh) {
-      window.location.reload(); // Recarrega a página após edição
+        window.location.href = "/times";  // Redireciona para a página inicial
     }
-  };
+};
 
   // Carregar a role do usuário do localStorage
   useEffect(() => {
