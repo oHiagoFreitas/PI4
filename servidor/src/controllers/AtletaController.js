@@ -175,6 +175,28 @@ exports.getAllAtletasAprovados = async (req, res) => {
     }
 };
 
+exports.getAllADV= async (req, res) => {
+    try {
+        // Consulta para buscar atletas com o status 'aprovado' e que pertencem ao clube Acadêmico de Viseu
+        const atletas = await Atleta.findAll({
+            where: { 
+                status: 'aprovado' 
+            },
+            include: [
+                {
+                    model: Time,  // Inclui a tabela Time
+                    where: {
+                        nome: 'Acadêmico de Viseu'  // Filtra pelo nome do time
+                    }
+                }
+            ]
+        });
+        res.json(atletas);
+    } catch (error) {
+        res.status(500).json({ error: 'Erro ao buscar atletas' });
+    }
+};
+
 
 // Mostrar um atleta pelo ID
 exports.getAtletaById = async (req, res) => {

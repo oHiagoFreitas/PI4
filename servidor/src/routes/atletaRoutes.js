@@ -14,6 +14,8 @@ router.get('/', atletaController.getAllAtletas);
 
 router.get('/getAllAtletasAprovados', atletaController.getAllAtletasAprovados);
 
+router.get('/getAllADV', atletaController.getAllADV);
+
 // Rota para obter um atleta por ID
 router.get('/:id', atletaController.getAtletaById);
 

@@ -39,7 +39,7 @@ function CriarEquipeComJogadores() {
         if (!equipePrincipalId) return; // Se não houver ID, não faz nada.
 
         console.log("Carregando jogadores...");
-        fetch("https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados")
+        fetch("https://pi4-hdnd.onrender.com/atletas/getAllADV")
             .then(response => response.json())
             .then(data => {
                 setPlayers(data);

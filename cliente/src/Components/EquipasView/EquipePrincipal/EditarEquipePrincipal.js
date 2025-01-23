@@ -86,7 +86,7 @@ function EditarEquipePrincipal() {
 
     // Função para carregar todos os jogadores disponíveis e os ratings
     useEffect(() => {
-        fetch("https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados")
+        fetch("https://pi4-hdnd.onrender.com/atletas/getAllADV")
             .then(response => response.json())
             .then(data => setPlayers(data))
             .catch(error => console.error("Erro ao carregar jogadores:", error));
