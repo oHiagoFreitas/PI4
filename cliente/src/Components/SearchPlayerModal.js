@@ -36,10 +36,10 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
         contentLabel="Jogadores"
         ariaHideApp={false}
       >
-        <h2>Jogadores Aprovados</h2>
-        <button onClick={closeModal}>Fechar</button>
+        <h2 style={{color: "#DEAF5E"}}>Jogadores Aprovados</h2>
+        
         <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-          <table border="1" style={{ width: '100%' }}>
+          <table className="atletas-tableAT">
             <thead>
               <tr>
                 <th>Nome</th>
@@ -57,15 +57,16 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
                   <td>{new Date(jogador.dataNascimento).toLocaleDateString()}</td>
                   <td>{jogador.posicao}</td>
                   <td>{jogador.clube}</td>
-                  <td><a href={jogador.link} target="_blank" rel="noopener noreferrer">Perfil</a></td>
+                  <td><a href={jogador.link} target="_blank" rel="noopener noreferrer" className="action-buttonAT dashboard-link">Perfil</a></td>
                   <td>
-                    <button onClick={() => selecionarJogador(jogador)}>Selecionar</button>
+                    <button onClick={() => selecionarJogador(jogador)} className="action-buttonAT">Selecionar</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+        <button onClick={closeModal} className="submit-button">Fechar</button>
       </Modal>
     </div>
   );
