@@ -186,7 +186,7 @@ exports.getAllADV= async (req, res) => {
                 {
                     model: Time,  // Inclui a tabela Time
                     where: {
-                        nome: 'Acadêmico de Viseu'  // Filtra pelo nome do time
+                        nome: 'Académico de Viseu'  // Filtra pelo nome do time
                     }
                 }
             ]
