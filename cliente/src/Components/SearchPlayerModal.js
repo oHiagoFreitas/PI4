@@ -68,7 +68,6 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
                 <th>Data de Nascimento</th>
                 <th>Posição</th>
                 <th>Clube</th>
-                <th>Link</th>
                 <th>Ação</th>
               </tr>
             </thead>
@@ -79,9 +78,8 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
                   <td>{new Date(jogador.dataNascimento).toLocaleDateString()}</td>
                   <td>{jogador.posicao}</td>
                   <td>{jogador.clube}</td>
-                  <td><a href={jogador.link} target="_blank" rel="noopener noreferrer" className="action-buttonAT dashboard-link">Perfil</a></td>
                   <td>
-                    <button onClick={() => selecionarJogador(jogador)} className="action-buttonAT">Selecionar</button>
+                    <button onClick={() => selecionarJogador(jogador)}><i class="bi bi-check2-circle"></i></button>
                   </td>
                 </tr>
               ))}
