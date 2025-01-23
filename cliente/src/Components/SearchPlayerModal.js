@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
-import './MMJ_PFR.css'; // Supondo que você coloque os estilos acima em ModalStyles.css
+import '../Style/MMJ_PFR.css'; // Supondo que você coloque os estilos acima em ModalStyles.css
 
 const SearchPlayerModal = ({ onPlayerSelect }) => {
   const [jogadores, setJogadores] = useState([]);
