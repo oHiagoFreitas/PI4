@@ -60,7 +60,7 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
           style={{ marginBottom: '10px', padding: '5px', width: '100%' }}
         />
         
-        <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+        <div>
           <table className="atletas-tableAT" style={{ width: '100%', tableLayout: 'auto' }}>
             <thead>
               <tr>
