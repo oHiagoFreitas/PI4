@@ -35,7 +35,7 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
     setIsModalOpen(false);
     setSelectedTeam(null);
     if (refresh) {
-        window.location.href = "/times";  // Redireciona para a página inicial
+        window.location.href = "https://frontpi4.onrender.com/times";  // Redireciona para a página inicial
     }
 };
 
