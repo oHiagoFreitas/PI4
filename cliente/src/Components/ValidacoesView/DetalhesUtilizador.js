@@ -73,9 +73,6 @@ function DetalhesUtilizador() {
                             <div className="sectionAD informacoesAD">
                                 <div><strong>Nome:</strong> {utilizador.nome}</div>
                                 <div><strong>Email:</strong> {utilizador.email}</div>
-                                <div><strong>Data de nascimento:</strong> {new Date(utilizador.dataNascimento).toLocaleDateString()}</div>
-                                <div><strong>Telefone:</strong> {utilizador.telefone}</div>
-                                <div><strong>Endereço:</strong> {utilizador.endereco}</div>
                                 <div><strong>Função:</strong> {utilizador.role}</div>
                                 <div><strong>Status:</strong> {utilizador.status}</div>
                             </div>
