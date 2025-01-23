@@ -78,7 +78,7 @@ function DetalhesUtilizador() {
                             </div>
 
                             <div className="button-containerAD">
-                                <button onClick={() => navigate("/utilizadores")} className="back-buttonAD">
+                            <button onClick={() => navigate(-1)} className="back-buttonAD">
                                     Voltar
                                 </button>
                             </div>
