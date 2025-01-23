@@ -33,12 +33,11 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
 
   // Função para fechar o modal e recarregar a página
   const closeEditModal = (refresh = false) => {
-    const navigate = useNavigate();
-    
+   
     setIsModalOpen(false);
     setSelectedTeam(null);
     if (refresh) {
-        navigate("/times"); // Redireciona para a página "/times" sem recarregar
+      useNavigate("/times"); // Redireciona para a página "/times" sem recarregar
     }
 };
 
