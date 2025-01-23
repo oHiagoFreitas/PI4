@@ -57,11 +57,11 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
           placeholder="Buscar por nome..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          style={{ marginBottom: '10px', padding: '5px' }}
+          style={{ marginBottom: '10px', padding: '5px', width: '100%' }}
         />
         
         <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
-          <table className="atletas-tableAT">
+          <table className="atletas-tableAT" style={{ width: '100%', tableLayout: 'auto' }}>
             <thead>
               <tr>
                 <th>Nome</th>
