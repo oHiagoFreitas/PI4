@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import Swal from 'sweetalert2'; // Importando SweetAlert2
+import SearchPlayerModal from './SearchPlayerModal'; // Certifique-se de que o caminho está correto
 import '../Style/CreateReportModal.css'; // Certifique-se de que o caminho para o CSS está correto
 
 const customStyles = {
@@ -23,8 +24,7 @@ const customStyles = {
     },
 };
 
-const CreateReportModal = ({ isOpen, onRequestClose, atletaNome  }) => {
-    const [selectedPlayer, setSelectedPlayer] = useState(null);
+const CreateReportModal = ({ isOpen, onRequestClose }) => {
     const [formData, setFormData] = useState({
         tecnica: [false, false, false, false, false],
         velocidade: [false, false, false, false, false],
@@ -34,12 +34,8 @@ const CreateReportModal = ({ isOpen, onRequestClose, atletaNome  }) => {
         morfologia: '',
         ratingFinal: [false, false, false, false, false],
         comentario: '',
-        atletaNome: atletaNome || ''
+        atletaNome: ''
     });
-
-    const handlePlayerSelection = (player) => {
-        setSelectedPlayer(player.nome);  // Atualize o estado com o nome do jogador
-    };
 
     const handleChangeCheckbox = (field, index) => {
         const updatedField = Array(formData[field].length).fill(false); // Cria um array com todos os valores como false
@@ -266,9 +262,10 @@ const CreateReportModal = ({ isOpen, onRequestClose, atletaNome  }) => {
                     />
                 </div>
                 <div className="form-group-report">
-                    <label>Jogador Selecionado:</label>
-                    <SearchPlayerModal onPlayerSelect={handlePlayerSelection} />
-                    {selectedPlayer && <p>{selectedPlayer}</p>} {/* Exibe o nome do jogador selecionado */}
+                    <label>Nome do Atleta:</label>
+                    <SearchPlayerModal
+                        onPlayerSelect={(jogador) => setFormData({ ...formData, atletaNome: jogador.nome })}
+                    />
                 </div>
                 <div className="form-buttons">
                     <button type="submit" className="submit-button">Criar Relatório</button>
