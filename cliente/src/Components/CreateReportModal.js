@@ -36,6 +36,8 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
         comentario: '',
         atletaNome: ''
     });
+    
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
 
     const handleChangeCheckbox = (field, index) => {
         const updatedField = Array(formData[field].length).fill(false); // Cria um array com todos os valores como false
@@ -138,6 +140,11 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                 confirmButtonText: 'OK',
             });
         }
+    };
+
+    const handlePlayerSelect = (player) => {
+        setSelectedPlayer(player);
+        setFormData({ ...formData, atletaNome: player.nome });
     };
 
     return (
@@ -261,11 +268,18 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
                         rows=""
                     />
                 </div>
-                <div className="form-group-report">
+                 <div className="form-group-report">
                     <label>Nome do Atleta:</label>
-                    <SearchPlayerModal
-                        onPlayerSelect={(jogador) => setFormData({ ...formData, atletaNome: jogador.nome })}
-                    />
+                    {selectedPlayer ? (
+                        <div>
+                            <p><strong>{selectedPlayer.nome}</strong></p>
+                            <p>Data de Nascimento: {new Date(selectedPlayer.dataNascimento).toLocaleDateString()}</p>
+                            <p>Posição: {selectedPlayer.posicao}</p>
+                            <p>Clube: {selectedPlayer.clube}</p>
+                        </div>
+                    ) : (
+                        <SearchPlayerModal onPlayerSelect={handlePlayerSelect} />
+                    )}
                 </div>
                 <div className="form-buttons">
                     <button type="submit" className="submit-button">Criar Relatório</button>
