@@ -24,6 +24,7 @@ const customStyles = {
 };
 
 const CreateReportModal = ({ isOpen, onRequestClose, atletaNome  }) => {
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
     const [formData, setFormData] = useState({
         tecnica: [false, false, false, false, false],
         velocidade: [false, false, false, false, false],
@@ -35,6 +36,10 @@ const CreateReportModal = ({ isOpen, onRequestClose, atletaNome  }) => {
         comentario: '',
         atletaNome: atletaNome || ''
     });
+
+    const handlePlayerSelection = (player) => {
+        setSelectedPlayer(player.nome);  // Atualize o estado com o nome do jogador
+    };
 
     const handleChangeCheckbox = (field, index) => {
         const updatedField = Array(formData[field].length).fill(false); // Cria um array com todos os valores como false
@@ -262,7 +267,8 @@ const CreateReportModal = ({ isOpen, onRequestClose, atletaNome  }) => {
                 </div>
                 <div className="form-group-report">
                     <label>Jogador Selecionado:</label>
-                    <p>{formData.atletaNome}</p>
+                    <SearchPlayerModal onPlayerSelect={handlePlayerSelection} />
+                    {selectedPlayer && <p>{selectedPlayer}</p>} {/* Exibe o nome do jogador selecionado */}
                 </div>
                 <div className="form-buttons">
                     <button type="submit" className="submit-button">Criar Relatório</button>
