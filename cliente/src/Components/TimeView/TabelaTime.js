@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Para criar links de navegação
+import { Link, useNavigate, useLocation } from 'react-router-dom'; // Para criar links de navegação
 import '../../Style/AtletasView/AtletasTable.css'; // Importando o CSS da tabela
 import Pagination from '../Pagination'; // Importando o componente de paginação
 import EditTeamModal from './EditTeamModal'; // Importando o modal de edição
@@ -31,15 +31,17 @@ function TabelaTimes({ times, handleEdit, handleDelete }) {
     setIsModalOpen(true);
   };
 
-  // Função para fechar o modal e recarregar a página
-  const closeEditModal = (refresh = false) => {
-    setIsModalOpen(false);
-    setSelectedTeam(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    if (refresh) {
-        fetchData(); // Chama uma função para atualizar os dados da página
-    }
-};
+  const closeEditModal = (refresh = false) => {
+      setIsModalOpen(false);
+      setSelectedTeam(null);
+
+      if (refresh) {
+          navigate(location.pathname); // Redireciona para a mesma página
+      }
+  };
 
 
   // Carregar a role do usuário do localStorage
