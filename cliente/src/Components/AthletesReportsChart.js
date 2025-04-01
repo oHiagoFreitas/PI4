@@ -13,10 +13,10 @@ const AthletesReportsChart = () => {
 
     const fetchData = async () => {
         try {
-            const reportsResponse = await axios.get('https://pi4-hdnd.onrender.com/relatorios');
+            const reportsResponse = await axios.get('https://localhost:3000/relatorios');
             const relatorios = reportsResponse.data;
 
-            const athletesResponse = await axios.get('https://pi4-hdnd.onrender.com/atletas');
+            const athletesResponse = await axios.get('https://localhost:3000/atletas');
             const atletas = athletesResponse.data;
 
             const reportsSubmitted = new Array(12).fill(0);

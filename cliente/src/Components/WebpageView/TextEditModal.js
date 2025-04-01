@@ -31,7 +31,7 @@ const TextEditModal = ({ isVisible, editData, setEditData, onSave, onCancel }) =
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            const response = await axios.put('https://pi4-hdnd.onrender.com/MicroSite/1', formData);
+            const response = await axios.put('https://localhost:3000/MicroSite/1', formData);
             Swal.fire({
                 icon: 'success',
                 title: 'Sucesso!',

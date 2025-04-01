@@ -98,11 +98,11 @@ const CreateReportModal = ({ isOpen, onRequestClose }) => {
 
         try {
             // Enviando a requisição para o backend para criar o relatório
-            const response = await axios.post('https://pi4-hdnd.onrender.com/relatorios', newReportData);
+            const response = await axios.post('https://localhost:3000/relatorios', newReportData);
             console.log('Relatório criado:', response.data);
 
             // Após criar o relatório, enviar uma notificação que um relatório está aguardando aprovação
-            await axios.post('https://pi4-hdnd.onrender.com/Notificacao', {
+            await axios.post('https://localhost:3000/Notificacao', {
                 conteudo: `Um novo relatório foi submetido para aprovação. Atleta: ${atletaNome}.`,
                 tipo: "Criação",
                 remetenteId: userId,  // ID do scout que criou o relatório

@@ -35,7 +35,7 @@ const CreateTeamModal = ({ isOpen, onRequestClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://pi4-hdnd.onrender.com/times/createTimeAprovado', formData);
+            const response = await axios.post('https://localhost:3000/times/createTimeAprovado', formData);
             console.log('Time criado:', response.data);
             
             // Alerta de sucesso

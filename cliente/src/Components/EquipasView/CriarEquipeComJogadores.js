@@ -35,7 +35,7 @@ function CriarEquipeComJogadores() {
 
     useEffect(() => {
         console.log("Carregando jogadores...");
-        fetch("https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados")
+        fetch("https://localhost:3000/atletas/getAllAtletasAprovados")
             .then(response => response.json())
             .then(data => {
                 setPlayers(data);
@@ -44,7 +44,7 @@ function CriarEquipeComJogadores() {
             .catch(error => console.error("Erro ao carregar jogadores:", error));
 
         console.log("Carregando relatórios...");
-        fetch("https://pi4-hdnd.onrender.com/relatorios")
+        fetch("https://localhost:3000/relatorios")
             .then(response => response.json())
             .then(data => {
                 const ratingsMap = data.reduce((acc, report) => {
@@ -57,7 +57,7 @@ function CriarEquipeComJogadores() {
             .catch(error => console.error("Erro ao carregar relatórios:", error));
 
         console.log("Carregando formação da equipe principal...");
-        fetch(`https://pi4-hdnd.onrender.com/equipeSombra/${equipeSombraId}`)
+        fetch(`https://localhost:3000/equipeSombra/${equipeSombraId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.formacao) {
@@ -89,7 +89,7 @@ function CriarEquipeComJogadores() {
     
         if (oldPlayerId) {
             // Remove o jogador antigo da base de dados
-            fetch(`https://pi4-hdnd.onrender.com/equipePrincipal/remover-jogador/${oldPlayerId}`, {
+            fetch(`https://localhost:3000/equipePrincipal/remover-jogador/${oldPlayerId}`, {
                 method: "DELETE",
             })
             .then(response => response.json())
@@ -145,7 +145,7 @@ function CriarEquipeComJogadores() {
                 });
 
                 // Remove o jogador da API
-                fetch("https://pi4-hdnd.onrender.com/equipeSombra/remover-jogadores", {
+                fetch("https://localhost:3000/equipeSombra/remover-jogadores", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -184,7 +184,7 @@ function CriarEquipeComJogadores() {
 
         const playerIdsToRemove = Object.values(positions).map(player => player.id);
 
-        fetch("https://pi4-hdnd.onrender.com/equipeSombra/remover-jogadores", {
+        fetch("https://localhost:3000/equipeSombra/remover-jogadores", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -243,7 +243,7 @@ function CriarEquipeComJogadores() {
 
         console.log("Dados enviados:", requestData);
 
-        fetch("https://pi4-hdnd.onrender.com/equipeSombra/jogadores", {
+        fetch("https://localhost:3000/equipeSombra/jogadores", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

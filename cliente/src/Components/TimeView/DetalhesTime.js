@@ -17,7 +17,7 @@ function DetalhesTime() {
     useEffect(() => {
         console.log("ID do time:", id); // Verifique se o ID está sendo passado
         axios
-            .get(`https://pi4-hdnd.onrender.com/times/${id}`) // A URL para carregar os detalhes do time específico
+            .get(`https://localhost:3000/times/${id}`) // A URL para carregar os detalhes do time específico
             .then((response) => {
                 console.log("Time carregado:", response.data); // Verifique a resposta do backend
                 setTime(response.data);

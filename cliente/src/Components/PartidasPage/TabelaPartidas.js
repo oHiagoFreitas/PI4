@@ -52,7 +52,7 @@ function TabelaPartidas({ partidas, handleEdit, handleDelete }) {
       const scoutsIds = [scoutId];
   
       // Envia a requisição PUT com um array de IDs
-      const response = await axios.put(`https://pi4-hdnd.onrender.com/partidas/${id}/atribuir-scout`, { scoutsIds });
+      const response = await axios.put(`https://localhost:3000/partidas/${id}/atribuir-scout`, { scoutsIds });
   
       // Verifica se a resposta foi bem-sucedida
       if (response.status === 200) {

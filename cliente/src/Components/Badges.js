@@ -24,7 +24,7 @@ const Badges = () => {
         // Funções para buscar os totais de atletas, times, relatórios e atletas nota 5
         const fetchTotalAtletas = async () => {
             try {
-                const response = await fetch('https://pi4-hdnd.onrender.com/atletas/total-atletas');
+                const response = await fetch('https://localhost:3000/atletas/total-atletas');
                 const data = await response.json();
                 setTotalAtletas(data.totalAtletas);
             } catch (error) {
@@ -34,7 +34,7 @@ const Badges = () => {
 
         const fetchTotalTimes = async () => {
             try {
-                const response = await fetch('https://pi4-hdnd.onrender.com/Times/total-times');
+                const response = await fetch('https://localhost:3000/Times/total-times');
                 const data = await response.json();
                 setTotalTimes(data.totalTimes);
             } catch (error) {
@@ -44,7 +44,7 @@ const Badges = () => {
 
         const fetchTotalRelatorios = async () => {
             try {
-                const response = await fetch('https://pi4-hdnd.onrender.com/Relatorios/total-relatorios');
+                const response = await fetch('https://localhost:3000/Relatorios/total-relatorios');
                 const data = await response.json();
                 setTotalRelatorios(data.totalRelatorios);
             } catch (error) {
@@ -54,7 +54,7 @@ const Badges = () => {
 
         const fetchTotalAtletas5 = async () => {
             try {
-                const response = await fetch('https://pi4-hdnd.onrender.com/Relatorios/total-relatorios-rating5');
+                const response = await fetch('https://localhost:3000/Relatorios/total-relatorios-rating5');
                 const data = await response.json();
                 console.log("Resposta da API:", data); // Veja toda a resposta da API
         

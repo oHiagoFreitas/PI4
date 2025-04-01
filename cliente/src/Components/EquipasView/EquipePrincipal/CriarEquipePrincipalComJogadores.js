@@ -39,7 +39,7 @@ function CriarEquipeComJogadores() {
         if (!equipePrincipalId) return; // Se não houver ID, não faz nada.
 
         console.log("Carregando jogadores...");
-        fetch("https://pi4-hdnd.onrender.com/atletas/getAllADV")
+        fetch("https://localhost:3000/atletas/getAllADV")
             .then(response => response.json())
             .then(data => {
                 setPlayers(data);
@@ -48,7 +48,7 @@ function CriarEquipeComJogadores() {
             .catch(error => console.error("Erro ao carregar jogadores:", error));
 
         console.log("Carregando relatórios...");
-        fetch("https://pi4-hdnd.onrender.com/relatorios")
+        fetch("https://localhost:3000/relatorios")
             .then(response => response.json())
             .then(data => {
                 const ratingsMap = data.reduce((acc, report) => {
@@ -61,7 +61,7 @@ function CriarEquipeComJogadores() {
             .catch(error => console.error("Erro ao carregar relatórios:", error));
 
         console.log("Carregando formação da equipe principal...");
-        fetch(`https://pi4-hdnd.onrender.com/equipePrincipal/${equipePrincipalId}`)
+        fetch(`https://localhost:3000/equipePrincipal/${equipePrincipalId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.formacao) {
@@ -92,7 +92,7 @@ function CriarEquipeComJogadores() {
 
         if (oldPlayerId) {
             // Remove o jogador antigo da base de dados
-            fetch(`https://pi4-hdnd.onrender.com/equipePrincipal/remover-jogador/${oldPlayerId}`, {
+            fetch(`https://localhost:3000/equipePrincipal/remover-jogador/${oldPlayerId}`, {
                 method: "DELETE",
             })
                 .then(response => response.json())
@@ -149,7 +149,7 @@ function CriarEquipeComJogadores() {
         const playerIdsToRemove = Object.values(positions).map(player => player.id);
 
         console.log("Removendo jogadores da equipe principal:", playerIdsToRemove);
-        fetch("https://pi4-hdnd.onrender.com/equipePrincipal/remover-jogadores", {
+        fetch("https://localhost:3000/equipePrincipal/remover-jogadores", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -207,7 +207,7 @@ function CriarEquipeComJogadores() {
         };
 
         console.log("Salvando equipe com os seguintes dados:", requestData);
-        fetch("https://pi4-hdnd.onrender.com/equipePrincipal/jogadores", {
+        fetch("https://localhost:3000/equipePrincipal/jogadores", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

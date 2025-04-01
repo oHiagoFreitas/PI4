@@ -10,7 +10,7 @@ const SearchPlayerModal = ({ onPlayerSelect }) => {
   const [searchQuery, setSearchQuery] = useState(''); // Estado para a busca
 
   useEffect(() => {
-    axios.get('https://pi4-hdnd.onrender.com/atletas/getAllAtletasAprovados')
+    axios.get('https://localhost:3000/atletas/getAllAtletasAprovados')
       .then(response => {
         setJogadores(response.data);
         setFilteredJogadores(response.data); // Inicializa o filtro com todos os jogadores

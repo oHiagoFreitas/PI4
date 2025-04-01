@@ -37,7 +37,7 @@ function CriarPartida() {
 
     // Função para buscar os times
     useEffect(() => {
-        axios.get('https://pi4-hdnd.onrender.com/times')
+        axios.get('https://localhost:3000/times')
             .then((response) => {
                 setTimes(response.data);
             })
@@ -49,7 +49,7 @@ function CriarPartida() {
 
     // Função para buscar os jogadores
     useEffect(() => {
-        axios.get('https://pi4-hdnd.onrender.com/atletas')
+        axios.get('https://localhost:3000/atletas')
             .then((response) => {
                 setJogadores(response.data);
             })
@@ -61,7 +61,7 @@ function CriarPartida() {
 
     // Função para buscar os scouts
     useEffect(() => {
-        axios.get('https://pi4-hdnd.onrender.com/utilizadores/AdminScout')  // Endpoint para scouts
+        axios.get('https://localhost:3000/utilizadores/AdminScout')  // Endpoint para scouts
             .then((response) => {
                 setScouts(response.data);  // Atualiza o estado com os scouts recebidos
             })
@@ -153,7 +153,7 @@ function CriarPartida() {
         setLoading(true);
 
         axios
-            .post('https://pi4-hdnd.onrender.com/partidas', {
+            .post('https://localhost:3000/partidas', {
                 data,
                 hora,
                 local,
@@ -173,7 +173,7 @@ function CriarPartida() {
                     console.log("Remetente ID:", remetenteId);
                     console.log("Destinatário ID (Scout ID):", scoutId);
 
-                    axios.post('https://pi4-hdnd.onrender.com/Notificacao', {
+                    axios.post('https://localhost:3000/Notificacao', {
                         conteudo: `Você foi atribuído como scout para a partida entre ${timeMandanteNome} e ${timeVisitanteNome || 'time visitante'}.`,
                         tipo: 'Atribuição',
                         destinatarioId: scoutId,

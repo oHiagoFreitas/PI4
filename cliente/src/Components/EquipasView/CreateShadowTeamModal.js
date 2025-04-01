@@ -17,7 +17,7 @@ function CreateShadowTeamModal({ isOpen, onClose, onCreate }) {
 
     const createShadowTeam = async () => {
         try {
-            const response = await axios.post('https://pi4-hdnd.onrender.com/equipeSombra', newTeam);
+            const response = await axios.post('https://localhost:3000/equipeSombra', newTeam);
             console.log('Nova equipa sombra criada:', response.data);
             onCreate(response.data); // Passa a nova equipa criada para o componente pai
             navigate(`/equipeSombra/${response.data.id}`); // Redireciona para a rota com o ID da nova equipa

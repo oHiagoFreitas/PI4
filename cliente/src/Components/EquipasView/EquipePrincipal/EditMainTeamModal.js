@@ -18,7 +18,7 @@ function EditMainTeamModal({ isOpen, onClose, teamId, onUpdate }) {
     useEffect(() => {
         const fetchTeamData = async () => {
             try {
-                const response = await axios.get(`https://pi4-hdnd.onrender.com/equipePrincipal/${teamId}`);
+                const response = await axios.get(`https://localhost:3000/equipePrincipal/${teamId}`);
                 setTeamData({
                     nome: response.data.nome,
                     descricao: response.data.descricao,
@@ -38,7 +38,7 @@ function EditMainTeamModal({ isOpen, onClose, teamId, onUpdate }) {
     // Função para editar a equipe principal
     const editMainTeam = async () => {
         try {
-            const response = await axios.put(`https://pi4-hdnd.onrender.com/equipePrincipal/${teamId}/Nome`, teamData);
+            const response = await axios.put(`https://localhost:3000/equipePrincipal/${teamId}/Nome`, teamData);
             console.log('Equipe principal editada:', response.data);
 
             // Exibir SweetAlert de sucesso

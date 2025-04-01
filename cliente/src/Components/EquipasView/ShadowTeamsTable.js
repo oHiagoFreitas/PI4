@@ -19,7 +19,7 @@ function ShadowTeamsTable() {
     const fetchShadowTeams = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('https://pi4-hdnd.onrender.com/equipeSombra');
+            const response = await axios.get('https://localhost:3000/equipeSombra');
             setAllShadowTeams(response.data);
         } catch (error) {
             console.error('Erro ao buscar equipes sombra:', error);
@@ -57,7 +57,7 @@ function ShadowTeamsTable() {
             });
 
             if (result.isConfirmed) {
-                await axios.delete(`https://pi4-hdnd.onrender.com/equipeSombra/${id}`);
+                await axios.delete(`https://localhost:3000/equipeSombra/${id}`);
                 setAllShadowTeams(allShadowTeams.filter(team => team.id !== id));
 
                 Swal.fire(
@@ -91,7 +91,7 @@ function ShadowTeamsTable() {
             });
 
             if (result.isConfirmed) {
-                const response = await axios.put(`https://pi4-hdnd.onrender.com/equipeSombra/${id}`, updatedData);
+                const response = await axios.put(`https://localhost:3000/equipeSombra/${id}`, updatedData);
                 setAllShadowTeams(prevTeams =>
                     prevTeams.map(team =>
                         team.id === id ? response.data : team

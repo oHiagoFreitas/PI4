@@ -22,7 +22,7 @@ function TabelaJogosAtribuidos({ jogosAtribuidos }) {
   // Função para remover o scout de uma partida
   const removerScout = async (partidaId, scoutId) => {
     try {
-      const response = await axios.delete(`https://pi4-hdnd.onrender.com/partidas/${partidaId}/scouts/${scoutId}`);
+      const response = await axios.delete(`https://localhost:3000/partidas/${partidaId}/scouts/${scoutId}`);
 
       if (response.status === 200) {
         Swal.fire({

@@ -19,7 +19,7 @@ function MainTeamList() {
     const fetchMainTeams = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('https://pi4-hdnd.onrender.com/equipePrincipal');
+            const response = await axios.get('https://localhost:3000/equipePrincipal');
             setAllMainTeams(response.data);
         } catch (error) {
             console.error('Erro ao buscar equipes principais:', error);
@@ -44,7 +44,7 @@ function MainTeamList() {
 
     const deleteTeam = async (teamId) => {
         try {
-            await axios.delete(`https://pi4-hdnd.onrender.com/equipePrincipal/${teamId}`);
+            await axios.delete(`https://localhost:3000/equipePrincipal/${teamId}`);
             Swal.fire('Sucesso', 'Equipe principal excluída com sucesso', 'success');
             setAllMainTeams(allMainTeams.filter(team => team.id !== teamId));
         } catch (error) {

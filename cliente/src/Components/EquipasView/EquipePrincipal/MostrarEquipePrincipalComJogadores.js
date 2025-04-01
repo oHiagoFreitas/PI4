@@ -41,7 +41,7 @@ function MostrarEquipeComJogadores() {
         if (equipePrincipalId) {
             setLoading(true);
             // Carregar a formação da equipe principal
-            fetch(`https://pi4-hdnd.onrender.com/equipePrincipal/${equipePrincipalId}`)
+            fetch(`https://localhost:3000/equipePrincipal/${equipePrincipalId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.formacao) {
@@ -52,7 +52,7 @@ function MostrarEquipeComJogadores() {
                 })
                 .catch(error => console.error("Erro ao carregar formação:", error));
 
-            fetch(`https://pi4-hdnd.onrender.com/equipePrincipal/${equipePrincipalId}/atletas`)
+            fetch(`https://localhost:3000/equipePrincipal/${equipePrincipalId}/atletas`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.error) {
@@ -80,12 +80,12 @@ function MostrarEquipeComJogadores() {
     }, [equipePrincipalId, ratings]);
 
     useEffect(() => {
-        fetch("https://pi4-hdnd.onrender.com/atletas")
+        fetch("https://localhost:3000/atletas")
             .then(response => response.json())
             .then(data => setPlayers(data))
             .catch(error => console.error("Erro ao carregar jogadores:", error));
 
-        fetch("https://pi4-hdnd.onrender.com/relatorios")
+        fetch("https://localhost:3000/relatorios")
             .then(response => response.json())
             .then(data => {
                 const ratingsMap = data.reduce((acc, report) => {

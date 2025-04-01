@@ -38,7 +38,7 @@ function EditarPartida() {
 
     // Carregar os dados da partida para edição
     useEffect(() => {
-        axios.get(`https://pi4-hdnd.onrender.com/partidas/${id}`)
+        axios.get(`https://localhost:3000/partidas/${id}`)
             .then((response) => {
                 const partida = response.data;
 
@@ -64,7 +64,7 @@ function EditarPartida() {
 
     // Função para buscar os times
     useEffect(() => {
-        axios.get('https://pi4-hdnd.onrender.com/times')
+        axios.get('https://localhost:3000/times')
             .then((response) => {
                 setTimes(response.data);
             })
@@ -76,7 +76,7 @@ function EditarPartida() {
 
     // Função para buscar os jogadores
     useEffect(() => {
-        axios.get('https://pi4-hdnd.onrender.com/atletas')
+        axios.get('https://localhost:3000/atletas')
             .then((response) => {
                 setJogadores(response.data);
             })
@@ -88,7 +88,7 @@ function EditarPartida() {
 
     // Função para buscar os scouts
     useEffect(() => {
-        axios.get('https://pi4-hdnd.onrender.com/utilizadores/AdminScout')  // Endpoint para scouts
+        axios.get('https://localhost:3000/utilizadores/AdminScout')  // Endpoint para scouts
             .then((response) => {
                 setScouts(response.data);  // Atualiza o estado com os scouts recebidos
             })
@@ -180,7 +180,7 @@ function EditarPartida() {
         setLoading(true);
 
         axios
-            .put(`https://pi4-hdnd.onrender.com/partidas/${id}`, {
+            .put(`https://localhost:3000/partidas/${id}`, {
                 data,
                 hora,
                 local,

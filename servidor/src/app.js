@@ -27,7 +27,7 @@ app.use(express.json()); // Habilita o middleware para processar JSON
 
 // Configuração do CORS
 const corsOptions = {
-    origin: 'https://frontpi4.onrender.com', // Permite apenas o frontend da porta 3001
+    origin: 'https://localhost:3001', // Permite apenas o frontend da porta 3001
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Access-Control-Allow-Request-Method'],
 };

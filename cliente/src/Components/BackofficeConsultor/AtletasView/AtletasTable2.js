@@ -17,7 +17,7 @@ function AtletasTable2() {
 
   useEffect(() => {
     axios
-      .get('https://pi4-hdnd.onrender.com/atletas')
+      .get('https://localhost:3000/atletas')
       .then((response) => setAtletas(response.data))
       .catch((error) => console.error('Erro ao carregar atletas:', error));
   }, []);
@@ -46,7 +46,7 @@ function AtletasTable2() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://pi4-hdnd.onrender.com/atletas/${atletaId}`)
+          .delete(`https://localhost:3000/atletas/${atletaId}`)
           .then(() => {
             Swal.fire('Deletado!', 'O atleta foi excluído.', 'success');
             setAtletas(atletas.filter((atleta) => atleta.id !== atletaId));

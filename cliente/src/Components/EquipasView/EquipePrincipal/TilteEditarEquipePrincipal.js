@@ -11,7 +11,7 @@ const TilteEditarEquipePrincipal = () => {
     
     useEffect(() => {
         if (equipePrincipalId) {
-            fetch(`https://pi4-hdnd.onrender.com/equipePrincipal/${equipePrincipalId}`)
+            fetch(`https://localhost:3000/equipePrincipal/${equipePrincipalId}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.nome) {

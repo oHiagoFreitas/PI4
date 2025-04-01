@@ -18,7 +18,7 @@ function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
     useEffect(() => {
         const fetchTeamData = async () => {
             try {
-                const response = await axios.get(`https://pi4-hdnd.onrender.com/equipeSombra/${teamId}`);
+                const response = await axios.get(`https://localhost:3000/equipeSombra/${teamId}`);
                 setTeamData({
                     nome: response.data.nome,
                     descricao: response.data.descricao,
@@ -51,7 +51,7 @@ function EditShadowTeamModal({ isOpen, onClose, teamId, onUpdate }) {
             });
 
             if (result.isConfirmed) {
-                const response = await axios.put(`https://pi4-hdnd.onrender.com/equipeSombra/${teamId}/Nome`, teamData);
+                const response = await axios.put(`https://localhost:3000/equipeSombra/${teamId}/Nome`, teamData);
                 console.log('Equipe sombra editada:', response.data);
                 onUpdate(response.data); // Passa os dados atualizados para o componente pai
                 onClose(); // Fecha a modal após a edição

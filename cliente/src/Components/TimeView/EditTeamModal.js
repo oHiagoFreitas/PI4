@@ -41,7 +41,7 @@ const EditTeamModal = ({ isOpen, onRequestClose, teamData }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`https://pi4-hdnd.onrender.com/times/${teamData.id}`, formData);
+            const response = await axios.put(`https://localhost:3000/times/${teamData.id}`, formData);
             console.log('Time editado:', response.data);
             
             // Alerta de sucesso

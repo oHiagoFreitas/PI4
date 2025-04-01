@@ -20,7 +20,7 @@ function Navbar() {
         if (userRole === 'Admin') {
             const fetchNotificacoesCriacao = async () => {
                 try {
-                    const response = await axios.get('https://pi4-hdnd.onrender.com/Notificacao/Criacao');
+                    const response = await axios.get('https://localhost:3000/Notificacao/Criacao');
                     const notificacoesNaoLidas = response.data.filter(not => !not.lida);
                     notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                     setNotificacoes(prev => [...prev, ...notificacoesNaoLidas]);
@@ -37,7 +37,7 @@ function Navbar() {
         if (userRole === 'Scout' && userId) {
             const fetchNotificacoesUsuario = async () => {
                 try {
-                    const response = await axios.get(`https://pi4-hdnd.onrender.com/Notificacao/utilizador/${userId}`);
+                    const response = await axios.get(`https://localhost:3000/Notificacao/utilizador/${userId}`);
                     const notificacoesNaoLidas = response.data.filter(not => !not.lida);
                     notificacoesNaoLidas.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                     setNotificacoes(prev => [...prev, ...notificacoesNaoLidas]);
@@ -52,7 +52,7 @@ function Navbar() {
 
     const markAsRead = async (id) => {
         try {
-            await axios.put(`https://pi4-hdnd.onrender.com/Notificacao/mark-as-read/${id}`);
+            await axios.put(`https://localhost:3000/Notificacao/mark-as-read/${id}`);
             setNotificacoes(prev =>
                 prev.map(notificacao =>
                     notificacao.id === id ? { ...notificacao, lida: true } : notificacao

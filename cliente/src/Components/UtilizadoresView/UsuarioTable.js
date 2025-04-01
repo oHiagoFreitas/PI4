@@ -18,7 +18,7 @@ function UsuariosTable() {
   // Carregar os dados dos usuários na inicialização
   useEffect(() => {
     axios
-      .get('https://pi4-hdnd.onrender.com/utilizadores') // Rota de usuários
+      .get('https://localhost:3000/utilizadores') // Rota de usuários
       .then((response) => setUsuarios(response.data))
       .catch((error) => console.error('Erro ao carregar usuários:', error));
   }, []);
@@ -48,7 +48,7 @@ function UsuariosTable() {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .delete(`https://pi4-hdnd.onrender.com/utilizadores/${usuarioId}`) // Rota de delete de usuários
+          .delete(`https://localhost:3000/utilizadores/${usuarioId}`) // Rota de delete de usuários
           .then(() => {
             Swal.fire('Deletado!', 'O Utilizador foi excluído.', 'success');
             setUsuarios(usuarios.filter((usuario) => usuario.id !== usuarioId));
