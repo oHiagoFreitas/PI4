@@ -16,12 +16,12 @@ const SignUp = () => {
     e.preventDefault();
     try {
       // Requisição de cadastro do usuário
-      const response = await axios.post('https://pi4-hdnd.onrender.com/utilizadores/', { nome, email, senha, role });
+      const response = await axios.post('http://localhost:3000/utilizadores/', { nome, email, senha, role });
 
       console.log('Resposta da API ao criar usuário:', response.data);
 
       // Após o cadastro, cria a notificação
-      await axios.post('https://pi4-hdnd.onrender.com/Notificacao/', {
+      await axios.post('http://localhost:3000/Notificacao/', {
         conteudo: `Um novo utilizador "${nome}" foi cadastrado e está a espera de verificação.`,
         tipo: 'Criação',
         remetenteId: 1,  // Pode ser alterado para o ID do remetente

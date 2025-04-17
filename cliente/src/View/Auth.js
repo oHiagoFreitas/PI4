@@ -15,7 +15,7 @@ const Auth = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://pi4-hdnd.onrender.com/auth/login', { email, senha });
+      const response = await axios.post('http://localhost:3000/auth/login', { email, senha });
       
       // Armazenando o token e id no localStorage
       localStorage.setItem('token', response.data.token); 

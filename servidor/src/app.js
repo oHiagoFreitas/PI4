@@ -25,15 +25,24 @@ app.set('port', process.env.PORT || 3000);
 // Middlewares
 app.use(express.json()); // Habilita o middleware para processar JSON
 
-// Configuração do CORS
+
+// ✅ CORS corrigido para aceitar o frontend
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001'];
+
 const corsOptions = {
-    origin: 'https://localhost:3001', // Permite apenas o frontend da porta 3001
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Authorization', 'Content-Type', 'Accept', 'Access-Control-Allow-Request-Method'],
+    allowedHeaders: ['Authorization', 'Content-Type', 'Accept'],
 };
 
-// Habilita o CORS com as opções definidas
 app.use(cors(corsOptions));
+
 
 // Responder a requisições de preflight (OPTIONS)
 app.use((req, res, next) => {
